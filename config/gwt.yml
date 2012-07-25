@@ -1,0 +1,11 @@
+editor: true
+gin: true
+menu: true
+migration: true
+model: true
+optimistic: true
+place: true
+rest_service: true
+serializer: true
+timestamps: true
+view: true
