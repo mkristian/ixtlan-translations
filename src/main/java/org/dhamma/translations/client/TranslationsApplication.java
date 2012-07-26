@@ -1,6 +1,8 @@
 package org.dhamma.translations.client;
 
 import org.dhamma.translations.client.managed.TranslationsMenu;
+import org.dhamma.translations.client.models.User;
+import org.dhamma.translations.client.presenters.LoginPresenter;
 
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.core.client.GWT;
@@ -15,9 +17,9 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
-import de.mkristian.gwt.rails.Application;
+import de.mkristian.gwt.rails.SessionApplication;
 
-public class TranslationsApplication extends Composite implements Application {
+public class TranslationsApplication extends Composite implements SessionApplication<User> {
 
     interface Binder extends UiBinder<Widget, TranslationsApplication> {}
 
@@ -26,14 +28,18 @@ public class TranslationsApplication extends Composite implements Application {
     @UiField(provided=true) final SimplePanel display = new ScrollPanel();
     @UiField(provided=true) Panel header;
     @UiField(provided=true) Panel navigation;
-    @UiField(provided=true) Panel footer = new SimplePanel();
+    @UiField(provided=true) Panel footer;
 
     @Inject
-    TranslationsApplication(ActivityManager activityManager, 
-                                      final TranslationsMenu menu, 
-                                      final BreadCrumbsPanel breadCrumbs){
+    TranslationsApplication(final ActivityManager activityManager, 
+            final TranslationsMenu menu, 
+            final BreadCrumbsPanel breadCrumbs,
+            final ApplicationLinksPanel links,
+            final LoginPresenter presenter){
+        presenter.init(this);
         activityManager.setDisplay(display);
         this.navigation = menu;
+        this.footer = links;
         this.header = breadCrumbs;
         initWidget(BINDER.createAndBindUi(this));
     }
@@ -42,5 +48,19 @@ public class TranslationsApplication extends Composite implements Application {
     public void run() {
         LayoutPanel root = RootLayoutPanel.get();
         root.add(this.asWidget());
+    }
+
+    @Override
+    public void startSession(User user) {
+        ((BreadCrumbsPanel) this.header).initUser(user);
+        ((ApplicationLinksPanel) this.footer).initUser(user);
+        this.navigation.setVisible(true);
+    }
+
+    @Override
+    public void stopSession() {
+        ((BreadCrumbsPanel) this.header).initUser(null);
+        ((ApplicationLinksPanel) this.footer).initUser(null);
+        this.navigation.setVisible(false);
     }
 }

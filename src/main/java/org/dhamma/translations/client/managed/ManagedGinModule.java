@@ -16,8 +16,19 @@ public class ManagedGinModule extends BaseModule {
    @Override
     protected void configure() {
         super.configure();
+        bind(org.dhamma.translations.client.restservices.TranslationKeysRestService.class).toProvider(TranslationKeysRestServiceProvider.class);
         install(new GinFactoryModuleBuilder()
+            .implement(Activity.class, Names.named("translation_keys"), org.dhamma.translations.client.activities.TranslationKeyActivity.class)
             .implement(Activity.class, Names.named("login"), LoginActivity.class)
             .build(ActivityFactory.class));
     }
+
+    @Singleton
+    public static class TranslationKeysRestServiceProvider implements Provider<org.dhamma.translations.client.restservices.TranslationKeysRestService> {
+        private final org.dhamma.translations.client.restservices.TranslationKeysRestService service = GWT.create(org.dhamma.translations.client.restservices.TranslationKeysRestService.class);
+        public org.dhamma.translations.client.restservices.TranslationKeysRestService get() {
+            return service;
+        }
+    }
 }
+

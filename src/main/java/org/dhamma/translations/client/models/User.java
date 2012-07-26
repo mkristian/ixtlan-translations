@@ -1,5 +1,8 @@
 package org.dhamma.translations.client.models;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -15,11 +18,15 @@ public class User implements IsUser {
 
   private String name;
 
+  public final List<Application> applications;
+
   @JsonCreator
   public User(@JsonProperty("login") String login,
-          @JsonProperty("name") String name){
+          @JsonProperty("name") String name, 
+          @JsonProperty("applications") List<Application> applications){
     this.login = login;
     this.name = name;
+    this.applications = applications == null ? null : Collections.unmodifiableList(applications);
   }
   
   public String getLogin(){

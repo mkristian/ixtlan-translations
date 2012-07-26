@@ -29,4 +29,7 @@ Translations::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_recordauto_explain_threshold_in_seconds = 0.5
 
+
+  config.remote_service_url = 'http://localhost:3000'
+  config.remote_service_token = 'be happy'
 end

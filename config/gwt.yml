@@ -1,10 +1,12 @@
 editor: true
 gin: true
+managed_files: false
 menu: true
 migration: true
 model: true
 optimistic: true
 place: true
+remote_users: true
 rest_service: true
 serializer: true
 timestamps: true

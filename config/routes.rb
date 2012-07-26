@@ -1,5 +1,7 @@
 Translations::Application.routes.draw do
 
+  resources :translation_keys
+
   resource :session do
     member do
       post :reset_password

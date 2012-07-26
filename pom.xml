@@ -275,17 +275,17 @@
     </dependency>
     <dependency>
       <groupId>rubygems</groupId>
-      <artifactId>ixtlan-guard</artifactId>
-      <type>gem</type>
-    </dependency>
-    <dependency>
-      <groupId>rubygems</groupId>
       <artifactId>ixtlan-core</artifactId>
       <type>gem</type>
     </dependency>
     <dependency>
       <groupId>rubygems</groupId>
       <artifactId>ixtlan-session-timeout</artifactId>
+      <type>gem</type>
+    </dependency>
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>ixtlan-guard</artifactId>
       <type>gem</type>
     </dependency>
     <dependency>

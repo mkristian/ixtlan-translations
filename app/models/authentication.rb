@@ -1,4 +1,16 @@
 class Authentication < ActiveResource::Base
-  self.site = Rails.application.config.respond_to?(:remote_service_url) ? Rails.application.config.remote_service_url : "http://localhost:3000"
-  self.headers['X-SERVICE-TOKEN'] = Rails.application.config.respond_to?(:remote_service_token) ? Rails.application.config.remote_service_token : 'be happy'
+
+  #if Translations::Application.config.respond_to :remote_service_url
+  self.site = Translations::Application.config.remote_service_url
+  self.headers['X-SERVICE-TOKEN'] = Translations::Application.config.remote_service_token
+
+  def self.reset_password(login)
+    begin
+      post(:reset_password, :login => login)
+      true
+    rescue ActiveResource::ResourceNotFound
+      false
+    end
+  end
+
 end

@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
     head :conflict
   end
 
-  rescue_from ActiveRecord::RecordNotFound do
+  rescue_from DataMapper::ObjectNotFoundError do
     head :not_found
   end
 
@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
     @_updated_at ||= (params[key] || {})[:updated_at]
   end
 
-  def cleanup(model)
+  def cleanup(model = nil)
     # compensate the shortcoming of the incoming json/xml
     model ||= []
     model.delete :id
@@ -44,6 +44,23 @@ class ApplicationController < ActionController::Base
     if resource
       @_factory ||= Ixtlan::Babel::Factory.new
       @_factory.new(resource)
+    end
+  end
+
+  protected
+
+  def current_user(user = nil)    if user
+      session['user'] = {'id' => user.id, 'groups' => user.groups}
+      @_current_user = user
+    else
+      @_current_user ||= begin
+                           data = session['user']
+                           if data
+                             u = User.get!(data['id'])
+                             u.groups = data['groups']
+                             u
+                           end
+                         end            
     end
   end
 end

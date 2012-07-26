@@ -1,64 +1,17 @@
 class User
-  include ActiveModel::Serializers::JSON
-  include ActiveModel::Serializers::Xml
+
+  include DataMapper::Resource
+
+  property :id, Serial, :auto_validation => false
   
-  attr_accessor :login, :name, :groups
+  property :login, String, :required => true, :unique => true, :length => 32
+  property :name, String, :required => true, :length => 128
+  property :updated_at, DateTime, :required => true
 
-  def attributes
-    {'login' => login, 'name' => name, 'groups' => groups.collect { |g| g.attributes } }
-  end
+  attr_accessor :groups, :applications
 
-  def initialize(attributes = {})
-    @login = attributes['login']
-    @name = attributes['name']
-    @groups = (attributes['groups'] || []).collect {|g| Group.new g }
+  # do not record timestamps since they are set from outside
+  def set_timestamps_on_save
   end
-
-  def self.authenticate(login, password)
-    result = User.new
-    if password.blank?
-      result.log = "no password given with login: #{login}"
-    elsif login.blank?
-      result.log = "no login given"
-    elsif password == "behappy"
-      result.login = login
-      result.name = login.humanize
-      result.groups = [Group.new('name' => login)]
-    else
-      result.log = "wrong password for login: #{login}"
-    end
-    result
-  end
-
-  def self.reset_password(login)
-    result = User.new(:login => login)
-    begin
-      Authentication.post(:reset_password, :login => login)
-    rescue ActiveResource::ResourceNotFound
-      result.log = "User(#{login}) not found"
-    end
-    result
-  end
-
-  def log=(msg)
-    @log = msg
-  end
-
-  def to_log
-    if @log
-      @log
-    else
-      "User(#{id ? (id.to_s + ':') : ''}#{login})"
-    end
-  end
-
-  def valid?(ignore)
-    @log.nil?
-  end
-
-  def new_record?
-    false
-  end
-  alias :destroyed? :new_record?
 
 end

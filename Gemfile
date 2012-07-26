@@ -38,7 +38,6 @@ gem 'dm-timestamps',   DM_VERSION
 gem 'dm-observer',     DM_VERSION
 
 
-
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.1'
 
@@ -56,12 +55,9 @@ group :test do
   gem 'turn', '~> 0.9.4', :require => false
 end
 
-
 gem "gwt-rails", :path => '../../maven/gwt-rails'
 gem "ixtlan-optimistic"
 gem "ixtlan-babel"
-        gem 'ixtlan-guard'
-
 
 gem "ixtlan-core"
 gem "ixtlan-session-timeout"
