@@ -274,6 +274,31 @@
       <type>gem</type>
     </dependency>
     <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>ixtlan-guard</artifactId>
+      <type>gem</type>
+    </dependency>
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>ixtlan-core</artifactId>
+      <type>gem</type>
+    </dependency>
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>ixtlan-session-timeout</artifactId>
+      <type>gem</type>
+    </dependency>
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>jruby-openssl</artifactId>
+      <type>gem</type>
+    </dependency>
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>bouncy-castle-java</artifactId>
+      <type>gem</type>
+    </dependency>
+    <dependency>
       <groupId>de.mkristian.gwt</groupId>
       <artifactId>rails-gwt</artifactId>
       <version>0.8.0-SNAPSHOT</version>
@@ -507,6 +532,12 @@
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
+        <artifactId>bouncy-castle-java</artifactId>
+        <version>1.5.0146.1</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
         <artifactId>data_objects</artifactId>
         <version>0.10.8</version>
         <type>gem</type>
@@ -663,8 +694,32 @@
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
+        <artifactId>ixtlan-core</artifactId>
+        <version>0.7.5</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>ixtlan-guard</artifactId>
+        <version>0.8.3</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
         <artifactId>ixtlan-optimistic</artifactId>
         <version>0.1.0</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>ixtlan-session-timeout</artifactId>
+        <version>0.4.0</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>jruby-openssl</artifactId>
+        <version>0.7.7</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -735,7 +790,7 @@
           <hostedWebapp>${basedir}/public</hostedWebapp>
           <inplace>true</inplace>
           <logLevel>INFO</logLevel>
-          <runTarget>translations.html</runTarget>
+          <runTarget>Translations.html</runTarget>
           <treeLogger>true</treeLogger>
           <warSourceDirectory>${basedir}/public</warSourceDirectory>
           <webXml>${basedir}/public/WEB-INF/web.xml</webXml>

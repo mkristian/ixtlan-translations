@@ -16,3 +16,4 @@
 target/
 .pom.xml
 gwt-unitCache/
+.pom.xml
