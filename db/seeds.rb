@@ -5,9 +5,20 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
-u = User.new(:name => "System", :login => "system", :updated_at => DateTime.now)
-u.id = 1
-u.save
+unless u = User.get(1)
+  u = User.new(:name => "System", :login => "system", :updated_at => DateTime.now)
+  u.id = 1
+  u.save
+end
+
+unless a = Application.get(1)
+  a = Application.create(:name => 'users', :url => 'http://localhost.localnet', :updated_at => DateTime.now)
+end
+
+unless en = Locale.get(1)
+  en = Locale.create(:code => 'en', :updated_at => DateTime.now)
+  de = Locale.create(:code => 'de', :updated_at => DateTime.now)
+end
 
 if defined? ::Configuration
   c = ::Configuration.instance
@@ -23,3 +34,4 @@ if defined? ::Configuration
 # TODO maybe a modified_by= assignment is missing
   c.save
 end
+

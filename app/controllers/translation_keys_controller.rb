@@ -1,16 +1,22 @@
-class TranslationKeysController < ApplicationController
+class TranslationsController < RemoteController
 
   public
 
-  # GET /translation_keys
-  def index
-    @translation_keys = serializer(TranslationKey.all).use(:collection)
-    respond_with @translation_keys
+  # PUT /translation_keys/commit
+  def commit
+    application.commit_keys
+    head :ok
   end
 
-  # GET /translation_keys/1
-  def show
-    @translation_key = serializer(TranslationKey.get!(params[:id]))
-    respond_with @translation_key
+  # PUT /translation_keys/rollback
+  def rollback
+    application.rollback_keys
+    head :ok
+  end
+
+  # PUT /translation_keys
+  def update
+    application.update_keys(params[:keys])
+    head :ok
   end
 end

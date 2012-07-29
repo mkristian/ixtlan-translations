@@ -34,4 +34,7 @@ Translations::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  config.remote_service_url = 'http://localhost:3000'
+  config.remote_service_token = 'be happy'
 end

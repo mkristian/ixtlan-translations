@@ -5,3 +5,11 @@
 require File.expand_path('../config/application', __FILE__)
 
 Translations::Application.load_tasks
+
+#require 'rake/testtask'
+
+#Rake::TestTask.new :spec do |t|
+  #t.libs.push "lib"
+#  t.test_files = FileList['spec/**/*_spec.rb']
+#  t.verbose = true
+#end

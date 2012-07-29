@@ -14,4 +14,15 @@ class User
   def set_timestamps_on_save
   end
 
+  def allowed_translate_applications
+    @_apps ||= 
+      begin
+        apps = []
+        groups.select do |g|
+          a = g.application_of_translator
+          apps << a if a
+        end
+        apps
+      end
+  end
 end

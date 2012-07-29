@@ -1,6 +1,8 @@
 Translations::Application.routes.draw do
 
-  resources :translation_keys
+  resources :applications
+
+  get 'translations/last_changes' => 'translations#last_changes'
 
   resource :session do
     member do

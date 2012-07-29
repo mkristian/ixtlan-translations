@@ -1,4 +1,4 @@
-class SessionsController < ApplicationController
+class SessionsController < LocalController
 
   skip_before_filter :authorize
 

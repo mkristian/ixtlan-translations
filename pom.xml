@@ -299,6 +299,16 @@
       <type>gem</type>
     </dependency>
     <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>virtus</artifactId>
+      <type>gem</type>
+    </dependency>
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>backports</artifactId>
+      <type>gem</type>
+    </dependency>
+    <dependency>
       <groupId>de.mkristian.gwt</groupId>
       <artifactId>rails-gwt</artifactId>
       <version>0.8.0-SNAPSHOT</version>
@@ -526,6 +536,12 @@
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
+        <artifactId>backports</artifactId>
+        <version>2.6.1</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
         <artifactId>bcrypt-ruby</artifactId>
         <version>3.0.1</version>
         <type>gem</type>
@@ -732,6 +748,12 @@
         <groupId>rubygems</groupId>
         <artifactId>tzinfo</artifactId>
         <version>0.3.33</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>virtus</artifactId>
+        <version>0.5.1</version>
         <type>gem</type>
       </dependency>
       <dependency>

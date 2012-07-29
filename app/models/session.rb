@@ -71,7 +71,10 @@ if Translations::Application.config.remote_service_url =~ /localhost/ && !(ENV['
               result.id = 1
               result.updated_at = DateTime.now
             end
-            result.groups = [Group.new('name' => login)]
+            g = Group.new('name' => login.sub(/\[.*/,''))
+            ids = login.sub(/.*\[/,'').sub(/\].*/,'').split /,/
+            g.associations = Locale.all(:code => ids)
+            result.groups = [g]
             result.applications = []
           else
             result = InvalidString.new("wrong password for login: #{login}")
