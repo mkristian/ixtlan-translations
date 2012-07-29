@@ -4,31 +4,31 @@ import de.mkristian.gwt.rails.places.RestfulAction;
 import de.mkristian.gwt.rails.places.RestfulPlace;
 
 import org.dhamma.translations.client.managed.ActivityFactory;
-import org.dhamma.translations.client.models.TranslationKey;
+import org.dhamma.translations.client.models.Application;
 
 import com.google.gwt.activity.shared.Activity;
 
-public class TranslationKeyPlace extends RestfulPlace<TranslationKey, ActivityFactory> {
+public class ApplicationPlace extends RestfulPlace<Application, ActivityFactory> {
     
-    public static final String NAME = "translation_keys";
+    public static final String NAME = "applications";
 
     public Activity create(ActivityFactory factory){
         return factory.create(this);
     }
     
-    public TranslationKeyPlace(RestfulAction restfulAction) {
+    public ApplicationPlace(RestfulAction restfulAction) {
         super(restfulAction, NAME);
     }
 
-    public TranslationKeyPlace(TranslationKey model, RestfulAction restfulAction) {
+    public ApplicationPlace(Application model, RestfulAction restfulAction) {
         super(model.getId(), model, restfulAction, NAME);
     }
 
-    public TranslationKeyPlace(int id, RestfulAction restfulAction) {
+    public ApplicationPlace(int id, RestfulAction restfulAction) {
         super(id, restfulAction, NAME);
     }    
     
-    public TranslationKeyPlace(String id, RestfulAction restfulAction) {
+    public ApplicationPlace(String id, RestfulAction restfulAction) {
         super(id, restfulAction, NAME);
     }
 }

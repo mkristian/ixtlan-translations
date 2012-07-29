@@ -1,7 +1,7 @@
 package org.dhamma.translations.client.activities;
 
-import org.dhamma.translations.client.places.TranslationKeyPlace;
-import org.dhamma.translations.client.presenters.TranslationKeyPresenter;
+import org.dhamma.translations.client.places.ApplicationPlace;
+import org.dhamma.translations.client.presenters.ApplicationPresenter;
 
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
@@ -11,19 +11,19 @@ import com.google.inject.assistedinject.Assisted;
 
 import de.mkristian.gwt.rails.places.RestfulActionEnum;
 
-public class TranslationKeyActivity extends AbstractActivity {
+public class ApplicationActivity extends AbstractActivity {
 
-    private final TranslationKeyPlace place;
-    private final TranslationKeyPresenter presenter;
+    private final ApplicationPlace place;
+    private final ApplicationPresenter presenter;
     
     @Inject
-    public TranslationKeyActivity(@Assisted TranslationKeyPlace place, TranslationKeyPresenter presenter) {
+    public ApplicationActivity(@Assisted ApplicationPlace place, ApplicationPresenter presenter) {
         this.place = place;
         this.presenter = presenter;
     }
 
     public void start(AcceptsOneWidget display, EventBus eventBus) {
-        presenter.init(display);
+        presenter.init(display, eventBus);
         switch(RestfulActionEnum.valueOf(place.action)){
             case SHOW:
                 presenter.show(place.id);

@@ -10,16 +10,20 @@
     <g:FlowPanel ui:field="signature" styleName="gwt-rails-model-signature">
       <g:Label>id: </g:Label>
       <g:NumberLabel ui:field="id" />
-      <g:Label>created at: </g:Label>
-      <g:DateLabel ui:field="createdAt" predefinedFormat="DATE_TIME_MEDIUM"/>
-      <g:Label>updated at: </g:Label>
-      <g:DateLabel ui:field="updatedAt" predefinedFormat="DATE_TIME_MEDIUM" />
     </g:FlowPanel>
 
     <g:FlowPanel styleName="gwt-rails-model-fields">
       <g:HTMLPanel>
         <label name="name">Name</label>
         <g:TextBox ui:field="name"/>
+      </g:HTMLPanel>
+      <g:HTMLPanel>
+        <label name="url">Url</label>
+        <g:TextBox ui:field="url"/>
+      </g:HTMLPanel>
+      <g:HTMLPanel>
+        <label name="updatedAt">Updated at</label>
+        <d:DateBox ui:field="updatedAt"/>
       </g:HTMLPanel>
     </g:FlowPanel>
 

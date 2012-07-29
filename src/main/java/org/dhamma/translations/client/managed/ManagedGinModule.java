@@ -16,19 +16,22 @@ public class ManagedGinModule extends BaseModule {
    @Override
     protected void configure() {
         super.configure();
-        bind(org.dhamma.translations.client.restservices.TranslationKeysRestService.class).toProvider(TranslationKeysRestServiceProvider.class);
+        bind(org.dhamma.translations.client.restservices.ApplicationsRestService.class).toProvider(ApplicationsRestServiceProvider.class);
         install(new GinFactoryModuleBuilder()
-            .implement(Activity.class, Names.named("translation_keys"), org.dhamma.translations.client.activities.TranslationKeyActivity.class)
+            .implement(Activity.class, Names.named("applications"), org.dhamma.translations.client.activities.ApplicationActivity.class)
             .implement(Activity.class, Names.named("login"), LoginActivity.class)
             .build(ActivityFactory.class));
     }
 
     @Singleton
-    public static class TranslationKeysRestServiceProvider implements Provider<org.dhamma.translations.client.restservices.TranslationKeysRestService> {
-        private final org.dhamma.translations.client.restservices.TranslationKeysRestService service = GWT.create(org.dhamma.translations.client.restservices.TranslationKeysRestService.class);
-        public org.dhamma.translations.client.restservices.TranslationKeysRestService get() {
+    public static class ApplicationsRestServiceProvider implements Provider<org.dhamma.translations.client.restservices.ApplicationsRestService> {
+        private final org.dhamma.translations.client.restservices.ApplicationsRestService service = GWT.create(org.dhamma.translations.client.restservices.ApplicationsRestService.class);
+        public org.dhamma.translations.client.restservices.ApplicationsRestService get() {
             return service;
         }
     }
 }
+
+
+
 

@@ -17,6 +17,6 @@ public class TranslationsMenu extends SessionMenu {
     TranslationsMenu(final PlaceController placeController,
                         final Guard guard){
         super(placeController, guard);
-        addButton("Translation keys", new org.dhamma.translations.client.places.TranslationKeyPlace(INDEX));
+        addButton("Applications", new org.dhamma.translations.client.places.ApplicationPlace(INDEX));
     }
 }

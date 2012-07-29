@@ -3,9 +3,9 @@
   xmlns:ui="urn:ui:com.google.gwt.uibinder"
   xmlns:g="urn:import:com.google.gwt.user.client.ui">
 
-  <g:FlowPanel styleName="gwt-rails-display translations-translation_keys">
+  <g:FlowPanel styleName="gwt-rails-display translations-applications">
 
-    <g:Label>Translation keys</g:Label>
+    <g:Label>Applications</g:Label>
 
     <g:FlowPanel styleName="gwt-rails-model-list">
       <g:FlexTable ui:field="list"/>
