@@ -25,6 +25,7 @@ class Application
     translation_keys.all(:state => :restored).each do |k|
       k.update(:state => :deleted)
     end
+    translation_keys.select { |tk| tk.state != :deleted }
   end
 
   def commit_keys
@@ -34,6 +35,7 @@ class Application
     translation_keys.all(:state => :hidden).each do |k|
       k.update(:state => :deleted)
     end
+    translation_keys.select { |tk| tk.state != :deleted }
   end
 
   def update_keys(keys)
@@ -80,31 +82,48 @@ class Application
       tk.state = :restored
       tk.save
     end
+
+    translation_keys.select { |tk| tk.state != :deleted }
   end
 
   def translations_all(code = nil, from = nil)
     cond = {}
     cond[Translation.translation_key.application.id] = id
     cond[Translation.locale.code] = code if code
-    cond[updated_at.gt] = from if from
+    cond[:updated_at.gt] = from if from
     Translation.all(cond)
   end
 
   def translation_new(params)
+    locale_id = params.delete(:locale)[:id]
     key = TranslationKey.get!(params.delete(:translation_key)[:id])
     if key.application != self
       raise DataMapper::ObjectNotFoundError.new 
     end
-    locale = Locale.get!(params.delete(:locale)[:id])
+    locale = Locale.get!(locale_id)
     t = Translation.new(params)
     t.locale = locale
     t.translation_key = key
     t
   end
 
-  def translation_get!(id, updated_at)
-    t = Translation.optimistic_get!(updated_at, id)
+  def translation_get!(key_id, locale_id, updated_at)
+    t = Translation.optimistic_get!(updated_at, key_id, locale_id)
     if t.translation_key.application != self
+      raise DataMapper::ObjectNotFoundError.new 
+    end
+    t
+  end
+
+  def remote_permission_new(params)
+    t = RemotePermission.new(params)
+    t.application = self
+    t
+  end
+
+  def remote_permission_get!(id, updated_at)
+    t = RemotePermission.optimistic_get!(updated_at, id)
+    if t.application != self
       raise DataMapper::ObjectNotFoundError.new 
     end
     t

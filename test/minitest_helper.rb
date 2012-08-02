@@ -45,6 +45,8 @@ require 'factories'
 Factory(:application) if Application.count == 1
 if TranslationKey.count == 0
   # save the object from the factory - datamapper-bug ?
+  Factory(:remote_permission, :application => Application.first).tap{|t| t.save}
+  Factory(:remote_permission, :application => Application.last).tap{|t| t.save}
   Factory(:translation_key, :application => Application.first).tap{|t| t.save}
   Factory(:translation_key, :application => Application.last).tap{|t| t.save}
 

@@ -2,10 +2,9 @@ class TranslationsController < RemoteController
 
   public
 
-  # PUT /translations/last_changes
+  # GET /translations/last_changes
   def last_changes
-    @translations = serialzer(application.translations_all(nil, params[:updated_at]))
-
+    @translations = serializer(application.translations_all(nil, params[:updated_at])).use(:collection)
     respond_with @translations
   end
 

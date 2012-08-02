@@ -56,12 +56,12 @@ group :test do
 end
 
 gem "gwt-rails", :path => '../../maven/gwt-rails'
-gem "ixtlan-optimistic"
+gem "ixtlan-optimistic", :path => '../../ixtlan/ixtlan-optimistic'
 gem "ixtlan-babel"
 
-gem "ixtlan-core"
+gem "ixtlan-core", :path => '../../ixtlan/ixtlan-core'
 gem "ixtlan-session-timeout"
-gem "ixtlan-guard"
+gem "ixtlan-guard", :path => '../../ixtlan/ixtlan-guard'
 gem "jruby-openssl", "~> 0.7.4", :platforms => :jruby
 
 gem 'virtus', '~> 0.5.0'
@@ -69,6 +69,7 @@ gem 'backports'
 
 group :test, :development do
   gem 'minitest'
-  gem 'minitest-rails', :git => 'https://github.com/blowmage/minitest-rails.git'
+  gem 'minitest-rails'
   gem 'factory_girl', '< 3.0.0'
 end
+gem 'ixtlan-remote', :path => '../../ixtlan/ixtlan-remote'

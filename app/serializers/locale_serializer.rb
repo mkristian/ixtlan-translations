@@ -4,14 +4,9 @@ class LocaleSerializer < Ixtlan::Babel::Serializer
 
   model Locale
 
-  add_context(:single,
+  add_context(:collection,
               :root => 'locale'
              )
 
-  add_context(:collection,
-              :root => 'locale',
-              :except => [:created_at]
-             )
-
-  default_context_key :single
+  default_context_key :collection
 end

@@ -1,22 +1,22 @@
-class TranslationsController < RemoteController
+class TranslationKeysController < RemoteController
 
   public
 
   # PUT /translation_keys/commit
   def commit
-    application.commit_keys
-    head :ok
+    @transaction_keys = serializer(application.commit_keys).use(:remote)
+    respond_with @transaction_keys
   end
 
   # PUT /translation_keys/rollback
   def rollback
-    application.rollback_keys
-    head :ok
+    @transaction_keys = serializer(application.rollback_keys).use(:remote)
+    respond_with @transaction_keys
   end
 
   # PUT /translation_keys
   def update
-    application.update_keys(params[:keys])
-    head :ok
+    @transaction_keys = serializer(application.update_keys(params[:translation_keys])).use(:remote)
+    respond_with @transaction_keys
   end
 end

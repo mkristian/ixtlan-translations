@@ -1,5 +1,5 @@
 require 'ixtlan/guard/abstract_session'
-require 'heartbeat'
+require 'updater'
 
 class Session < Ixtlan::Guard::AbstractSession
   extend ActiveModel::Naming
@@ -16,11 +16,11 @@ class Session < Ixtlan::Guard::AbstractSession
   def self.authenticate(login, password)
     begin
       auth = Authentication.create(:login => login, :password => password)
-      user = User.find_by_login(auth.login)
+      user = User.first(:login => auth.login)
       if user.nil?
-        heart = Heartbeat.new
-        heart.beat User
-        user = User.find_by_login(auth.login)
+        heart = Updater.new
+        heart.do_it :user
+        user = User.first(:login => auth.login)
         raise "user #{auth.login} not found" unless user
       end
       user.name = auth.name

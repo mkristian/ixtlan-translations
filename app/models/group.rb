@@ -6,21 +6,21 @@ class Group
   attribute :locales, Array[Locale]
 
   def initialize(attributes = {})
-    heart = Heartbeat.new
+    updater = Updater.new
     assos = attributes['locales'] || []
     ids = assos.collect { |a| a['id'].to_i }
     # the Region.where clause produces something which can not be
     # serialized into a session !!!
     self.locales = Locale.all.select { |r| ids.include? r.id }
     if self.locales.size != assos.size
-      heart.beat Locale
+      updater.do_it :locales
       self.locales = Locale.all.select { |r| ids.include? r.id }
     end
     app = attributes['application']
     if app
       self.application = Application.get( app['id'] )
       if self.application.nil?
-        heart.beat Application
+        updater.do_it :applications
         self.application = Application.get( app['id'] )
       end
     end

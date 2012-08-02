@@ -11,6 +11,7 @@ class LocalController < ApplicationController
   end
 
   def cleanup(model = nil)
+    #TODO cleanup nested hashes
     # compensate the shortcoming of the incoming json/xml
     model ||= []
     model.delete :id

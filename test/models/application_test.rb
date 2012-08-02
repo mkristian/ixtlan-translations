@@ -11,30 +11,57 @@ describe Application do
   let(:translation1) { Translation.first }  
   let(:translation2) { Translation.first :offset => 1 }
 
+  let(:remote_permission1) { RemotePermission.first }  
+  let(:remote_permission2) { RemotePermission.first :offset => 1 }
+
   before do
     TranslationKey.all(:name.like => 'extra%').destroy!
+    Translation.all(:text.like => 'hello%').destroy!
   end
 
   it 'must exist' do
     subject.wont_be_nil
   end
 
+  it 'must retrieve remote_permission from same application' do
+    t = subject.remote_permission_get!(remote_permission1.id,
+                                       remote_permission1.updated_at)
+    t.must_equal remote_permission1
+  end
+
+  it 'wont retrieve remote_permission from other application' do
+    lambda { subject.remote_permission_get!(remote_permission2.id,
+                                            remote_permission2.updated_at) }.must_raise DataMapper::ObjectNotFoundError
+  end
+
+  it 'must create new remote_permission for key of same application' do
+    t = subject.remote_permission_new( { :ip => '0.0.0.0', 
+                                         :token => 'be happy',
+                                         :modified_by => User.first } )
+    t.save.must_equal true
+    t.application.must_equal subject
+  end
+
   it 'must retrieve translation from same application' do
-    t = subject.translation_get!(translation1.id, translation1.updated_at)
+    t = subject.translation_get!(translation1.translation_key.id, 
+                                 translation1.locale.id,
+                                 translation1.updated_at)
     t.must_equal translation1
   end
 
-  it 'wont retrieve translation from other applcation' do
-    lambda { subject.translation_get!(translation2.id, translation2.updated_at) }.must_raise DataMapper::ObjectNotFoundError
+  it 'wont retrieve translation from other application' do
+    lambda { subject.translation_get!(translation2.translation_key.id, 
+                                      translation2.locale.id,
+                                      translation2.updated_at) }.must_raise DataMapper::ObjectNotFoundError
   end
 
   it 'must create new translation for key of same application' do
     t = subject.translation_new( { :text => 'hello',
-                                   :locale => { :id => Locale.first.id },
+                                   :locale => { :id => Locale.last.id },
                                    :translation_key => { :id => key1.id },
                                    :modified_by => User.first } )
     t.save.must_equal true
-    t.locale.must_equal Locale.first
+    t.locale.must_equal Locale.last
     t.translation_key.application.must_equal subject
   end
 

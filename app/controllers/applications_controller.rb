@@ -36,15 +36,38 @@ class ApplicationsController < LocalController
     respond_with(translation)
   end
 
-  # PUT /applications/1/translation/2
+  # PUT /applications/1/translation/2/1
   def update_translation   
     @application = Application.get!(params[:id])
-    translation = serializer(@application.translation_get!(params[:translation_id],
+    translation = serializer(@application.translation_get!(params[:translation_key_id],
+                                                           params[:locale_id],
                                                            updated_at))
     translation.text = (params[:translation] || {})[:text]
     translation.modified_by = current_user
     translation.save
 
     respond_with(translation)
+  end
+
+  # POST /applications/1/remote_permission
+  def create_remote_permission
+    @application = Application.get!(params[:id])
+    remote_permission = serializer(@application.remote_permission_new(params[:remote_permission]))
+    remote_permission.modified_by = current_user
+    remote_permission.save
+
+    respond_with(remote_permission)
+  end
+
+  # PUT /applications/1/remote_permission/2
+  def update_remote_permission   
+    @application = Application.get!(params[:id])
+    remote_permission = serializer(@application.remote_permission_get!(params[:remote_permission_id],
+                                                                       updated_at))
+    remote_permission.text = (params[:remote_permission] || {})[:text]
+    remote_permission.modified_by = current_user
+    remote_permission.save
+
+    respond_with(remote_permission)
   end
 end

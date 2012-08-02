@@ -22,7 +22,7 @@ module Translations
       g.template_engine 'ui'
       g.assets false
       g.helper false
-      g.test_framework :mini_test, :spec => true, :fixture => false
+      g.test_framework false #:mini_test, :spec => true, :fixture => false
       g.stylesheets false
       g.unit_tests false
       g.scaffold_controller 'gwt'

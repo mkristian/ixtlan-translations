@@ -1,5 +1,10 @@
+require 'ixtlan/gettext/translation_models'
+
 class Locale
 
+  # def self.storage_name(arg)
+  #   'locales'
+  # end
   include DataMapper::Resource
 
   property :id, Serial, :auto_validation => false
@@ -11,4 +16,11 @@ class Locale
   def set_timestamps_on_save
   end
 
+  def self.changed_all(from = nil)
+    if from
+      all(:updated_at.gt => from)
+    else
+      all
+    end
+  end
 end
