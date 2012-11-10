@@ -55,7 +55,7 @@ group :test do
   gem 'turn', '~> 0.9.4', :require => false
 end
 
-gem "gwt-rails", :path => '../../maven/gwt-rails'
+gem "gwt-rails", :path => '../../gwt/gwt-rails'
 gem "ixtlan-optimistic", :path => '../../ixtlan/ixtlan-optimistic'
 gem "ixtlan-babel"
 
