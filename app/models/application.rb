@@ -5,7 +5,7 @@ class Application
   property :id, Serial, :auto_validation => false
 
   property :name, String, :required => true, :unique => true, :length => 32
-  property :url, String, :required => true, :format => :url, :length => 64, :lazy => true
+  property :url, String, :required => true, :format => /^https?\:\/\/[a-z0-9\-\.]+(\.[a-z0-9]+)*(\:[0-9]+)?(\/\S*)?$/, :length => 64, :lazy => true
   property :updated_at, DateTime, :required => true, :lazy => true
 
   has n, :translation_keys
