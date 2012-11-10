@@ -1,15 +1,15 @@
-#!/usr/bin/env rake
-# Add your own tasks in files placed in lib/tasks ending in .rake,
-# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
+#-*- mode: ruby -*-
 
 require File.expand_path('../config/application', __FILE__)
+require 'rake'
 
 Translations::Application.load_tasks
 
-#require 'rake/testtask'
+desc 'triggers the update of remote resources'
+task :update => [:environment] do
+    sync = Updater.new
+    sync.do_it
 
-#Rake::TestTask.new :spec do |t|
-  #t.libs.push "lib"
-#  t.test_files = FileList['spec/**/*_spec.rb']
-#  t.verbose = true
-#end
+    puts "#{Time.now.strftime('%Y-%m-%d %H:%M:%S')}\n\t#{sync}"
+end
+# vim: syntax=Ruby

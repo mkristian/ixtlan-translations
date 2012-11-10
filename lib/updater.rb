@@ -1,19 +1,11 @@
-require 'ixtlan/remote/updater'
-class Updater < Ixtlan::Remote::Updater
-
-  def self.do_it(clazz = nil)
-    if clazz
-      new.do_it(clazz)
-    else
-      new.do_it
-    end
-  end
+require 'ixtlan/remote/sync'
+class Updater < Ixtlan::Remote::Sync
 
   def initialize
     super Translations::Application.config.restserver
-    register(:user)
-    register(:locale)
-    register(:application)
+    register( Ixtlan::UserManagement::User )
+#    register( Ixtlan::Gettext::Local )
+    register( Ixtlan::UserManagement::Application )
   end
 
 end
