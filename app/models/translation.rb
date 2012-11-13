@@ -2,8 +2,8 @@ class Translation
 
   include DataMapper::Resource
 
-  belongs_to :translation_key, :key => true
   belongs_to :locale, :key => true
+  belongs_to :translation_key, :key => true
 
   property :text, String
 

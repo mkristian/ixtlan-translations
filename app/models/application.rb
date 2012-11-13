@@ -1,20 +1,29 @@
-class Application
+require 'ixtlan/user_management/application_resource'
+class Ixtlan::UserManagement::Application
 
-  include DataMapper::Resource
+  # use the same table as Application
+  def self.storage_name(repo = :default)
+    'applications'
+  end
+end
 
-  property :id, Serial, :auto_validation => false
+class Application < Ixtlan::UserManagement::Application
 
-  property :name, String, :required => true, :unique => true, :length => 32
-  property :url, String, :required => true, :format => /^https?\:\/\/[a-z0-9\-\.]+(\.[a-z0-9]+)*(\:[0-9]+)?(\/\S*)?$/, :length => 64, :lazy => true
-  property :updated_at, DateTime, :required => true, :lazy => true
+#  include DataMapper::Resource
+
+#  property :id, Serial, :auto_validation => false
+
+#  property :name, String, :required => true, :unique => true, :length => 32
+#  property :url, String, :required => true, :format => /^https?\:\/\/[a-z0-9\-\.]+(\.[a-z0-9]+)*(\:[0-9]+)?(\/\S*)?$/, :length => 64, :lazy => true
+#  property :updated_at, DateTime, :required => true, :lazy => true
 
   has n, :translation_keys
   
-  attr_accessor :locales
+  attr_accessor :locales, :domains
   
   # do not record timestamps since they are set from outside
-  def set_timestamps_on_save
-  end
+#  def set_timestamps_on_save
+#  end
 
   def rollback_keys
     translation_keys.all(:state => :new).destroy!

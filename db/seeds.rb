@@ -6,7 +6,7 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 unless u = User.get(1)
-  u = User.new(:name => "System", :login => "system", :updated_at => DateTime.now)
+  u = User.new(:name => "System", :login => "system", :updated_at => DateTime.new(0))
   u.id = 1
   u.save
 end
@@ -31,7 +31,7 @@ if defined? ::Configuration
   if defined? Ixtlan::Sessions
     c.idle_session_timeout = 15
   end
-# TODO maybe a modified_by= assignment is missing
+  c.modified_by = u
   c.save
 end
 
