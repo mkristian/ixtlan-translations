@@ -5,6 +5,11 @@ PATH
       ruby-maven (= 3.0.4.0.29.0)
 
 PATH
+  remote: ../../ixtlan/ixtlan-babel
+  specs:
+    ixtlan-babel (0.1.2)
+
+PATH
   remote: ../../ixtlan/ixtlan-core
   specs:
     ixtlan-core (0.8.0)
@@ -14,6 +19,7 @@ PATH
   specs:
     ixtlan-guard (0.9.0)
       ixtlan-core (~> 0.8.0)
+      virtus (~> 0.5)
 
 PATH
   remote: ../../ixtlan/ixtlan-optimistic
@@ -61,6 +67,8 @@ GEM
     arel (3.0.2)
     backports (2.6.2)
     bcrypt-ruby (3.0.1)
+    bcrypt-ruby (3.0.1-java)
+    bouncy-castle-java (1.5.0146.1)
     builder (3.0.0)
     data_objects (0.10.8)
       addressable (~> 2.1)
@@ -102,18 +110,27 @@ GEM
       uuidtools (~> 2.1.2)
     dm-validations (1.2.0)
       dm-core (~> 1.2.0)
+    do_jdbc (0.10.8-java)
+      data_objects (= 0.10.8)
     do_sqlite3 (0.10.8)
       data_objects (= 0.10.8)
+    do_sqlite3 (0.10.8-java)
+      data_objects (= 0.10.8)
+      do_jdbc (= 0.10.8)
+      jdbc-sqlite3 (>= 3.5.8)
     erubis (2.7.0)
     factory_girl (2.6.4)
       activesupport (>= 2.3.9)
     fastercsv (1.5.5)
     hike (1.2.1)
     i18n (0.6.0)
-    ixtlan-babel (0.1.2)
     ixtlan-session-timeout (0.4.0)
+    jdbc-sqlite3 (3.7.2)
     journey (1.0.4)
+    jruby-openssl (0.7.6.1)
+      bouncy-castle-java (>= 1.5.0146.1)
     json (1.6.7)
+    json (1.6.7-java)
     mail (2.4.4)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -174,6 +191,7 @@ GEM
       backports (~> 2.6.1)
 
 PLATFORMS
+  java
   ruby
 
 DEPENDENCIES
@@ -194,16 +212,17 @@ DEPENDENCIES
   dm-validations (~> 1.2.0)
   factory_girl (< 3.0.0)
   gwt-rails!
-  ixtlan-babel
+  ixtlan-babel!
   ixtlan-core!
   ixtlan-guard!
   ixtlan-optimistic!
   ixtlan-remote!
   ixtlan-session-timeout
-  jruby-openssl (~> 0.7.4)
+  jruby-openssl (= 0.7.6.1)
   minitest
   minitest-rails
   railties (~> 3.2.6)
+  rest-client (= 1.6.7)
   turn (~> 0.9.4)
   tzinfo (~> 0.3.32)
   virtus (~> 0.5.0)

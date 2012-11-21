@@ -57,12 +57,12 @@ end
 
 gem "gwt-rails", :path => '../../gwt/gwt-rails'
 gem "ixtlan-optimistic", :path => '../../ixtlan/ixtlan-optimistic'
-gem "ixtlan-babel"
+gem "ixtlan-babel", :path => '../../ixtlan/ixtlan-babel'
 
 gem "ixtlan-core", :path => '../../ixtlan/ixtlan-core'
 gem "ixtlan-session-timeout"
 gem "ixtlan-guard", :path => '../../ixtlan/ixtlan-guard'
-gem "jruby-openssl", "~> 0.7.4", :platforms => :jruby
+gem "jruby-openssl", "0.7.6.1", :platforms => :jruby
 
 gem 'virtus', '~> 0.5.0'
 gem 'backports'
@@ -73,3 +73,4 @@ group :test, :development do
   gem 'factory_girl', '< 3.0.0'
 end
 gem 'ixtlan-remote', :path => '../../ixtlan/ixtlan-remote'
+gem 'rest-client', '1.6.7'

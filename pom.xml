@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>rails</groupId>
-  <artifactId>translations</artifactId>
+  <artifactId>ixtlan-translations</artifactId>
   <version>0.0.0</version>
-  <name><![CDATA[translations - rails application]]></name>
+  <name><![CDATA[ixtlan-translations - rails application]]></name>
   <packaging>war</packaging>
   <repositories>
     <repository>
@@ -265,27 +265,7 @@
     </dependency>
     <dependency>
       <groupId>rubygems</groupId>
-      <artifactId>ixtlan-optimistic</artifactId>
-      <type>gem</type>
-    </dependency>
-    <dependency>
-      <groupId>rubygems</groupId>
-      <artifactId>ixtlan-babel</artifactId>
-      <type>gem</type>
-    </dependency>
-    <dependency>
-      <groupId>rubygems</groupId>
-      <artifactId>ixtlan-core</artifactId>
-      <type>gem</type>
-    </dependency>
-    <dependency>
-      <groupId>rubygems</groupId>
       <artifactId>ixtlan-session-timeout</artifactId>
-      <type>gem</type>
-    </dependency>
-    <dependency>
-      <groupId>rubygems</groupId>
-      <artifactId>ixtlan-guard</artifactId>
       <type>gem</type>
     </dependency>
     <dependency>
@@ -306,6 +286,11 @@
     <dependency>
       <groupId>rubygems</groupId>
       <artifactId>backports</artifactId>
+      <type>gem</type>
+    </dependency>
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>rest-client</artifactId>
       <type>gem</type>
     </dependency>
     <dependency>
@@ -404,26 +389,80 @@
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
+        <artifactId>ixtlan-babel</artifactId>
+        <version>0.1.2</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>ixtlan-core</artifactId>
+        <version>0.8.0</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>ixtlan-guard</artifactId>
+        <version>0.9.0</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>virtus</artifactId>
+        <version>0.5.1</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>backports</artifactId>
+        <version>2.6.2</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>ixtlan-optimistic</artifactId>
+        <version>0.2.0</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>ixtlan-remote</artifactId>
+        <version>0.1.0</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>rest-client</artifactId>
+        <version>1.6.7</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>mime-types</artifactId>
+        <version>1.19</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
         <artifactId>actionmailer</artifactId>
-        <version>3.2.6</version>
+        <version>3.2.7</version>
         <type>gem</type>
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>actionpack</artifactId>
-        <version>3.2.6</version>
+        <version>3.2.7</version>
         <type>gem</type>
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>activemodel</artifactId>
-        <version>3.2.6</version>
+        <version>3.2.7</version>
         <type>gem</type>
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>activesupport</artifactId>
-        <version>3.2.6</version>
+        <version>3.2.7</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -500,12 +539,6 @@
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
-        <artifactId>mime-types</artifactId>
-        <version>1.19</version>
-        <type>gem</type>
-      </dependency>
-      <dependency>
-        <groupId>rubygems</groupId>
         <artifactId>treetop</artifactId>
         <version>1.4.10</version>
         <type>gem</type>
@@ -518,8 +551,26 @@
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
+        <artifactId>activerecord</artifactId>
+        <version>3.2.7</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>arel</artifactId>
+        <version>3.0.2</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>tzinfo</artifactId>
+        <version>0.3.33</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
         <artifactId>activeresource</artifactId>
-        <version>3.2.6</version>
+        <version>3.2.7</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -532,12 +583,6 @@
         <groupId>rubygems</groupId>
         <artifactId>ansi</artifactId>
         <version>1.4.3</version>
-        <type>gem</type>
-      </dependency>
-      <dependency>
-        <groupId>rubygems</groupId>
-        <artifactId>backports</artifactId>
-        <version>2.6.1</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -609,7 +654,7 @@
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>railties</artifactId>
-        <version>3.2.6</version>
+        <version>3.2.7</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -704,26 +749,8 @@
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
-        <artifactId>ixtlan-babel</artifactId>
-        <version>0.1.2</version>
-        <type>gem</type>
-      </dependency>
-      <dependency>
-        <groupId>rubygems</groupId>
-        <artifactId>ixtlan-core</artifactId>
-        <version>0.7.5</version>
-        <type>gem</type>
-      </dependency>
-      <dependency>
-        <groupId>rubygems</groupId>
-        <artifactId>ixtlan-guard</artifactId>
-        <version>0.8.3</version>
-        <type>gem</type>
-      </dependency>
-      <dependency>
-        <groupId>rubygems</groupId>
-        <artifactId>ixtlan-optimistic</artifactId>
-        <version>0.1.0</version>
+        <artifactId>factory_girl</artifactId>
+        <version>2.6.4</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -735,25 +762,31 @@
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>jruby-openssl</artifactId>
-        <version>0.7.7</version>
+        <version>0.7.6.1</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>minitest</artifactId>
+        <version>3.3.0</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>minitest-rails</artifactId>
+        <version>0.1.2</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>rails</artifactId>
+        <version>3.2.7</version>
         <type>gem</type>
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>turn</artifactId>
         <version>0.9.6</version>
-        <type>gem</type>
-      </dependency>
-      <dependency>
-        <groupId>rubygems</groupId>
-        <artifactId>tzinfo</artifactId>
-        <version>0.3.33</version>
-        <type>gem</type>
-      </dependency>
-      <dependency>
-        <groupId>rubygems</groupId>
-        <artifactId>virtus</artifactId>
-        <version>0.5.1</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -798,6 +831,42 @@
             <groupId>rubygems</groupId>
             <artifactId>ansi</artifactId>
             <version>1.4.3</version>
+            <type>gem</type>
+          </dependency>
+          <dependency>
+            <groupId>rubygems</groupId>
+            <artifactId>minitest</artifactId>
+            <version>3.3.0</version>
+            <type>gem</type>
+          </dependency>
+          <dependency>
+            <groupId>rubygems</groupId>
+            <artifactId>minitest-rails</artifactId>
+            <version>0.1.2</version>
+            <type>gem</type>
+          </dependency>
+          <dependency>
+            <groupId>rubygems</groupId>
+            <artifactId>rails</artifactId>
+            <version>3.2.7</version>
+            <type>gem</type>
+          </dependency>
+          <dependency>
+            <groupId>rubygems</groupId>
+            <artifactId>activerecord</artifactId>
+            <version>3.2.7</version>
+            <type>gem</type>
+          </dependency>
+          <dependency>
+            <groupId>rubygems</groupId>
+            <artifactId>arel</artifactId>
+            <version>3.0.2</version>
+            <type>gem</type>
+          </dependency>
+          <dependency>
+            <groupId>rubygems</groupId>
+            <artifactId>factory_girl</artifactId>
+            <version>[0,3.0.0)</version>
             <type>gem</type>
           </dependency>
         </dependencies>
@@ -948,7 +1017,90 @@
           <artifactId>ansi</artifactId>
           <type>gem</type>
         </dependency>
+        <dependency>
+          <groupId>rubygems</groupId>
+          <artifactId>minitest</artifactId>
+          <type>gem</type>
+        </dependency>
+        <dependency>
+          <groupId>rubygems</groupId>
+          <artifactId>minitest-rails</artifactId>
+          <type>gem</type>
+        </dependency>
+        <dependency>
+          <groupId>rubygems</groupId>
+          <artifactId>rails</artifactId>
+          <type>gem</type>
+        </dependency>
+        <dependency>
+          <groupId>rubygems</groupId>
+          <artifactId>activerecord</artifactId>
+          <type>gem</type>
+        </dependency>
+        <dependency>
+          <groupId>rubygems</groupId>
+          <artifactId>arel</artifactId>
+          <type>gem</type>
+        </dependency>
+        <dependency>
+          <groupId>rubygems</groupId>
+          <artifactId>factory_girl</artifactId>
+          <type>gem</type>
+        </dependency>
       </dependencies>
+    </profile>
+    <profile>
+      <id>development</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>rubygems</groupId>
+          <artifactId>minitest</artifactId>
+          <type>gem</type>
+        </dependency>
+        <dependency>
+          <groupId>rubygems</groupId>
+          <artifactId>minitest-rails</artifactId>
+          <type>gem</type>
+        </dependency>
+        <dependency>
+          <groupId>rubygems</groupId>
+          <artifactId>rails</artifactId>
+          <type>gem</type>
+        </dependency>
+        <dependency>
+          <groupId>rubygems</groupId>
+          <artifactId>activerecord</artifactId>
+          <type>gem</type>
+        </dependency>
+        <dependency>
+          <groupId>rubygems</groupId>
+          <artifactId>arel</artifactId>
+          <type>gem</type>
+        </dependency>
+        <dependency>
+          <groupId>rubygems</groupId>
+          <artifactId>factory_girl</artifactId>
+          <type>gem</type>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>gwt-maven-plugin</artifactId>
+            <version>2.4.0</version>
+            <configuration>
+              <draftCompile>true</draftCompile>
+              <includes>**/TranslationsGWTTestSuite.java</includes>
+              <module>org.dhamma.translations.TranslationsDevelopment</module>
+              <style>DETAILED</style>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
     <profile>
       <id>mac</id>
@@ -964,27 +1116,6 @@
             <artifactId>gwt-maven-plugin</artifactId>
             <configuration>
               <extraJvmArgs>-d32 -XstartOnFirstThread -Xmx512m</extraJvmArgs>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>development</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>gwt-maven-plugin</artifactId>
-            <version>2.4.0</version>
-            <configuration>
-              <draftCompile>true</draftCompile>
-              <includes>**/TranslationsGWTTestSuite.java</includes>
-              <module>org.dhamma.translations.TranslationsDevelopment</module>
-              <style>DETAILED</style>
             </configuration>
           </plugin>
         </plugins>
