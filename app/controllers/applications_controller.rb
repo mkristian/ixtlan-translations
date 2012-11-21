@@ -8,7 +8,7 @@ class ApplicationsController < LocalController
 
   # GET /applications
   def index
-    @applications = serializer(current_user.allowed_application)
+    @applications = serializer(current_user.allowed_applications)
     @applications.use(:collection) if @applications.size > 1
     respond_with @applications
   end

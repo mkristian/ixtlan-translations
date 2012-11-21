@@ -25,6 +25,14 @@ class Application < Ixtlan::UserManagement::Application
 #  def set_timestamps_on_save
 #  end
 
+  def self.get_or_create( params = {} )
+    a = first( :id => params['id'], :fields => [:name, :url] )
+    unless a
+      a = create( params.merge( {:updated_at => DateTime.new( 0 ) }) )
+    end
+    a
+  end
+
   def rollback_keys
     translation_keys.all(:state => :new).destroy!
     translation_keys.reload # to reflect the deleted entries

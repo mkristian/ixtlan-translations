@@ -22,15 +22,15 @@ class User < Ixtlan::UserManagement::User
   # def set_timestamps_on_save
   # end
 
-  def allowed_translate_applications
-    @_apps ||= 
-      begin
-        apps = []
-        groups.select do |g|
-          a = g.application_of_translator
-          apps << a if a
-        end
-        apps
-      end
+  def self.get_or_create( params = {} )
+    a = first( :id => params['id'], :fields => [:id, :login, :name] )
+    unless a
+      a = create( params.merge( {:updated_at => DateTime.new( 0 ) }) )
+    end
+    a
+  end
+
+  def allowed_applications
+    @_apps ||= groups.select { |g| g.application }.uniq
   end
 end

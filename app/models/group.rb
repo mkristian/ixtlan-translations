@@ -33,9 +33,9 @@ class Group < Ixtlan::UserManagement::Group
     #self.name = attributes['name']
   end
 
-  def application_of_translator
+  def application
     if name == 'translator'
-      a = self.application
+      a = @application
       a.locales = self.locales
       a.domains = self.domains
       a
