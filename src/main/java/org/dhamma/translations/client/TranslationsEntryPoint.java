@@ -5,6 +5,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
+import com.google.gwt.user.client.History;
 
 import de.mkristian.gwt.rails.Application;
 import de.mkristian.gwt.rails.dispatchers.DefaultDispatcherSingleton;
@@ -35,6 +36,9 @@ public class TranslationsEntryPoint implements EntryPoint {
         // setup display
         injector.getApplication().run();
     
+        if ("".equals(History.getToken())) {
+            History.newItem("applications");
+        }
         // Goes to the place represented on URL else default place
         injector.getPlaceHistoryHandler().handleCurrentHistory();
     }
