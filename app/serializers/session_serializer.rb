@@ -8,10 +8,8 @@ class SessionSerializer < Ixtlan::Babel::Serializer
                 :user => {
                   :include => [:applications]
                 },
-                :permissions => { 
-                  :include => { 
-                    :permission => {:include => [:actions]}
-                  }
+                :permissions => {
+                  :include => [:actions, :associations]
                 }
               }
            )
