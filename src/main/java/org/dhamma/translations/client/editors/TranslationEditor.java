@@ -1,7 +1,7 @@
 package org.dhamma.translations.client.editors;
 
 import org.dhamma.translations.client.models.Translation;
-import org.dhamma.translations.client.models.user;
+import org.dhamma.translations.client.models.User;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.Editor;
@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DateLabel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.NumberLabel;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.mkristian.gwt.rails.editors.UserLabel;
@@ -27,7 +27,7 @@ public class TranslationEditor extends Composite implements Editor<Translation>{
     @UiField public NumberLabel<Integer> id;
     @UiField DateLabel createdAt;
     @UiField DateLabel updatedAt;
-    @UiField UserLabel<user> modifiedBy;
+    @UiField UserLabel<User> modifiedBy;
 
     @UiField TextBox text;
 

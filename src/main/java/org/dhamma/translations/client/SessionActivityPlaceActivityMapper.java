@@ -3,12 +3,15 @@ package org.dhamma.translations.client;
 import javax.inject.Inject;
 
 import org.dhamma.translations.client.managed.ActivityFactory;
+import org.dhamma.translations.client.places.ApplicationPlace;
 import org.dhamma.translations.client.places.LoginPlace;
 
 import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.place.shared.Place;
 
 import de.mkristian.gwt.rails.Notice;
+import de.mkristian.gwt.rails.places.RestfulActionEnum;
 import de.mkristian.gwt.rails.places.RestfulPlace;
 import de.mkristian.gwt.rails.session.Guard;
 import de.mkristian.gwt.rails.session.NeedsAuthorization;
