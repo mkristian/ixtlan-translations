@@ -1,7 +1,0 @@
-<module rename-to='Translations'>
-
-  <collapse-all-properties />
-  
-  <inherits name='org.dhamma.translations.Translations' />
-
-</module>

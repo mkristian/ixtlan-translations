@@ -43,7 +43,7 @@ jar 'org.jruby.rack:jruby-rack', '1.1.7'
 profile :development do |p|
   p.activation.by_default
   p.plugin('org.codehaus.mojo:gwt-maven-plugin', GWT_VERSION) do |gwt|
-    gwt.with({ :module => 'org.dhamma.translations.TranslationsDevelopment',
+    gwt.with({ :module => 'de.mkristian.ixtlan.translations.TranslationsDevelopment',
                :style => "DETAILED",
                :includes => "**/TranslationsGWTTestSuite.java",
                :draftCompile => true })
@@ -52,7 +52,7 @@ end
 
 profile :production do |p|
   p.plugin('org.codehaus.mojo:gwt-maven-plugin', GWT_VERSION) do |gwt|
-    gwt.with({ :module => 'org.dhamma.translations.Translations',
+    gwt.with({ :module => 'de.mkristian.ixtlan.translations.Translations',
                :style => "OBF",
                :draftCompile => false,
                :disableClassMetadata => true,

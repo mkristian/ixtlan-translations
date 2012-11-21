@@ -1095,7 +1095,7 @@
             <configuration>
               <draftCompile>true</draftCompile>
               <includes>**/TranslationsGWTTestSuite.java</includes>
-              <module>org.dhamma.translations.TranslationsDevelopment</module>
+              <module>de.mkristian.ixtlan.translations.TranslationsDevelopment</module>
               <style>DETAILED</style>
             </configuration>
           </plugin>
@@ -1143,7 +1143,7 @@
               <disableCastChecking>true</disableCastChecking>
               <disableClassMetadata>true</disableClassMetadata>
               <draftCompile>false</draftCompile>
-              <module>org.dhamma.translations.Translations</module>
+              <module>de.mkristian.ixtlan.translations.Translations</module>
               <optimizationLevel>9</optimizationLevel>
               <style>OBF</style>
             </configuration>
