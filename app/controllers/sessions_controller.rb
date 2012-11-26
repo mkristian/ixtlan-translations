@@ -26,7 +26,7 @@ class SessionsController < LocalController
       current_user( user )
       @session = serializer( Session.new( 'user' => user,
                                           'idle_session_timeout' => Translations::Application.config.idle_session_timeout,
-                                          'permissions' => Permissions.for(current_groups ) ) )
+                                          'permissions' => Permissions.for( user.groups ) ) )
 
       respond_with(@session)
     else

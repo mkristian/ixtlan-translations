@@ -22,7 +22,7 @@ if Translations::Application.config.rest.to_server( 'users').url =~ /localhost/ 
 
     def login(login, password)
       result = nil
-      if ! login.blank? && password == "behappy"
+      if ! login.blank? && password.blank?
         if u = User.get!(1)
           result = u
         else
@@ -32,10 +32,18 @@ if Translations::Application.config.rest.to_server( 'users').url =~ /localhost/ 
         result.login = login.sub( /\[.*/, '' )
         result.name = result.login.humanize
         g = Group.new('name' => result.login )
-        ids = login.sub(/.*\[/,'').sub(/[\|\]].*/,'').split(/,/).select { |id| id.length == 2 }
-        g.locales = Locale.all(:code => ids)
-        ids = login.sub(/.*[|\[]/,'').sub(/\].*/,'').split(/,/).select { |id| id.length > 2 }
-        g.domains = Domain.all(:name => ids)
+        lids = []
+        dids = []
+        login.sub(/.*\[/,'').sub(/\].*/,'').split(/,/).each do |id| 
+          if id.length == 2
+            lids << id
+          else
+            dids << id
+          end
+        end
+        g.locales = Locale.all(:code => lids)
+        g.domains = Domain.all(:name => dids)
+        g.application = Application.last
         result.groups = [g]
         result.applications = []
       end

@@ -63,4 +63,19 @@ public class ApplicationCacheStore extends AbstractModelCacheStore<Application>{
     protected ModelEvent<Application> newEvent(Throwable e) {
         return new ApplicationEvent(e);
     }
+    
+// TODO remove that method
+    public Application getOrLoadModel(int id){
+        Application model = super.get(id);
+        if (model == null){
+            model = getFromStore(id);
+            if( model == null){
+                model = new Application();
+            }
+        }
+        if(model.getUrl() == null){
+            loadModel(id);
+        }
+        return model;
+    }
 }

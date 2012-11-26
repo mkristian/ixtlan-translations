@@ -8,5 +8,4 @@ class Ixtlan::UserManagement::Domain
 end
 
 class Domain < Ixtlan::UserManagement::Domain
-
 end

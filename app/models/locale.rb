@@ -1,5 +1,5 @@
 require 'ixtlan/gettext/locale_resource'
-class Ixtlan::UserManagement::Locale
+class Ixtlan::Gettext::Locale
 
   # use the same table as Locale
   def self.storage_name(repo = :default)

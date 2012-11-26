@@ -1,6 +1,10 @@
 Translations::Application.routes.draw do
 
-  resources :applications
+  resources :applications do
+    member do
+      put :translations
+    end
+  end
 
   get 'locales/last_changes' => 'locales#last_changes'
   get 'translations/last_changes' => 'translations#last_changes'

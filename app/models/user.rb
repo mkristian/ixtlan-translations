@@ -8,20 +8,6 @@ class Ixtlan::UserManagement::User
 end
 class User < Ixtlan::UserManagement::User
 
-  # include DataMapper::Resource
-
-  # property :id, Serial, :auto_validation => false
-  
-  # property :login, String, :required => true, :unique => true, :length => 32
-  # property :name, String, :required => true, :length => 128
-  # property :updated_at, DateTime, :required => true
-
-  # attr_accessor :groups, :applications
-
-  # # do not record timestamps since they are set from outside
-  # def set_timestamps_on_save
-  # end
-
   def self.get_or_create( params = {} )
     a = first( :id => params['id'], :fields => [:id, :login, :name] )
     unless a
@@ -31,6 +17,6 @@ class User < Ixtlan::UserManagement::User
   end
 
   def allowed_applications
-    @_apps ||= groups.select { |g| g.application }.uniq
+    @_apps ||= groups.collect { |g| g.application }.uniq
   end
 end

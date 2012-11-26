@@ -11,21 +11,26 @@ class ApplicationSerializer < Ixtlan::Babel::Serializer
                 :locales => {
                   :only => [:id, :code]
                 },
-                :translaton_keys => {
+                :domains => {
                   :only => [:id, :name]
+                },
+                :keys => {
+                  :only => [:id, :name]
+                },
+                :translations => {
+                  :only => [:translation_key_id, :locale_id, :domain_id, :text, :updated_at],
+                  :include => {
+                    :modified_by => {
+                      :only => [:id, :login, :name]
+                    }
+                  },
+                  :methods => [:app_id]
                 }
               }
              )
 
   add_context(:collection,
               :root => 'application',
-              :only => [:id, :name],
-              :include => {
-                :locales => {
-                  :only => [:id, :code]
-                }
-              }
+              :only => [:id, :name]
              )
-
-  default_context_key :single
 end

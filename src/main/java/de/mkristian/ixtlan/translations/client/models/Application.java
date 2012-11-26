@@ -2,13 +2,16 @@ package de.mkristian.ixtlan.translations.client.models;
 
 
 import java.util.Collections;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.fusesource.restygwt.client.Json;
 import org.fusesource.restygwt.client.Json.Style;
+
+import com.google.gwt.core.client.GWT;
 
 import de.mkristian.gwt.rails.models.HasToDisplay;
 import de.mkristian.gwt.rails.models.Identifyable;
@@ -19,34 +22,53 @@ public class Application implements HasToDisplay, Identifyable {
   public final int id;
 
   private final String name;
-
+  
   private final String url;
-
-  @Json(name = "updated_at")
-  private final Date updatedAt;
 
   private final List<Locale> locales;
 
-  @Json(name = "translation_keys")
-  private final List<TranslationKey> translationKeys;
+  private final List<Domain> domains;
+  
+  public final List<Translation> translations;
 
+  @Json(name = "keys")
+  private final List<TranslationKey> translationKeys;
+ 
+  private final Map<Integer, TranslationKey> id2Key = new HashMap<Integer, TranslationKey>();
+
+  private final Locale defaultLocale;
+ 
   public Application(){
-    this(0, null, null, null, null, null);
+    this(0, null, null, null, null, null, null);
   }
   
+  @SuppressWarnings("unchecked")
   @JsonCreator
   public Application(@JsonProperty("id") int id,
           @JsonProperty("name") String name,
           @JsonProperty("url") String url,
-          @JsonProperty("updatedAt") Date updatedAt,
           @JsonProperty("locales") List<Locale> locales, 
-          @JsonProperty("translationKeys") List<TranslationKey> keys){
+          @JsonProperty("domains") List<Domain> domains, 
+          @JsonProperty("translationKeys") List<TranslationKey> keys,
+          @JsonProperty("translations") List<Translation> translations){
     this.id = id;
     this.name = name;
     this.url = url;
-    this.updatedAt = updatedAt;
-    this.locales = Collections.unmodifiableList(locales);
-    this.translationKeys = Collections.unmodifiableList(keys);
+    this.locales = Collections.unmodifiableList(locales == null ? Collections.EMPTY_LIST : locales);
+    this.domains = Collections.unmodifiableList(domains == null ? Collections.EMPTY_LIST : domains);
+    this.translationKeys = Collections.unmodifiableList(keys == null ? Collections.EMPTY_LIST : keys);
+    for(TranslationKey key : this.translationKeys){
+        id2Key.put(key.id, key);
+        key.setApplication(this);
+    }
+    if (translations != null){
+        for(Translation translation : translations){
+            TranslationKey key = id2Key.get(translation.getTranslationKeyId());
+            key.addTranslation(translation);
+        }
+    }
+    this.translations = null;
+    this.defaultLocale = this.locales.isEmpty() ? null : this.locales.get(0);
   }
 
   public int getId(){
@@ -61,12 +83,16 @@ public class Application implements HasToDisplay, Identifyable {
     return url;
   }
 
-  public Date getUpdatedAt(){
-    return updatedAt;
-  }
-
   public List<Locale> getLocales() {
     return locales;
+  }
+
+  public Locale getDefaultLocale() {
+    return defaultLocale;
+  }
+
+  public List<Domain> getDomains() {
+    return domains;
   }
 
   public List<TranslationKey> getTranslationKeys() {
@@ -84,5 +110,20 @@ public class Application implements HasToDisplay, Identifyable {
 
   public String toDisplay() {
     return name;
+  }
+
+  public void updateTranslation(Translation trans) {
+      if (translations != null){
+      int index = translations.indexOf(trans);
+      if( index > -1){
+          GWT.log(translations.get(index)+"");
+          translations.get(index).update(trans);
+      }
+      }
+//      translationKeys.get(id2Key.get(trans.getTranslationKeyId()).
+//      index = translationKeys.indexOf(trans.getTranslationKeyId());
+//      if( index > -1){
+//          translationKeys.set(index, trans);
+//      }
   }
 }

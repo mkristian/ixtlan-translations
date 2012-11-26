@@ -10,43 +10,39 @@ import de.mkristian.gwt.rails.models.HasToDisplay;
 import de.mkristian.gwt.rails.models.Identifyable;
 
 @Json(style = Style.RAILS)
-public class Locale implements HasToDisplay, Identifyable {
+public class Domain implements HasToDisplay, Identifyable {
+
+  public final static Domain NONE = new Domain(0, "default");
 
   public final int id;
 
-  private String code;
+  private final String name;
 
-  public Locale(){
-    this(0);
-  }
-  
   @JsonCreator
-  public Locale(@JsonProperty("id") int id){
+  public Domain(@JsonProperty("id") int id,
+          @JsonProperty("name") String name ){
       this.id = id;
+      this.name = name;
   }
 
   public int getId(){
     return id;
   }
 
-  public String getCode(){
-    return code;
+  public String getName(){
+    return name;
   }
-
-  public void setCode(String value){
-    code = value;
-  }
-
+  
   public int hashCode(){
     return id;
   }
 
   public boolean equals(Object other){
-    return (other instanceof Locale) && 
-        ((Locale)other).id == id;
+    return (other instanceof Domain) && 
+        ((Domain)other).id == id;
   }
 
   public String toDisplay() {
-    return code;
+    return name;
   }
 }

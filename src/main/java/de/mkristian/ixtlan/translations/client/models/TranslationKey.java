@@ -1,7 +1,8 @@
 package de.mkristian.ixtlan.translations.client.models;
 
 
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -16,37 +17,19 @@ public class TranslationKey implements HasToDisplay, Identifyable {
 
   public final int id;
 
-  @Json(name = "created_at")
-  private final Date createdAt;
-
-  @Json(name = "updated_at")
-  private final Date updatedAt;
-
   private String name;
 
   public TranslationKey(){
-    this(0, null, null);
+    this(0);
   }
   
   @JsonCreator
-  public TranslationKey(@JsonProperty("id") int id, 
-          @JsonProperty("createdAt") Date createdAt, 
-          @JsonProperty("updatedAt") Date updatedAt){
+  public TranslationKey(@JsonProperty("id") int id){
     this.id = id;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
   }
 
   public int getId(){
     return id;
-  }
-
-  public Date getCreatedAt(){
-    return createdAt;
-  }
-
-  public Date getUpdatedAt(){
-    return updatedAt;
   }
 
   public String getName(){
@@ -69,4 +52,70 @@ public class TranslationKey implements HasToDisplay, Identifyable {
   public String toDisplay() {
     return name;
   }
+  
+  private final Map<String, Translation> translations = new HashMap<String, Translation>();
+
+  transient private Application application;
+
+  private String key(Locale local, Domain domain) {
+      return key(local.id, domain.id);
+    }
+
+  private String key(int localId, int domainId) {
+      return localId + "|" + domainId;
+  }
+
+  public void addTranslation(Translation translation){
+      this.translations.put(key(translation.getLocaleId(),
+                                 translation.getDomainId() ), 
+                             translation);
+      translation.setTranslationKey(this);
+  }
+
+  public void setApplication( Application app ){
+      this.application = app;
+  }
+  
+  public Application application(){
+      return this.application;
+  }
+  
+  /**
+   * retrieve the translation, cascade:
+   * <li>look for locale + domain</li>
+   * <li>look for locale + Domain.NONE</li>
+   * <li>look for app.defaultLocale + Domain.NONE</li>
+   * <li>take the translation key as 'translation' (as gettext does)</li>
+   * @param locale
+   * @param domain
+   * @return
+   */
+  public Translation translation( Locale locale, Domain domain ){
+      Translation result = translations.get( key( locale, domain ) );
+      if ( result == null ){
+          if ( domain != Domain.NONE ){
+              result = translation( locale );
+          }
+          if ( result == null ){
+              result = new Translation( id, locale.getId(), domain.getId(), 
+                      application.id, null, null );
+              result.setText( getName() );
+          }
+      }
+      result.setTranslationKey(this);
+      return result;
+  }
+  
+  private Translation translation( Locale locale ){
+      Translation result = translations.get(key( locale, Domain.NONE));
+      if ( result == null && !application.getDefaultLocale().equals( locale ) ) {
+          result = translation();
+      }
+      return result;
+  }
+  
+  private Translation translation(){
+      return translations.get( key( application.getDefaultLocale(), Domain.NONE ) );
+  }
+
 }

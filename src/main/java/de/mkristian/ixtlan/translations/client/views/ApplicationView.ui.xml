@@ -6,15 +6,10 @@
 
   <g:FlowPanel styleName="gwt-rails-display translations-applications">
 
-    <g:Label>Applications</g:Label>
-
-    <g:FlowPanel styleName="gwt-rails-buttons">
-      <g:Button ui:field="list">List All</g:Button>
-      <g:Button ui:field="edit">Edit</g:Button>
-    </g:FlowPanel>
-
     <t:ApplicationEditor ui:field="editor" styleName="gwt-rails-model-editor" />
 
+    <g:FlexTable ui:field="list"/>
+    
   </g:FlowPanel>
 
 </ui:UiBinder>

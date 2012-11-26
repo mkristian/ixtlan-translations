@@ -2,19 +2,15 @@ package de.mkristian.ixtlan.translations.client;
 
 import javax.inject.Inject;
 
-
 import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.place.shared.Place;
 
 import de.mkristian.gwt.rails.Notice;
-import de.mkristian.gwt.rails.places.RestfulActionEnum;
 import de.mkristian.gwt.rails.places.RestfulPlace;
 import de.mkristian.gwt.rails.session.Guard;
 import de.mkristian.gwt.rails.session.NeedsAuthorization;
 import de.mkristian.gwt.rails.session.NoAuthorization;
 import de.mkristian.ixtlan.translations.client.managed.ActivityFactory;
-import de.mkristian.ixtlan.translations.client.places.ApplicationPlace;
 import de.mkristian.ixtlan.translations.client.places.LoginPlace;
 
 public class SessionActivityPlaceActivityMapper extends ActivityPlaceActivityMapper {
@@ -63,6 +59,8 @@ public class SessionActivityPlaceActivityMapper extends ActivityPlaceActivityMap
                     notice.warn("nothing to see");
                     return null;
                 }
+                //TODO move into a dispatch filter or callback filter
+                guard.resetCountDown();
             }
             else {
                 return LoginPlace.LOGIN.create(factory);

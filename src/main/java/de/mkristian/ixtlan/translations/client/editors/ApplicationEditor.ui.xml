@@ -1,32 +1,12 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder
   xmlns:ui="urn:ui:com.google.gwt.uibinder"
-  xmlns:g="urn:import:com.google.gwt.user.client.ui"
-  xmlns:d="urn:import:com.google.gwt.user.datepicker.client"
-  xmlns:r="urn:import:de.mkristian.gwt.rails.editors">
+  xmlns:g="urn:import:com.google.gwt.user.client.ui">
 
-  <g:FlowPanel>
+  <g:HTMLPanel>
 
-    <g:FlowPanel ui:field="signature" styleName="gwt-rails-model-signature">
-      <g:Label>id: </g:Label>
-      <g:NumberLabel ui:field="id" />
-    </g:FlowPanel>
+    <g:Label ui:field="name"/>
 
-    <g:FlowPanel styleName="gwt-rails-model-fields">
-      <g:HTMLPanel>
-        <label name="name">Name</label>
-        <g:TextBox ui:field="name"/>
-      </g:HTMLPanel>
-      <g:HTMLPanel>
-        <label name="url">Url</label>
-        <g:TextBox ui:field="url"/>
-      </g:HTMLPanel>
-      <g:HTMLPanel>
-        <label name="updatedAt">Updated at</label>
-        <d:DateBox ui:field="updatedAt"/>
-      </g:HTMLPanel>
-    </g:FlowPanel>
-
-  </g:FlowPanel>
+  </g:HTMLPanel>
 
 </ui:UiBinder>

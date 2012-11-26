@@ -6,25 +6,20 @@
   xmlns:r="urn:import:de.mkristian.gwt.rails.editors">
 
   <g:FlowPanel>
-
-    <g:FlowPanel ui:field="signature" styleName="gwt-rails-model-signature">
-      <g:Label>id: </g:Label>
-      <g:NumberLabel ui:field="id" />
-      <g:Label>created at: </g:Label>
-      <g:DateLabel ui:field="createdAt" predefinedFormat="DATE_TIME_MEDIUM"/>
+    <g:FlowPanel ui:field="signature">
       <g:Label>updated at: </g:Label>
       <g:DateLabel ui:field="updatedAt" predefinedFormat="DATE_TIME_MEDIUM" />
       <g:Label>modified by: </g:Label>
-      <r:UserLabel ui:field="modifiedBy" />
+      <r:UserLabel ui:field="modifiedBy" />                
     </g:FlowPanel>
-
-    <g:FlowPanel styleName="gwt-rails-model-fields">
-      <g:HTMLPanel>
-        <label name="text">Text</label>
-        <g:TextBox ui:field="text"/>
-      </g:HTMLPanel>
-    </g:FlowPanel>
-
+    <g:HTMLPanel>
+      <g:NumberLabel ui:field="translationKeyId"/>
+      <g:NumberLabel ui:field="localeId"/>
+      <g:NumberLabel ui:field="domainId"/>    
+      <g:NumberLabel ui:field="appId"/>
+      <label name="text">Text</label>
+      <g:TextBox ui:field="text"/>
+    </g:HTMLPanel>
   </g:FlowPanel>
 
 </ui:UiBinder>

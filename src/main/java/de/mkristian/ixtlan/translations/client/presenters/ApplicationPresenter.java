@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.PlaceController;
@@ -11,13 +12,15 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import de.mkristian.gwt.rails.events.ModelEvent;
 import de.mkristian.gwt.rails.places.RestfulAction;
-import de.mkristian.gwt.rails.places.RestfulActionEnum;
 import de.mkristian.ixtlan.translations.client.TranslationsErrorHandler;
 import de.mkristian.ixtlan.translations.client.caches.ApplicationCacheStore;
 import de.mkristian.ixtlan.translations.client.events.ApplicationEvent;
 import de.mkristian.ixtlan.translations.client.events.ApplicationEventHandler;
 import de.mkristian.ixtlan.translations.client.models.Application;
-import de.mkristian.ixtlan.translations.client.places.ApplicationPlace;
+import de.mkristian.ixtlan.translations.client.models.Domain;
+import de.mkristian.ixtlan.translations.client.models.Translation;
+import de.mkristian.ixtlan.translations.client.models.TranslationKey;
+import de.mkristian.ixtlan.translations.client.restservices.ApplicationsRestService;
 import de.mkristian.ixtlan.translations.client.views.ApplicationListView;
 import de.mkristian.ixtlan.translations.client.views.ApplicationView;
 
@@ -27,21 +30,21 @@ public class ApplicationPresenter extends AbstractPresenter {
     private final ApplicationView view;
     private final ApplicationListView listView;
     private final ApplicationCacheStore cache;
-    private final PlaceController places;
+    private final ApplicationsRestService service;
 
     @Inject
     public ApplicationPresenter(TranslationsErrorHandler errors, ApplicationView view, ApplicationListView listView,
-	   ApplicationCacheStore cache, PlaceController places){
+            ApplicationCacheStore cache, ApplicationsRestService service,
+            PlaceController places){
         super(errors);
         this.view = view;
         this.view.setPresenter(this);
         this.listView = listView;
-        this.listView.setPresenter(this);
         this.cache = cache;
-        this.places = places;
+        this.service = service;
     }
 
-    public void init(AcceptsOneWidget display, EventBus eventBus){
+    public void setDisplayAndEventBus(AcceptsOneWidget display, EventBus eventBus){
         setDisplay(display);
         eventBus.addHandler(ApplicationEvent.TYPE, new ApplicationEventHandler(){
             @Override
@@ -64,25 +67,17 @@ public class ApplicationPresenter extends AbstractPresenter {
     }
 
     public void listAll(){
-        ApplicationPlace next = new ApplicationPlace(RestfulActionEnum.INDEX);
-        if (places.getWhere().equals(next)) {
-            setWidget(listView);
-            listView.reset(cache.getOrLoadModels());
-        }
-        else {
-            places.goTo(next);
-        }
+        setWidget(listView);
+        listView.reset(cache.getOrLoadModels());
     }
-
+    
+    public void edit(TranslationKey key){
+        view.edit(key.translation(key.application().getDefaultLocale(), Domain.NONE));
+    }
+    
     public void show(int id){
-        ApplicationPlace next = new ApplicationPlace(id, RestfulActionEnum.SHOW);
-        if (places.getWhere().equals(next)) {
-            setWidget(view);
-            view.show(cache.getOrLoadModel(id));
-        }
-        else {
-            places.goTo(next);
-        }
+        setWidget(view);
+        view.show(cache.getOrLoadModel(id));
     }
 
     public void unknownAction(RestfulAction action){
@@ -91,5 +86,22 @@ public class ApplicationPresenter extends AbstractPresenter {
 
     private void onError(Method method, Throwable e) {
         errors.onError(method, e);
+    }
+
+    public void save(Translation translation) {
+        service.save(translation, new MethodCallback<Translation>() {
+            
+            @Override
+            public void onSuccess(Method method, Translation response) {
+                Application application = cache.getModel(response.getAppId());
+                application.updateTranslation(response);
+                view.reset(response);
+            }
+            
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+                onError(method, exception);
+            }
+        });
     }
 }

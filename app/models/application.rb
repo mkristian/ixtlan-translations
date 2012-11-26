@@ -9,21 +9,9 @@ end
 
 class Application < Ixtlan::UserManagement::Application
 
-#  include DataMapper::Resource
-
-#  property :id, Serial, :auto_validation => false
-
-#  property :name, String, :required => true, :unique => true, :length => 32
-#  property :url, String, :required => true, :format => /^https?\:\/\/[a-z0-9\-\.]+(\.[a-z0-9]+)*(\:[0-9]+)?(\/\S*)?$/, :length => 64, :lazy => true
-#  property :updated_at, DateTime, :required => true, :lazy => true
-
   has n, :translation_keys
   
   attr_accessor :locales, :domains
-  
-  # do not record timestamps since they are set from outside
-#  def set_timestamps_on_save
-#  end
 
   def self.get_or_create( params = {} )
     a = first( :id => params['id'], :fields => [:name, :url] )
@@ -36,9 +24,11 @@ class Application < Ixtlan::UserManagement::Application
   def rollback_keys
     translation_keys.all(:state => :new).destroy!
     translation_keys.reload # to reflect the deleted entries
+    #TODO bulk updates
     translation_keys.all(:state => :hidden).each do |k|
       k.update(:state => :ok)
     end
+    #TODO bulk updates
     translation_keys.all(:state => :restored).each do |k|
       k.update(:state => :deleted)
     end
@@ -46,9 +36,11 @@ class Application < Ixtlan::UserManagement::Application
   end
 
   def commit_keys
+    #TODO bulk updates
     translation_keys.all(:state => [:new, :restored]).each do |k|
       k.update(:state => :ok)
     end
+    #TODO bulk updates
     translation_keys.all(:state => :hidden).each do |k|
       k.update(:state => :deleted)
     end
@@ -56,8 +48,9 @@ class Application < Ixtlan::UserManagement::Application
   end
 
   def update_keys(keys)
-    # the update is idempotent
+    # the update is idempotent:
     # update_keys(set1) + update_keys(set2) = update_keys(set2)
+
     old = {:new => [], :ok => [], :hidden => [], :deleted => [], :restored => []}
     translation_keys.each do |k| 
       old[k.state] << k.name
@@ -93,7 +86,7 @@ class Application < Ixtlan::UserManagement::Application
       tk.save
     end
 
-    # all the deteled which are back are restored
+    # all the deleted which are back are restored
     (old[:deleted] & keys).each do |t|
       tk = translation_keys.first(:name => t)
       tk.state = :restored
@@ -103,13 +96,38 @@ class Application < Ixtlan::UserManagement::Application
     translation_keys.select { |tk| tk.state != :deleted }
   end
 
-  def translations_all(code = nil, from = nil)
+  def translations_all(from = nil)
     cond = {}
     cond[Translation.translation_key.application.id] = id
-    cond[Translation.locale.code] = code if code
     cond[:updated_at.gt] = from if from
     Translation.all(cond)
   end
+
+  def translations
+    cond = {}
+    cond[Translation.translation_key.application.id] = id
+    cond[Translation.translation_key.state.not] = :deleted
+    Translation.all(cond)
+  end
+
+  def keys
+    translation_keys.all(:state.not => :deleted, :fields => [:id,:name])
+  end
+
+  # def translations_complete(locale, domain = nil)
+  #   warn 'translation list for domains are not fully implemented' if domain
+  #   result = Translation.all(Translation.translation_key.application.id => self.id,Translation.translation_key.state.not => :deleted,
+  #                            :locale => locale, :domain => domain)
+  #   keys = result.collect { |t| t.translation_key.id }
+  #   # TODO if domain then collect translations of default domain
+  #   missing = TranslationKey.all( :id.not => keys, :state.not => :deleted ).collect do |k| 
+  #     Translation.new(:translation_key => k, 
+  #                     :locale => locale,
+  #                     :domain => domain,
+  #                     :text => k.name)
+  #   end
+  #   result + missing
+  # end
 
   def translation_new(params)
     locale_id = params.delete(:locale)[:id]
@@ -124,10 +142,48 @@ class Application < Ixtlan::UserManagement::Application
     t
   end
 
-  def translation_get!(key_id, locale_id, updated_at)
-    t = Translation.optimistic_get!(updated_at, key_id, locale_id)
-    if t.translation_key.application != self
+  def translation_get!(key, locale, domain, updated_at)
+    if key.application != self
       raise DataMapper::ObjectNotFoundError.new 
+    end
+    Translation.optimistic_get!(updated_at, key, locale, domain)
+  end
+
+  def translation_update!(key, locale, domain, updated_at, text, current_user)
+    if key.application != self
+      # app is not matching
+      raise DataMapper::ObjectNotFoundError.new 
+    end
+    
+    # get the translation unless stale or a new instance
+    begin
+      t = Translation.optimistic_get!(updated_at, key.id, locale.id, domain ? domain.id : nil)
+#TODO optimistic should raise stale and not-found errors respectively
+    rescue DataMapper::ObjectNotFound
+      #
+      #raise e if Translation.get(key.id, locale.id, domain ? domain.id : nil)
+    end
+p t
+    unless t
+      t = Translation.new(:translation_key => key, 
+                          :locale => locale, 
+                          :domain => domain)
+    end
+
+    # delete it if text is the default text
+    if t.translation_key.name == text
+      t.destroy!
+    else
+      if domain
+        default = Translation.get(key, locale, nil)
+        # delete it if text matches from default domain
+        t.destroy! if default && default.text == text
+      else
+        # save text
+        t.text = text
+        t.modified_by = current_user
+        t.save
+      end
     end
     t
   end

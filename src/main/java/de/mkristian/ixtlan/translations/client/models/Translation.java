@@ -1,6 +1,5 @@
 package de.mkristian.ixtlan.translations.client.models;
 
-
 import java.util.Date;
 
 import org.codehaus.jackson.annotate.JsonCreator;
@@ -16,38 +15,59 @@ public class Translation implements HasToDisplay, Identifyable {
 
   public final int id;
 
-  @Json(name = "created_at")
-  private final Date createdAt;
-
   @Json(name = "updated_at")
-  private final Date updatedAt;
+  private Date updatedAt;
 
   @Json(name = "modified_by")
-  private final User modifiedBy;
+  private User modifiedBy;
 
   private String text;
 
-  public Translation(){
-    this(0, null, null, null);
-  }
+  @Json(name = "translation_key_id")
+  private final int translationKeyId;
+
+  @Json(name = "locale_id")
+  private final int localeId;
+  
+  @Json(name = "domain_id")
+  private final int domainId;
+
+  @Json(name = "app_id")
+  private int appId;
+
+  transient private TranslationKey key;
   
   @JsonCreator
-  public Translation(@JsonProperty("id") int id, 
-          @JsonProperty("createdAt") Date createdAt, 
+  public Translation(@JsonProperty("translationKeyId") int translationKeyId, 
+          @JsonProperty("localeId") int localeId, 
+          @JsonProperty("domainId") int domainId, 
+          @JsonProperty("appId") int appId, 
           @JsonProperty("updatedAt") Date updatedAt,
           @JsonProperty("modifiedBy") User modifiedBy){
-    this.id = id;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.modifiedBy = modifiedBy;
+      // just to fulfil the identifyable interface
+      this.id = translationKeyId << 20 + domainId << 10 + localeId;
+      this.translationKeyId = translationKeyId;
+      this.localeId = localeId;
+      this.domainId = domainId;
+      this.appId = appId;
+      this.updatedAt = updatedAt;
+      this.modifiedBy = modifiedBy;
   }
 
   public int getId(){
     return id;
   }
 
-  public Date getCreatedAt(){
-    return createdAt;
+  public int getTranslationKeyId() {
+    return translationKeyId;
+  }
+
+  public int getLocaleId() {
+    return localeId;
+  }
+
+  public int getDomainId() {
+    return domainId;
   }
 
   public Date getUpdatedAt(){
@@ -65,6 +85,19 @@ public class Translation implements HasToDisplay, Identifyable {
   public void setText(String value){
     text = value;
   }
+//  
+//  public void setApplication(Application application){
+//      setAppId(application.getId());
+//  }
+//  
+//  public void setAppId(int appId){
+//      if (appId == 0)
+//      this.appId = appId;
+//  }
+  
+  public int getAppId(){
+      return appId;
+  }
 
   public int hashCode(){
     return id;
@@ -77,5 +110,22 @@ public class Translation implements HasToDisplay, Identifyable {
 
   public String toDisplay() {
     return text;
+  }
+
+  public void update(Translation trans) {
+      this.text = trans.text;
+      this.updatedAt = trans.getUpdatedAt();
+      this.modifiedBy = trans.getModifiedBy();
+  }
+
+  public TranslationKey getTranslationKey() {
+      return this.key;
+  }
+
+  public void setTranslationKey(TranslationKey key) {
+      if (key.id != translationKeyId){
+          throw new IllegalArgumentException("mismatch ids: key.id=" + key.id + " translationKeyId=" + translationKeyId );
+      }
+      this.key = key;
   }
 }

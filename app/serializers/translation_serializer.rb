@@ -11,13 +11,12 @@ class TranslationSerializer < Ixtlan::Babel::Serializer
                 :modified_by => {
                   :only => [:id, :login, :name]
                 }
-              }
+              },
+              :methods => [:app_id]
              )
 
   add_context(:collection,
               :root => 'translation',
               :except => [:created_at, :modified_by_id]
              )
-
-  default_context_key :single
 end

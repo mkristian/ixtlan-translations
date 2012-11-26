@@ -9,7 +9,7 @@ end
 
 class RemotePermission < Ixtlan::Remote::Permission
 
-  belongs_to :application, :unique => true
+  belongs_to :application
 
   timestamps :at
 

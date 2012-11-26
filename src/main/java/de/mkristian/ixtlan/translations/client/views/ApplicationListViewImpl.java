@@ -7,10 +7,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.mkristian.gwt.rails.places.RestfulActionEnum;
 import de.mkristian.gwt.rails.views.ModelButton;
 import de.mkristian.ixtlan.translations.client.models.Application;
-import de.mkristian.ixtlan.translations.client.presenters.ApplicationPresenter;
+import de.mkristian.ixtlan.translations.client.places.ApplicationPlace;
 
 @Singleton
 public class ApplicationListViewImpl extends Composite implements ApplicationListView {
@@ -32,18 +32,14 @@ public class ApplicationListViewImpl extends Composite implements ApplicationLis
 
     private static Binder BINDER = GWT.create(Binder.class);
 
-    private ApplicationPresenter presenter;
+    private final PlaceController places;
 
     @UiField FlexTable list;
 
     @Inject
-    public ApplicationListViewImpl() {
+    public ApplicationListViewImpl(PlaceController places) {
         initWidget(BINDER.createAndBindUi(this));
-    }
-
-    @Override
-    public void setPresenter(ApplicationPresenter presenter) {
-        this.presenter = presenter;
+        this.places = places;
     }
     
     private final ClickHandler clickHandler = new ClickHandler() {
@@ -51,9 +47,7 @@ public class ApplicationListViewImpl extends Composite implements ApplicationLis
         @SuppressWarnings("unchecked")
         public void onClick(ClickEvent event) {
             ModelButton<Application> button = (ModelButton<Application>)event.getSource();
-            switch(button.action){
-                case SHOW: presenter.show(button.model.id); break; 
-            }
+            places.goTo(new ApplicationPlace(button.model.getId(), button.action)); 
         }
     };
  
@@ -68,9 +62,7 @@ public class ApplicationListViewImpl extends Composite implements ApplicationLis
         list.removeAllRows();
         list.setText(0, 0, "Id");
         list.setText(0, 1, "Name");
-        list.setText(0, 2, "Url");
-        list.setText(0, 3, "Updated at");
-        list.getRowFormatter().addStyleName(0, "gwt-rails-model-list-header");
+        list.getRowFormatter().addStyleName(0, "gwt-rails-model-listButton-header");
         if (models != null) {
             int row = 1;
             for(Application model: models){
@@ -83,8 +75,6 @@ public class ApplicationListViewImpl extends Composite implements ApplicationLis
     private void setRow(int row, Application model) {
         list.setText(row, 0, model.getId() + "");
         list.setText(row, 1, model.getName() + "");
-        list.setText(row, 2, model.getUrl() + "");
-        list.setText(row, 3, model.getUpdatedAt() + "");
 
         list.setWidget(row, 4, newButton(SHOW, model));
     }

@@ -23,7 +23,7 @@ public class ApplicationActivity extends AbstractActivity {
     }
 
     public void start(AcceptsOneWidget display, EventBus eventBus) {
-        presenter.init(display, eventBus);
+        presenter.setDisplayAndEventBus(display, eventBus);
         switch(RestfulActionEnum.valueOf(place.action)){
             case SHOW:
                 presenter.show(place.id);

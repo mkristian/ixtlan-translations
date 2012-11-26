@@ -14,5 +14,4 @@ class SessionSerializer < Ixtlan::Babel::Serializer
               }
            )
 
-  default_context_key :single
 end

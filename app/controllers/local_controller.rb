@@ -29,18 +29,20 @@ class LocalController < ApplicationController
 
   protected
 
-  def current_user(user = nil)    if user
-      session['user'] = {'id' => user.id, 'groups' => user.groups}
+  def current_user(user = nil)  
+    if user
+      session['user'] = serializer(user).to_hash
       @_current_user = user
     else
       @_current_user ||= begin
                            data = session['user']
                            if data
+                             data = data.dup
                              u = User.get!(data['id'])
-                             u.groups = data['groups']
+                             u.groups = data['groups'].collect { |g| Group.new( g.dup ) }
                              u
                            end
-                         end            
+                         end
     end
   end
 end

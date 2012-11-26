@@ -21,26 +21,27 @@ public class TranslationEditor extends Composite implements Editor<Translation>{
     interface Binder extends UiBinder<Widget, TranslationEditor> {}
 
     private static final Binder BINDER = GWT.create(Binder.class);
-    
-    @Ignore @UiField FlowPanel signature;
 
-    @UiField public NumberLabel<Integer> id;
-    @UiField DateLabel createdAt;
+    @Ignore @UiField FlowPanel signature;
+    @UiField NumberLabel<Integer> translationKeyId;
+    @UiField NumberLabel<Integer> localeId;
+    @UiField NumberLabel<Integer> domainId;
+    @UiField NumberLabel<Integer> appId;
     @UiField DateLabel updatedAt;
     @UiField UserLabel<User> modifiedBy;
-
     @UiField TextBox text;
 
     public TranslationEditor() {
         initWidget(BINDER.createAndBindUi(this));
-    }
-
-    public void resetSignature() {
-        this.signature.setVisible(id.getValue() != null && id.getValue() > 0);
+        translationKeyId.setVisible(false);
+        localeId.setVisible(false);
+        domainId.setVisible(false);
+        appId.setVisible(false);
+        signature.setVisible(false);
     }
 
     public void setEnabled(boolean enabled) {
-        resetSignature();
         this.text.setEnabled(enabled);
+        this.signature.setVisible(this.updatedAt.getValue() != null);
     }
 }
