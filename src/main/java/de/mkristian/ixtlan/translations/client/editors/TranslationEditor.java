@@ -8,6 +8,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DateLabel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.NumberLabel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -29,6 +30,7 @@ public class TranslationEditor extends Composite implements Editor<Translation>{
     @UiField NumberLabel<Integer> appId;
     @UiField DateLabel updatedAt;
     @UiField UserLabel<User> modifiedBy;
+    @UiField Label key;
     @UiField TextBox text;
 
     public TranslationEditor() {

@@ -11,13 +11,13 @@ import de.mkristian.ixtlan.translations.client.presenters.ApplicationPresenter;
 @ImplementedBy(ApplicationViewImpl.class)
 public interface ApplicationView extends IsWidget {
 
-    void setPresenter(ApplicationPresenter presenter);//, TranslationViewImpl widget);
-
-    void show(Application model);
+    void setPresenter(ApplicationPresenter presenter);
 
     void reset(Application model);
 
     void edit(Translation model);
 
     void reset(Translation model);
+
+    void reset(Iterable<Translation> trans);
 }

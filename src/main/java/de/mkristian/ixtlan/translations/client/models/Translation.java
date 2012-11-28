@@ -83,7 +83,7 @@ public class Translation implements HasToDisplay, Identifyable {
   }
 
   public void setText(String value){
-    text = value;
+    text = value == null ? "" : value;
   }
 //  
 //  public void setApplication(Application application){
@@ -97,6 +97,10 @@ public class Translation implements HasToDisplay, Identifyable {
   
   public int getAppId(){
       return appId;
+  }
+
+  public String getKey(){
+      return key.getName();
   }
 
   public int hashCode(){

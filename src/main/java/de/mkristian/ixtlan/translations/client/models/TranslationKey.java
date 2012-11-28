@@ -9,6 +9,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.fusesource.restygwt.client.Json;
 import org.fusesource.restygwt.client.Json.Style;
 
+import com.google.gwt.core.client.GWT;
+
 import de.mkristian.gwt.rails.models.HasToDisplay;
 import de.mkristian.gwt.rails.models.Identifyable;
 
@@ -100,8 +102,15 @@ public class TranslationKey implements HasToDisplay, Identifyable {
               result = new Translation( id, locale.getId(), domain.getId(), 
                       application.id, null, null );
               result.setText( getName() );
+              translations.put(key( locale, domain ), result);
           }
+//          else {
+//              String text = result.getText();
+//              result = new Translation(id, locale.id, domain.id, application.id, null, null);
+//              result.setText(text);
+//          }
       }
+      GWT.log(result.getLocaleId() + " " + result.getDomainId() + " " + result.getText());
       result.setTranslationKey(this);
       return result;
   }

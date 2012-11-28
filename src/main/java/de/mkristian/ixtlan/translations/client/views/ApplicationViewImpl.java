@@ -1,7 +1,6 @@
 package de.mkristian.ixtlan.translations.client.views;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -9,14 +8,19 @@ import javax.inject.Singleton;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.mkristian.gwt.rails.places.RestfulActionEnum;
@@ -24,8 +28,9 @@ import de.mkristian.gwt.rails.views.ModelButton;
 import de.mkristian.ixtlan.translations.client.editors.ApplicationEditor;
 import de.mkristian.ixtlan.translations.client.editors.TranslationEditor;
 import de.mkristian.ixtlan.translations.client.models.Application;
+import de.mkristian.ixtlan.translations.client.models.Domain;
+import de.mkristian.ixtlan.translations.client.models.Locale;
 import de.mkristian.ixtlan.translations.client.models.Translation;
-import de.mkristian.ixtlan.translations.client.models.TranslationKey;
 import de.mkristian.ixtlan.translations.client.presenters.ApplicationPresenter;
 
 @Singleton
@@ -49,9 +54,16 @@ public class ApplicationViewImpl extends Composite implements ApplicationView {
   
   @UiField FlexTable list;
   
+  @UiField TextBox filter;
+  
+  @UiField ListBox locales;
+  
+  @UiField ListBox domains;
+  
   private final Button save = new Button("Save");
   
   private TranslationEditor tEditor = new TranslationEditor();
+  
   
   @Inject
   public ApplicationViewImpl() {
@@ -66,12 +78,6 @@ public class ApplicationViewImpl extends Composite implements ApplicationView {
       this.presenter = presenter;
   }
 
-  @Override
-  public void show(Application model){
-      reset(model);
-      editor.setEnabled(false);
-  }
-
   private final ClickHandler saveClickHandler = new ClickHandler() {
       
       public void onClick(ClickEvent event) {
@@ -83,52 +89,82 @@ public class ApplicationViewImpl extends Composite implements ApplicationView {
       
       @SuppressWarnings("unchecked")
       public void onClick(ClickEvent event) {
-          ModelButton<TranslationKey> button = (ModelButton<TranslationKey>)event.getSource();
+          ModelButton<Translation> button = (ModelButton<Translation>)event.getSource();
           switch(button.action){
               case EDIT: presenter.edit(button.model); break; 
           }
       }
   };
 
-  private Button newButton(RestfulActionEnum action, TranslationKey model){
-      ModelButton<TranslationKey> button = new ModelButton<TranslationKey>(action, model);
+  private Button newButton(RestfulActionEnum action, Translation model){
+      ModelButton<Translation> button = new ModelButton<Translation>(action, model);
       button.addClickHandler(clickHandler);
       return button;
   }
 
   private final Map<Integer, Integer> id2row = new HashMap<Integer, Integer>();
 
-  private TranslationKey current;
+  private Translation current;
   
-  private void setRow(int row, TranslationKey model) {
-      id2row.put(model.getId(), row);
-      list.setText(row, 0, model.getName() + "");
+  private void setRow(int row, Translation model) {
+      id2row.put(model.getTranslationKeyId(), row);
+      list.setText(row, 0, model.getText());
       list.setWidget(row, 1, newButton(RestfulActionEnum.EDIT, model));
   }
   
   @Override
   public void reset(Application model) {
       editorDriver.edit(model);
-      resetTranslationKeys(model.getTranslationKeys());
-  }
-  
-  public void resetTranslationKeys(List<TranslationKey> keys){
+      locales.clear();
+      for(Locale locale: model.getLocales()){
+          locales.addItem(locale.getCode(), locale.getId() + "");
+      }
+      domains.clear();
+      domains.addItem("DEFAULT", Domain.NONE.getId() + "");
+      for(Domain domain: model.getDomains()){
+          domains.addItem(domain.getName(), domain.getId() + "");
+      }
       list.clear();
       id2row.clear();
+  }
+  
+  @UiHandler({"locales", "domains"})
+  void changeHandler(ChangeEvent event){
+      presenter.filter(filter.getText(), localeId(), domainId());
+  }
+
+  @UiHandler({"filter"})
+  void keyUpHandler(KeyUpEvent event){
+      presenter.filter(filter.getText(), localeId(), domainId());
+  }
+  
+  @Override
+  public void reset(Iterable<Translation> trans){
       int row = 0;
-      for(TranslationKey key: keys){
-          setRow(row, key);
+      list.removeAllRows();
+      for(Translation t: trans){
+          setRow(row, t);
           row ++;
       }
+  }
+
+  private int localeId(){
+      int i = locales.getSelectedIndex();
+      return i > -1 ? Integer.parseInt(locales.getValue(i)) : 0;
+  }
+  
+  private int domainId(){
+      int i = domains.getSelectedIndex();
+      return i > -1 ? Integer.parseInt(domains.getValue(i)) : 0;
   }
   
   @Override
   public void edit(Translation translation){
       if (current != null){
-          setRow(id2row.get(current.getId()), current);
+          setRow(id2row.get(current.getTranslationKeyId()), current);
       }
-      current = translation.getTranslationKey();
-      int row = id2row.get(current.getId());
+      current = translation;
+      int row = id2row.get(current.getTranslationKeyId());
       list.setWidget(row, 0, tEditor);
       list.setWidget(row, 1, save);
       doReset(translation);
@@ -141,7 +177,7 @@ public class ApplicationViewImpl extends Composite implements ApplicationView {
   
   @Override
   public void reset(Translation model){
-      if (current != null && current.id == model.getTranslationKeyId()){
+      if (current != null && current.getTranslationKeyId() == model.getTranslationKeyId()){
           doReset(model);
       }
   }

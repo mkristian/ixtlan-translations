@@ -5,7 +5,12 @@
   xmlns:t="urn:import:de.mkristian.ixtlan.translations.client.editors">
 
   <g:FlowPanel styleName="gwt-rails-display translations-applications">
-
+    <g:FlowPanel>
+      <g:TextBox ui:field="filter"/>
+      <g:ListBox ui:field="locales"/>
+      <g:ListBox ui:field="domains"/>
+    </g:FlowPanel> 
+    
     <t:ApplicationEditor ui:field="editor" styleName="gwt-rails-model-editor" />
 
     <g:FlexTable ui:field="list"/>

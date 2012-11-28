@@ -76,6 +76,6 @@ public class ApplicationListViewImpl extends Composite implements ApplicationLis
         list.setText(row, 0, model.getId() + "");
         list.setText(row, 1, model.getName() + "");
 
-        list.setWidget(row, 4, newButton(SHOW, model));
+        list.setWidget(row, 2, newButton(SHOW, model));
     }
 }

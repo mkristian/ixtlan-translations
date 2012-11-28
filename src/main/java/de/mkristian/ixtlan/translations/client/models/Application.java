@@ -112,18 +112,43 @@ public class Application implements HasToDisplay, Identifyable {
     return name;
   }
 
-  public void updateTranslation(Translation trans) {
+  public Translation updateTranslation(Translation trans) {
       if (translations != null){
-      int index = translations.indexOf(trans);
-      if( index > -1){
-          GWT.log(translations.get(index)+"");
-          translations.get(index).update(trans);
+          int index = translations.indexOf(trans);
+          if( index > -1){
+              GWT.log(translations.get(index)+"");
+              Translation t = translations.get(index);
+              t.update(trans);
+              // in case it is a new translation
+              t.getTranslationKey().addTranslation(t);
+              return t;
+          }
       }
+      return trans;
+  }
+
+  public Domain detectDomain(int id) {
+      if( id == 0 ){
+          return Domain.NONE;
       }
-//      translationKeys.get(id2Key.get(trans.getTranslationKeyId()).
-//      index = translationKeys.indexOf(trans.getTranslationKeyId());
-//      if( index > -1){
-//          translationKeys.set(index, trans);
-//      }
+      for(Domain d: domains){
+          if (d.getId() == id){
+              return d;
+          }
+      }
+      return null;
+  }
+
+  public Locale detectLocale(int id) {
+      if(id == 0){
+          // can be null when list of locales was not set
+          return defaultLocale;
+      }
+      for(Locale l: locales){
+          if (l.getId() == id){
+              return l;
+          }
+      }
+      return null;
   }
 }

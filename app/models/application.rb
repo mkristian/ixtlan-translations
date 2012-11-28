@@ -157,13 +157,13 @@ class Application < Ixtlan::UserManagement::Application
     
     # get the translation unless stale or a new instance
     begin
-      t = Translation.optimistic_get!(updated_at, key.id, locale.id, domain ? domain.id : nil)
+      t = Translation.optimistic_get!(updated_at, key.id, locale.id, domain ? domain.id : nil) if updated_at
 #TODO optimistic should raise stale and not-found errors respectively
-    rescue DataMapper::ObjectNotFound
+    rescue DataMapper::ObjectNotFoundError
       #
       #raise e if Translation.get(key.id, locale.id, domain ? domain.id : nil)
     end
-p t
+
     unless t
       t = Translation.new(:translation_key => key, 
                           :locale => locale, 
@@ -173,6 +173,10 @@ p t
     # delete it if text is the default text
     if t.translation_key.name == text
       t.destroy!
+      t = Translation.new( :text => text, 
+                           :translation_key => t.translation_key,
+                           :locale => t.locale, 
+                           :domain => t.domain )
     else
       if domain
         default = Translation.get(key, locale, nil)

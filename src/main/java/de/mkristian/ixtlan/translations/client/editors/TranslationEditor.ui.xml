@@ -17,7 +17,7 @@
       <g:NumberLabel ui:field="localeId"/>
       <g:NumberLabel ui:field="domainId"/>    
       <g:NumberLabel ui:field="appId"/>
-      <label name="text">Text</label>
+      <g:Label ui:field="key"/>
       <g:TextBox ui:field="text"/>
     </g:HTMLPanel>
   </g:FlowPanel>

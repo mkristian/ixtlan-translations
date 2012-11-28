@@ -23,10 +23,4 @@ public class ApplicationEditor extends Composite implements Editor<Application>{
     public ApplicationEditor() {
         initWidget(BINDER.createAndBindUi(this));
     }
-
-    public void resetSignature() {
-    }
-
-    public void setEnabled(boolean enabled) {
-    }
 }
