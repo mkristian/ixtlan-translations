@@ -49,8 +49,10 @@ public class LoginPresenter implements LoginView.Presenter{
                 app.stopSession();
                 service.destroy(new MethodCallback<Void>() {
                     public void onSuccess(Method method, Void response) {
+                        sessionManager.purgeCaches();
                     }
                     public void onFailure(Method method, Throwable exception) {
+                        sessionManager.purgeCaches();
                     }
                 });
             }
