@@ -120,7 +120,7 @@ public class Application implements HasToDisplay, Identifyable {
               Translation t = translations.get(index);
               t.update(trans);
               // in case it is a new translation
-              t.getTranslationKey().addTranslation(t);
+//              t.getTranslationKey().addTranslation(t);
               return t;
           }
       }

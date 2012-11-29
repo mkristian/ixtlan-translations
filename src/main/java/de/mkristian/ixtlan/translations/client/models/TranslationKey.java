@@ -91,32 +91,35 @@ public class TranslationKey implements HasToDisplay, Identifyable {
    * @return
    */
   public Translation translation( Locale locale, Domain domain ){
+      Translation result = findTranslation(locale, domain);
+      if( domain != Domain.NONE ){
+          result.setDefaultText( findTranslation( locale, Domain.NONE ) );
+      }
+      if( ! locale.equals( application.getDefaultLocale() ) ){
+          result.setOriginalText( findTranslation( application.getDefaultLocale(), domain ) );
+      }
+      return result;
+  }
+
+  public Translation findTranslation( Locale locale, Domain domain ){
       Translation result = translations.get( key( locale, domain ) );
       if ( result == null ){
+          String text = null;
           if ( domain != Domain.NONE ){
-              result = translation( locale );
+              result = translations.get(key( locale, Domain.NONE));
+              if ( result != null ){
+                  text = result.getText();
+              }
           }
           if ( result == null ){
-              result = new Translation( id, locale.getId(), domain.getId(), 
-                      application.id, null, null );
-              result.setText( getName() );
-              translations.put(key( locale, domain ), result);
+              text = getName();
           }
+          result = new Translation( id, locale.getId(), domain.getId(), 
+                  application.id, null, null );
+          result.setText( text );
       }
       result.setTranslationKey(this);
       return result;
-  }
-  
-  private Translation translation( Locale locale ){
-      Translation result = translations.get(key( locale, Domain.NONE));
-      if ( result == null && !application.getDefaultLocale().equals( locale ) ) {
-          result = translation();
-      }
-      return result;
-  }
-  
-  private Translation translation(){
-      return translations.get( key( application.getDefaultLocale(), Domain.NONE ) );
   }
 
 }

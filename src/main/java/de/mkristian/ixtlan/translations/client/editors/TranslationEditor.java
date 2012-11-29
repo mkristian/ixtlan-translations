@@ -30,6 +30,8 @@ public class TranslationEditor extends Composite implements Editor<Translation>{
     @UiField NumberLabel<Integer> appId;
     @UiField DateLabel updatedAt;
     @UiField UserLabel<User> modifiedBy;
+    @UiField Label originalText;
+    @UiField Label defaultText;
     @UiField Label key;
     @UiField TextBox text;
 

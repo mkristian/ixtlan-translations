@@ -28,7 +28,7 @@ public class ApplicationRemoteModel extends RemoteModelAdapter<Application> {
     }
 
     @Override
-    protected Application newModel() {
+    public Application newModel() {
         return new Application();
     }
 
@@ -48,12 +48,12 @@ public class ApplicationRemoteModel extends RemoteModelAdapter<Application> {
     }
 
     @Override
-    protected void retrieveAll() {
+    public void retrieveAll() {
         restService.index(newRetrieveAllCallback());
     }
 
     @Override
-    protected void retrieve(int id) {
+    public void retrieve(int id) {
         restService.show(id, newRetrieveCallback());
     }
     

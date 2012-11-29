@@ -11,6 +11,7 @@ import org.fusesource.restygwt.client.MethodCallback;
 import de.mkristian.gwt.rails.caches.Cache;
 import de.mkristian.gwt.rails.places.RestfulAction;
 import de.mkristian.ixtlan.translations.client.TranslationsErrorHandler;
+import de.mkristian.ixtlan.translations.client.caches.ApplicationCache;
 import de.mkristian.ixtlan.translations.client.models.Application;
 import de.mkristian.ixtlan.translations.client.models.Translation;
 import de.mkristian.ixtlan.translations.client.restservices.ApplicationsRestService;
@@ -32,7 +33,7 @@ public class ApplicationPresenter extends AbstractPresenter {
     public ApplicationPresenter(TranslationsErrorHandler errors, 
             ApplicationView view, 
             ApplicationListView listView, 
-            Cache<Application> cache, 
+            ApplicationCache cache, 
             ApplicationsRestService service){
         super(errors);
         this.view = view;
@@ -71,7 +72,8 @@ public class ApplicationPresenter extends AbstractPresenter {
             public void onSuccess(Method method, Translation response) {
                 Application application = cache.getModel(response.getAppId());
                 Translation t = application.updateTranslation(response);
-                t.setTranslationKey(translation.getTranslationKey());
+                // take the original key and add the new or updated translation
+                translation.getTranslationKey().addTranslation(t);
                 view.reset(t);
             }
             

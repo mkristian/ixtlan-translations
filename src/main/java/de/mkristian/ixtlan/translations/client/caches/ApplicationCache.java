@@ -10,13 +10,11 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.GwtEvent.Type;
 
 import de.mkristian.gwt.rails.caches.AbstractPreemptiveCache;
-import de.mkristian.gwt.rails.caches.BrowserStore;
+import de.mkristian.gwt.rails.caches.BrowserOrMemoryStore;
 import de.mkristian.gwt.rails.caches.Store;
-import de.mkristian.gwt.rails.events.ModelEvent;
 import de.mkristian.gwt.rails.events.ModelEventHandler;
 import de.mkristian.ixtlan.translations.client.events.ApplicationEvent;
 import de.mkristian.ixtlan.translations.client.models.Application;
-import de.mkristian.ixtlan.translations.client.restservices.ApplicationsRestService;
 
 @Singleton
 public class ApplicationCache extends AbstractPreemptiveCache<Application>{
@@ -26,14 +24,12 @@ public class ApplicationCache extends AbstractPreemptiveCache<Application>{
     static Coder coder = GWT.create(Coder.class);
 
     private static Store<Application> store(){
-        return new BrowserStore<Application>( coder, "applications" );
+        return new BrowserOrMemoryStore<Application>( coder, "applications" );
     }
     
     @Inject
-    ApplicationCache( EventBus eventBus, ApplicationsRestService restService ) {
-        super( eventBus, 
-               store(),
-               new ApplicationRemoteModel( eventBus, restService ) );
+    ApplicationCache( EventBus eventBus, ApplicationRemoteModel remote ) {
+        super( eventBus, store(), remote );
     }
 
     @Override

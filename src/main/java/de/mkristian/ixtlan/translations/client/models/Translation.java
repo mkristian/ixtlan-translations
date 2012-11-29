@@ -36,6 +36,10 @@ public class Translation implements HasToDisplay, Identifyable {
   private int appId;
 
   transient private TranslationKey key;
+
+  transient private String defaultText;
+
+  transient private String originalText;
   
   @JsonCreator
   public Translation(@JsonProperty("translationKeyId") int translationKeyId, 
@@ -85,15 +89,6 @@ public class Translation implements HasToDisplay, Identifyable {
   public void setText(String value){
     text = value == null ? "" : value;
   }
-//  
-//  public void setApplication(Application application){
-//      setAppId(application.getId());
-//  }
-//  
-//  public void setAppId(int appId){
-//      if (appId == 0)
-//      this.appId = appId;
-//  }
   
   public int getAppId(){
       return appId;
@@ -131,5 +126,21 @@ public class Translation implements HasToDisplay, Identifyable {
           throw new IllegalArgumentException("mismatch ids: key.id=" + key.id + " translationKeyId=" + translationKeyId );
       }
       this.key = key;
+  }
+
+  public void setOriginalText(Translation translation) {
+      this.originalText = translation.getText();
+  }
+
+  public String getOriginalText() {
+      return originalText;
+  }
+
+  public void setDefaultText(Translation translation) {
+      this.defaultText = translation.getText();
+  }
+  
+  public String getDefaultText() {
+      return defaultText;
   }
 }

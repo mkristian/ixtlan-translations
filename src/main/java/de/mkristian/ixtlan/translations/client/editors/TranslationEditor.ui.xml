@@ -18,6 +18,8 @@
       <g:NumberLabel ui:field="domainId"/>    
       <g:NumberLabel ui:field="appId"/>
       <g:Label ui:field="key"/>
+      <g:Label ui:field="originalText"/>
+      <g:Label ui:field="defaultText"/>
       <g:TextBox ui:field="text"/>
     </g:HTMLPanel>
   </g:FlowPanel>
