@@ -9,15 +9,24 @@ unless u = User.get(1)
   u = User.new(:name => "System", :login => "system", :updated_at => DateTime.new(0))
   u.id = 1
   u.save
+  p u if u.valid?
 end
 
 unless a = Application.get(1)
   a = Application.create(:name => 'users', :url => 'http://localhost.localnet', :updated_at => DateTime.now)
+  p a if a.valid?
 end
 
 unless en = Locale.get(1)
   en = Locale.create(:code => 'en', :updated_at => DateTime.now)
+  p en if en.valid?
   de = Locale.create(:code => 'de', :updated_at => DateTime.now)
+  p de if de.valid?
+end
+
+unless test = Domain.get(1)
+  test = Domain.create(:name => 'test', :updated_at => DateTime.now)
+  p test if test.valid?
 end
 
 if defined? ::Configuration
@@ -33,5 +42,7 @@ if defined? ::Configuration
   end
   c.modified_by = u
   c.save
+  p c if c.valid?
 end
 
+puts 'seeding done'
