@@ -8,9 +8,9 @@ import javax.inject.Singleton;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
+import de.mkristian.gwt.rails.caches.Cache;
 import de.mkristian.gwt.rails.places.RestfulAction;
 import de.mkristian.ixtlan.translations.client.TranslationsErrorHandler;
-import de.mkristian.ixtlan.translations.client.caches.ApplicationCacheStore;
 import de.mkristian.ixtlan.translations.client.models.Application;
 import de.mkristian.ixtlan.translations.client.models.Translation;
 import de.mkristian.ixtlan.translations.client.restservices.ApplicationsRestService;
@@ -23,14 +23,17 @@ public class ApplicationPresenter extends AbstractPresenter {
 
     private final ApplicationView view;
     private final ApplicationListView listView;
-    private final ApplicationCacheStore cache;
+    private final Cache<Application> cache;
     private final ApplicationsRestService service;
 
     private final TranslationFilter filter = new TranslationFilter();
 
     @Inject
-    public ApplicationPresenter(TranslationsErrorHandler errors, ApplicationView view, ApplicationListView listView,
-            ApplicationCacheStore cache, ApplicationsRestService service){
+    public ApplicationPresenter(TranslationsErrorHandler errors, 
+            ApplicationView view, 
+            ApplicationListView listView, 
+            Cache<Application> cache, 
+            ApplicationsRestService service){
         super(errors);
         this.view = view;
         this.view.setPresenter(this);

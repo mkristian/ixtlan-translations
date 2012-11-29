@@ -2,6 +2,7 @@ package de.mkristian.ixtlan.translations.client.events;
 
 import java.util.List;
 
+import org.fusesource.restygwt.client.Method;
 
 import de.mkristian.gwt.rails.events.ModelEvent;
 import de.mkristian.gwt.rails.events.ModelEventHandler;
@@ -11,16 +12,16 @@ public class ApplicationEvent extends ModelEvent<Application> {
 
     public static final Type<ModelEventHandler<Application>> TYPE = new Type<ModelEventHandler<Application>>();
 
-    public ApplicationEvent(Throwable throwable){
-        super(throwable);
+    public ApplicationEvent(Method method, Throwable throwable){
+        super(method, throwable);
     }
 
-    public ApplicationEvent(Application model, ModelEvent.Action action) {
-        super(model, action);
+    public ApplicationEvent(Method method, Application model, ModelEvent.Action action) {
+        super(method, model, action);
     }
 
-    public ApplicationEvent(List<Application> models, ModelEvent.Action action) {
-        super(models, action);
+    public ApplicationEvent(Method method, List<Application> models, ModelEvent.Action action) {
+        super(method, models, action);
     }
 
     @Override
