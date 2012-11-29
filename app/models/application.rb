@@ -170,24 +170,39 @@ class Application < Ixtlan::UserManagement::Application
                           :domain => domain)
     end
 
-    # delete it if text is the default text
-    if t.translation_key.name == text
-      t.destroy!
-      t = Translation.new( :text => text, 
-                           :translation_key => t.translation_key,
-                           :locale => t.locale, 
-                           :domain => t.domain )
-    else
-      if domain
-        default = Translation.get(key, locale, nil)
-        # delete it if text matches from default domain
-        t.destroy! if default && default.text == text
+    is_virtual = false
+    if domain
+      default = Translation.get(key.id, locale.id, nil)
+      # delete it if text matches from default domain
+      if default
+        if default.text == text
+          t.destroy!
+          is_virtual = true
+        end
       else
-        # save text
-        t.text = text
-        t.modified_by = current_user
-        t.save
+        # delete it if text is the default text
+        if t.translation_key.name == text
+          t.destroy!
+          is_virtual = true
+        end
       end
+    else
+      # delete it if text is the default text
+      if t.translation_key.name == text
+        t.destroy!
+        is_virtual = true
+      end
+    end
+    if is_virtual
+        t = Translation.new( :text => text,
+                             :translation_key => t.translation_key,
+                             :locale => t.locale,
+                             :domain => t.domain )
+    else
+      # save text
+      t.text = text
+      t.modified_by = current_user
+      t.save
     end
     t
   end
