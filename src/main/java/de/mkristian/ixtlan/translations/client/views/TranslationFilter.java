@@ -3,8 +3,6 @@ package de.mkristian.ixtlan.translations.client.views;
 import java.util.Iterator;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
-
 import de.mkristian.ixtlan.translations.client.models.Application;
 import de.mkristian.ixtlan.translations.client.models.Domain;
 import de.mkristian.ixtlan.translations.client.models.Locale;
