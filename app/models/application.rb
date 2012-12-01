@@ -114,21 +114,6 @@ class Application < Ixtlan::UserManagement::Application
     translation_keys.all(:state.not => :deleted, :fields => [:id,:name])
   end
 
-  # def translations_complete(locale, domain = nil)
-  #   warn 'translation list for domains are not fully implemented' if domain
-  #   result = Translation.all(Translation.translation_key.application.id => self.id,Translation.translation_key.state.not => :deleted,
-  #                            :locale => locale, :domain => domain)
-  #   keys = result.collect { |t| t.translation_key.id }
-  #   # TODO if domain then collect translations of default domain
-  #   missing = TranslationKey.all( :id.not => keys, :state.not => :deleted ).collect do |k| 
-  #     Translation.new(:translation_key => k, 
-  #                     :locale => locale,
-  #                     :domain => domain,
-  #                     :text => k.name)
-  #   end
-  #   result + missing
-  # end
-
   def translation_new(params)
     locale_id = params.delete(:locale)[:id]
     key = TranslationKey.get!(params.delete(:translation_key)[:id])
@@ -170,30 +155,29 @@ class Application < Ixtlan::UserManagement::Application
                           :domain => domain)
     end
 
-    is_virtual = false
     if domain
       default = Translation.get(key.id, locale.id, nil)
       # delete it if text matches from default domain
       if default
         if default.text == text
           t.destroy!
-          is_virtual = true
+          t = nil
         end
       else
         # delete it if text is the default text
         if t.translation_key.name == text
           t.destroy!
-          is_virtual = true
+          t = nil
         end
       end
     else
       # delete it if text is the default text
       if t.translation_key.name == text
         t.destroy!
-        is_virtual = true
+        t = nil
       end
     end
-    if is_virtual
+    if t.nil?
         t = Translation.new( :text => text,
                              :translation_key => t.translation_key,
                              :locale => t.locale,

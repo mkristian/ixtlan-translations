@@ -34,7 +34,6 @@ class Group < Ixtlan::UserManagement::Group
 
   def application
     if name == 'translator'
-p self
       a = @application
       a.locales = self.locales
       a.domains = self.domains
