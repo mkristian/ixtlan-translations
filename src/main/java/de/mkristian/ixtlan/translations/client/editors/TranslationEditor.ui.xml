@@ -5,22 +5,40 @@
   xmlns:d="urn:import:com.google.gwt.user.datepicker.client"
   xmlns:r="urn:import:de.mkristian.gwt.rails.editors">
 
-  <g:FlowPanel>
-    <g:FlowPanel ui:field="signature">
+  <g:FlowPanel styleName="translations-editor">
+    <g:FlowPanel ui:field="signature" styleName="translations-signature">
       <g:Label>updated at: </g:Label>
       <g:DateLabel ui:field="updatedAt" predefinedFormat="DATE_TIME_MEDIUM" />
       <g:Label>modified by: </g:Label>
       <r:UserLabel ui:field="modifiedBy" />                
     </g:FlowPanel>
-    <g:HTMLPanel>
-      <g:NumberLabel ui:field="translationKeyId"/>
-      <g:NumberLabel ui:field="localeId"/>
-      <g:NumberLabel ui:field="domainId"/>    
-      <g:NumberLabel ui:field="appId"/>
-      <g:Label ui:field="key"/>
-      <g:Label ui:field="originalText"/>
-      <g:Label ui:field="defaultText"/>
-      <g:TextBox ui:field="text"/>
+    <g:HTMLPanel ui:field="noSignature" styleName="translations-signature">
+      <g:Label>no stored translation - use default</g:Label>
+    </g:HTMLPanel>
+    <g:NumberLabel ui:field="translationKeyId"/>
+    <g:NumberLabel ui:field="localeId"/>
+    <g:NumberLabel ui:field="domainId"/>    
+    <g:NumberLabel ui:field="appId"/>
+    <g:HTMLPanel ui:field="table" >
+    <table class="translations-table">
+      <tr class="translations-key">
+        <td class="translations-prefix"><g:Label>key:</g:Label></td>
+        <td><g:Label ui:field="key"/></td>
+      </tr>
+      <tr class="translations-original">
+        <td class="translations-prefix">original (<g:Label ui:field="defaultLocaleCode"/>,
+            <g:Label ui:field="domainName"/>):</td>
+        <td><g:Label ui:field="originalText"/></td>
+      </tr>
+      <tr class="translations-default">
+        <td class="translations-prefix">default (<g:Label ui:field="localeCode"/>):</td>
+        <td><g:Label ui:field="defaultText"/></td>
+      </tr>
+      <tr class="translations-text">
+        <td class="translations-prefix"><g:Label>text:</g:Label></td>
+        <td><g:TextBox ui:field="text" styleName="translations-text-box"/></td>
+      </tr>
+    </table>
     </g:HTMLPanel>
   </g:FlowPanel>
 

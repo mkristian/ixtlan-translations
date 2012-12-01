@@ -8,12 +8,15 @@ import javax.inject.Singleton;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
+import com.google.gwt.user.client.History;
+
 import de.mkristian.gwt.rails.caches.Cache;
 import de.mkristian.gwt.rails.places.RestfulAction;
 import de.mkristian.ixtlan.translations.client.TranslationsErrorHandler;
 import de.mkristian.ixtlan.translations.client.caches.ApplicationCache;
 import de.mkristian.ixtlan.translations.client.models.Application;
 import de.mkristian.ixtlan.translations.client.models.Translation;
+import de.mkristian.ixtlan.translations.client.models.TranslationKey;
 import de.mkristian.ixtlan.translations.client.restservices.ApplicationsRestService;
 import de.mkristian.ixtlan.translations.client.views.ApplicationListView;
 import de.mkristian.ixtlan.translations.client.views.ApplicationView;
@@ -52,9 +55,9 @@ public class ApplicationPresenter extends AbstractPresenter {
         view.edit(translation);
     }
     
-    public void show(int id){
+    public void show(int id, String query){
         setWidget(view);
-        reset(cache.getOrLoadModel(id));
+        reset( cache.getOrLoadModel(id), query );
     }
 
     public void unknownAction(RestfulAction action){
@@ -73,7 +76,12 @@ public class ApplicationPresenter extends AbstractPresenter {
                 Application application = cache.getModel(response.getAppId());
                 Translation t = application.updateTranslation(response);
                 // take the original key and add the new or updated translation
-                translation.getTranslationKey().addTranslation(t);
+                TranslationKey key = translation.getTranslationKey();
+                // make sure we also have translation added
+                key.addTranslation(t);
+                // for viewing we need to setup all dependent data first
+                t = key.findTranslation(application.detectLocale(t.getLocaleId()),
+                        application.detectDomain(t.getDomainId()));
                 view.reset(t);
             }
             
@@ -89,12 +97,22 @@ public class ApplicationPresenter extends AbstractPresenter {
         if( trans != null ){
             view.reset( trans );
         }
+        History.newItem(this.filter.toToken(), false);
+    }
+    
+    public void reset( Application app) {
+        reset( app, null );
     }
 
-    public void reset( Application app ) {
+    public void reset( Application app, String query ) {
         Iterable<Translation> trans = filter.setup( app );
+        if( query != null ){
+            trans = filter.reset(query);
+        }
         view.reset( app );
         if ( trans != null ){
+            view.reset(filter.getLocale(), filter.getDomain(), 
+                    filter.getFilter());
             view.reset( trans );
         }
     }

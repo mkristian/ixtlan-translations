@@ -69,11 +69,23 @@ public class Translation implements HasToDisplay, Identifyable {
   public int getLocaleId() {
     return localeId;
   }
+  
+  public String getLocaleCode() {
+      return key == null ? null : key.application().detectLocale(localeId).getCode();
+    }
+
+  public String getDefaultLocaleCode() {
+      return key == null ? null : key.application().getDefaultLocale().getCode();
+    }
 
   public int getDomainId() {
     return domainId;
   }
 
+  public String getDomainName() {
+      return key == null ? null : key.application().detectDomain(domainId).getName();
+  }
+  
   public Date getUpdatedAt(){
     return updatedAt;
   }

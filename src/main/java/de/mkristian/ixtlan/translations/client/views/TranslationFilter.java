@@ -3,14 +3,18 @@ package de.mkristian.ixtlan.translations.client.views;
 import java.util.Iterator;
 import java.util.List;
 
+import de.mkristian.gwt.rails.places.RestfulActionEnum;
 import de.mkristian.ixtlan.translations.client.models.Application;
 import de.mkristian.ixtlan.translations.client.models.Domain;
 import de.mkristian.ixtlan.translations.client.models.Locale;
 import de.mkristian.ixtlan.translations.client.models.Translation;
 import de.mkristian.ixtlan.translations.client.models.TranslationKey;
+import de.mkristian.ixtlan.translations.client.places.ApplicationPlace;
+import de.mkristian.ixtlan.translations.client.places.ApplicationPlaceTokenizer;
 
 public class TranslationFilter implements Iterator<Translation>, Iterable<Translation>{
 
+    private static final String SEPARATOR = "_";
     private Translation current = null;
     private Locale locale;
     private Domain domain;
@@ -18,6 +22,8 @@ public class TranslationFilter implements Iterator<Translation>, Iterable<Transl
     private Iterator<TranslationKey> iter;
     private String filter;
     private Application app;
+    
+    private final ApplicationPlaceTokenizer tokenizer = new ApplicationPlaceTokenizer();
     
     public Iterable<Translation> setup(Application app){
         if (app != null ){
@@ -35,7 +41,7 @@ public class TranslationFilter implements Iterator<Translation>, Iterable<Transl
         return null;
     }
     
-    public void doReset(String filter, int localeId, int domainId){
+    private void doReset(String filter, int localeId, int domainId){
          if( this.locale == null ||
                 this.domain == null ||
                 this.filter == null ||
@@ -46,6 +52,32 @@ public class TranslationFilter implements Iterator<Translation>, Iterable<Transl
              this.domain = app.detectDomain( domainId );
              this.filter = filter == null ? "" : filter;
          }
+    }
+
+    public String toToken(){
+        String query = filter + SEPARATOR + locale.id + SEPARATOR + domain.id;
+        return tokenizer.getToken( new ApplicationPlace( app, 
+                    RestfulActionEnum.SHOW, query ) );
+    }
+
+    public Iterable<Translation> reset(String query){
+        String[] parts = query.split(SEPARATOR);
+        int localeId;
+        try {
+            localeId = Integer.parseInt(parts[1]);
+        }
+        catch( NumberFormatException e ){
+            localeId = app.getDefaultLocale().id;
+        }
+        int domainId;
+        try {
+            domainId = Integer.parseInt(parts[2]);
+        }
+        catch( NumberFormatException e ){
+            domainId = Domain.NONE.id;
+        }
+        doReset(parts[0], localeId, domainId);
+        return reset();
     }
     
     public Iterable<Translation> reset(String filter, int localeId, int domainId){
@@ -66,7 +98,7 @@ public class TranslationFilter implements Iterator<Translation>, Iterable<Transl
 
     private Translation nextCurrent() {
         while(iter.hasNext()){
-            Translation t = iter.next().translation(locale, domain);
+            Translation t = iter.next().findTranslation(locale, domain);
             if (t.getText().contains(filter)){
                return t; 
             }
@@ -94,5 +126,17 @@ public class TranslationFilter implements Iterator<Translation>, Iterable<Transl
     @Override
     public Iterator<Translation> iterator() {
         return this;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public Domain getDomain() {
+        return domain;
+    }
+
+    public String getFilter() {
+        return filter;
     }
   }

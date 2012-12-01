@@ -1,16 +1,19 @@
 package de.mkristian.ixtlan.translations.client.places;
 
-import de.mkristian.gwt.rails.places.RestfulPlaceTokenizer;
+import de.mkristian.gwt.rails.places.QueryableRestfulPlaceTokenizer;
+import de.mkristian.gwt.rails.places.RestfulAction;
 
-public class ApplicationPlaceTokenizer extends RestfulPlaceTokenizer<ApplicationPlace> {
+public class ApplicationPlaceTokenizer extends QueryableRestfulPlaceTokenizer<ApplicationPlace> {
     
-    public ApplicationPlace getPlace(String token) {
-        Token t = toToken(token);
-        if(t.identifier == null){
-            return new ApplicationPlace(t.action);
-        }
-        else {
-            return new ApplicationPlace(t.id, t.action);
-        }
+    @Override
+    protected ApplicationPlace newRestfulPlace(RestfulAction action,
+            String query) {        
+        return new ApplicationPlace(action, query);
+    }
+
+    @Override
+    protected ApplicationPlace newRestfulPlace(int id, RestfulAction action,
+            String query) {
+        return new ApplicationPlace(id, action, query);
     }
 }

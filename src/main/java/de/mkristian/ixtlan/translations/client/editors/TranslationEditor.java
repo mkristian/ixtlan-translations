@@ -8,6 +8,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DateLabel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.NumberLabel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -24,6 +25,11 @@ public class TranslationEditor extends Composite implements Editor<Translation>{
     private static final Binder BINDER = GWT.create(Binder.class);
 
     @Ignore @UiField FlowPanel signature;
+    @Ignore @UiField HTMLPanel noSignature;
+    @Ignore @UiField HTMLPanel table;
+    @UiField Label defaultLocaleCode;
+    @UiField Label localeCode;
+    @UiField Label domainName;
     @UiField NumberLabel<Integer> translationKeyId;
     @UiField NumberLabel<Integer> localeId;
     @UiField NumberLabel<Integer> domainId;
@@ -47,5 +53,13 @@ public class TranslationEditor extends Composite implements Editor<Translation>{
     public void setEnabled(boolean enabled) {
         this.text.setEnabled(enabled);
         this.signature.setVisible(this.updatedAt.getValue() != null);
+        this.noSignature.setVisible(this.updatedAt.getValue() == null);
+        String name = "translations-" +
+                (originalText.getText().equals("") ? "without" : "with") +
+                "-original-" + 
+                (defaultText.getText().equals("")? "without" : "with" ) + 
+                "-default";
+        table.setStyleName(name);
     }
+    
 }

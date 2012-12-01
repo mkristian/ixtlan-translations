@@ -11,8 +11,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.fusesource.restygwt.client.Json;
 import org.fusesource.restygwt.client.Json.Style;
 
-import com.google.gwt.core.client.GWT;
-
 import de.mkristian.gwt.rails.models.HasToDisplay;
 import de.mkristian.gwt.rails.models.Identifyable;
 
@@ -116,11 +114,8 @@ public class Application implements HasToDisplay, Identifyable {
       if (translations != null){
           int index = translations.indexOf(trans);
           if( index > -1){
-              GWT.log(translations.get(index)+"");
               Translation t = translations.get(index);
               t.update(trans);
-              // in case it is a new translation
-//              t.getTranslationKey().addTranslation(t);
               return t;
           }
       }

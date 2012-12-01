@@ -84,24 +84,24 @@ public class TranslationKey implements HasToDisplay, Identifyable {
    * retrieve the translation, cascade:
    * <li>look for locale + domain</li>
    * <li>look for locale + Domain.NONE</li>
-   * <li>look for app.defaultLocale + Domain.NONE</li>
+   * <li>look for app.defaultLocale + domain</li>
    * <li>take the translation key as 'translation' (as gettext does)</li>
    * @param locale
    * @param domain
    * @return
    */
-  public Translation translation( Locale locale, Domain domain ){
-      Translation result = findTranslation(locale, domain);
+  public Translation findTranslation( Locale locale, Domain domain ){
+      Translation result = doFindTranslation(locale, domain);
       if( domain != Domain.NONE ){
-          result.setDefaultText( findTranslation( locale, Domain.NONE ) );
+          result.setDefaultText( doFindTranslation( locale, Domain.NONE ) );
       }
       if( ! locale.equals( application.getDefaultLocale() ) ){
-          result.setOriginalText( findTranslation( application.getDefaultLocale(), domain ) );
+          result.setOriginalText( doFindTranslation( application.getDefaultLocale(), domain ) );
       }
       return result;
   }
 
-  public Translation findTranslation( Locale locale, Domain domain ){
+  private Translation doFindTranslation( Locale locale, Domain domain ){
       Translation result = translations.get( key( locale, domain ) );
       if ( result == null ){
           String text = null;

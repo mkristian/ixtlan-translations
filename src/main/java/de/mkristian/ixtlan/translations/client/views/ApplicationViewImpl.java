@@ -128,6 +128,24 @@ public class ApplicationViewImpl extends Composite implements ApplicationView {
       id2row.clear();
   }
   
+  public void reset(Locale locale, Domain domain, String text){
+      String id = domain.getId() + "";
+      for(int i = 0;i < domains.getItemCount(); i++){
+          if (id.equals(domains.getValue(i))) {
+              domains.setSelectedIndex(i);
+              break;
+          }
+      }
+      id = locale.getId() + "";
+      for(int i = 0;i < locales.getItemCount(); i++){
+          if (id.equals(locales.getValue(i))) {
+              locales.setSelectedIndex(i);
+              break;
+          }
+      }
+      this.filter.setText(text);
+  }
+  
   @UiHandler({"locales", "domains"})
   void changeHandler(ChangeEvent event){
       presenter.filter(filter.getText(), localeId(), domainId());

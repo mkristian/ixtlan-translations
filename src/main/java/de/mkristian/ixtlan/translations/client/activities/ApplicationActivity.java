@@ -49,7 +49,7 @@ public class ApplicationActivity extends AbstractActivity {
         });
         switch(RestfulActionEnum.valueOf(place.action)){
             case SHOW:
-                presenter.show(place.id);
+                presenter.show(place.id, place.query);
                 break;
             case INDEX:
                 presenter.showAll();
