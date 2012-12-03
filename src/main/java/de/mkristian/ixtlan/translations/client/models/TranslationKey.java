@@ -57,11 +57,11 @@ public class TranslationKey implements HasToDisplay, Identifyable {
 
   transient private Application application;
 
-  private String key(Locale local, Domain domain) {
-      return key(local.id, domain.id);
+  private String key( Locale local, Domain domain ) {
+      return key( local == null ? 0 : local.id, domain.id );
     }
 
-  private String key(int localId, int domainId) {
+  private String key( int localId, int domainId ) {
       return localId + "|" + domainId;
   }
 

@@ -96,10 +96,15 @@ class Application < Ixtlan::UserManagement::Application
     translation_keys.select { |tk| tk.state != :deleted }
   end
 
-  def translations_all(from = nil)
+  def translations_all(committed = true, from = nil)
     cond = {}
     cond[Translation.translation_key.application.id] = id
     cond[:updated_at.gt] = from if from
+    if committed
+      cond[Translation.translation_key.state] = :ok
+    else
+      cond[Translation.translation_key.state] != :deleted
+    end
     Translation.all(cond)
   end
 

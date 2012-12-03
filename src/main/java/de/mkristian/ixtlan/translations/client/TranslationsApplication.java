@@ -53,14 +53,14 @@ public class TranslationsApplication extends Composite implements SessionApplica
     @Override
     public void startSession(User user) {
         ((BreadCrumbsPanel) this.header).initUser(user);
-        ((ApplicationLinksPanel) this.footer).initUser(user);
+        ((ApplicationLinksPanel) this.footer).initApplications(user.applications);
         this.navigation.setVisible(true);
     }
 
     @Override
     public void stopSession() {
         ((BreadCrumbsPanel) this.header).initUser(null);
-        ((ApplicationLinksPanel) this.footer).initUser(null);
+        ((ApplicationLinksPanel) this.footer).initApplications(null);
         this.navigation.setVisible(false);
     }
 }

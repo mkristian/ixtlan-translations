@@ -13,9 +13,10 @@ import org.fusesource.restygwt.client.Json.Style;
 
 import de.mkristian.gwt.rails.models.HasToDisplay;
 import de.mkristian.gwt.rails.models.Identifyable;
+import de.mkristian.gwt.rails.views.ExternalApplication;
 
 @Json(style = Style.RAILS)
-public class Application implements HasToDisplay, Identifyable {
+public class Application implements HasToDisplay, Identifyable, ExternalApplication {
 
   public final int id;
 

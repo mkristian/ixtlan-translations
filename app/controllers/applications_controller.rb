@@ -38,7 +38,7 @@ class ApplicationsController < LocalController
                                                   params[:text],
                                                   current_user)
 
-    respond_with(serializer(translation))
+    respond_with serializer( translation )
   end
 
   # POST /applications/1/remote_permission

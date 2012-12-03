@@ -72,5 +72,10 @@ group :test, :development do
   gem 'minitest-rails'
   gem 'factory_girl', '< 3.0.0'
 end
+
 gem 'ixtlan-remote', :path => '../../ixtlan/ixtlan-remote'
 gem 'rest-client', '1.6.7'
+
+group :production do
+  gem 'dm-postgres-adapter', DM_VERSION
+end
