@@ -1,3 +1,22 @@
+#
+# ixtlan_translations - webapp where you can manage translations of applications
+# Copyright (C) 2012 Christian Meier
+#
+# This file is part of ixtlan_translations.
+#
+# ixtlan_translations is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# ixtlan_translations is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with ixtlan_translations.  If not, see <http://www.gnu.org/licenses/>.
+#
 require 'ixtlan/user_management/application_resource'
 class Ixtlan::UserManagement::Application
 
@@ -58,7 +77,8 @@ class Application < Ixtlan::UserManagement::Application
 
     #create the ones which are missing
     (keys - (old[:new] | old[:ok] | old[:hidden] | old[:deleted] | old[:restored])).each do |t|
-      translation_keys.create(:name => t, :state => :new)
+      t = translation_keys.create(:name => t, :state => :new)
+      warn t.errors.inspect unless t.valid?
     end
     
     # delete the new entries which are gone now
@@ -144,57 +164,63 @@ class Application < Ixtlan::UserManagement::Application
       # app is not matching
       raise DataMapper::ObjectNotFoundError.new 
     end
-    
-    # get the translation unless stale or a new instance
-    begin
-      t = Translation.optimistic_get!(updated_at, key.id, locale.id, domain ? domain.id : nil) if updated_at
-#TODO optimistic should raise stale and not-found errors respectively
-    rescue DataMapper::ObjectNotFoundError
-      #
-      #raise e if Translation.get(key.id, locale.id, domain ? domain.id : nil)
-    end
 
-    unless t
-      t = Translation.new(:translation_key => key, 
-                          :locale => locale, 
-                          :domain => domain)
-    end
-
-    if domain
-      default = Translation.get(key.id, locale.id, nil)
-      # delete it if text matches from default domain
-      if default
-        if default.text == text
-          t.destroy!
-          t = nil
-        end
-      else
-        # delete it if text is the default text
-        if t.translation_key.name == text
-          t.destroy!
-          t = nil
-        end
-      end
-    else
-      # delete it if text is the default text
-      if t.translation_key.name == text
-        t.destroy!
-        t = nil
-      end
-    end
-    if t.nil?
-        t = Translation.new( :text => text,
-                             :translation_key => t.translation_key,
-                             :locale => t.locale,
-                             :domain => t.domain )
-    else
-      # save text
-      t.text = text
-      t.modified_by = current_user
-      t.save
-    end
+    t = Translation.update_or_virtual(key, locale, domain, text, updated_at)
+    t.modified_by = current_user
+    t.save
     t
   end
+
+#     # get the translation unless stale or a new instance
+#     begin
+#       t = Translation.optimistic_get!(updated_at, key.id, locale.id, domain ? domain.id : nil) if updated_at
+# #TODO optimistic should raise stale and not-found errors respectively
+#     rescue DataMapper::ObjectNotFoundError
+#       #
+#       #raise e if Translation.get(key.id, locale.id, domain ? domain.id : nil)
+#     end
+
+#     unless t
+#       t = Translation.new(:translation_key => key, 
+#                           :locale => locale, 
+#                           :domain => domain)
+#     end
+
+#     if domain
+#       default = Translation.get(key.id, locale.id, nil)
+#       # delete it if text matches from default domain
+#       if default
+#         if default.text == text
+#           t.destroy!
+#           t = nil
+#         end
+#       else
+#         # delete it if text is the default text
+#         if t.translation_key.name == text
+#           t.destroy!
+#           t = nil
+#         end
+#       end
+#     else
+#       # delete it if text is the default text
+#       if t.translation_key.name == text
+#         t.destroy!
+#         t = nil
+#       end
+#     end
+#     if t.nil?
+#         t = Translation.new( :text => text,
+#                              :translation_key => key,
+#                              :locale => locale,
+#                              :domain => domain )
+#     else
+#       # save text
+#       t.text = text
+#       t.modified_by = current_user
+#       t.save
+#     end
+#     t
+#   end
 
   def remote_permission_new(params)
     t = RemotePermission.new(params)
