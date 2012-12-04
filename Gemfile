@@ -79,3 +79,6 @@ gem 'rest-client', '1.6.7'
 group :production do
   gem 'dm-postgres-adapter', DM_VERSION
 end
+gem 'fast_gettext'
+
+gem 'copyright-header', :group => :development

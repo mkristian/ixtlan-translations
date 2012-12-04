@@ -70,6 +70,7 @@ GEM
     bcrypt-ruby (3.0.1-java)
     bouncy-castle-java (1.5.0146.1)
     builder (3.0.0)
+    copyright-header (1.0.5.1)
     data_objects (0.10.8)
       addressable (~> 2.1)
     dm-active_model (1.2.1)
@@ -130,6 +131,7 @@ GEM
     erubis (2.7.0)
     factory_girl (2.6.4)
       activesupport (>= 2.3.9)
+    fast_gettext (0.6.8)
     fastercsv (1.5.5)
     hike (1.2.1)
     i18n (0.6.0)
@@ -210,6 +212,7 @@ DEPENDENCIES
   activeresource (~> 3.2.6)
   activesupport (~> 3.2.6)
   backports
+  copyright-header
   dm-aggregates (~> 1.2.0)
   dm-constraints (~> 1.2.0)
   dm-migrations (~> 1.2.0)
@@ -222,6 +225,7 @@ DEPENDENCIES
   dm-types (~> 1.2.0)
   dm-validations (~> 1.2.0)
   factory_girl (< 3.0.0)
+  fast_gettext
   gwt-rails!
   ixtlan-babel!
   ixtlan-core!
