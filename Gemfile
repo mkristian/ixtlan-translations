@@ -65,7 +65,7 @@ gem "ixtlan-guard", :path => '../../ixtlan/ixtlan-guard'
 gem "jruby-openssl", "0.7.6.1", :platforms => :jruby
 
 gem 'virtus', '~> 0.5.0'
-gem 'backports'
+gem 'backports', :platform => :ruby_18
 
 group :test, :development do
   gem 'minitest'
@@ -74,6 +74,7 @@ group :test, :development do
 end
 
 gem 'ixtlan-remote', :path => '../../ixtlan/ixtlan-remote'
+gem 'ixtlan-gettext', :path => '../../ixtlan/ixtlan-gettext'
 gem 'rest-client', '1.6.7'
 
 group :production do
@@ -81,4 +82,4 @@ group :production do
 end
 gem 'fast_gettext'
 
-gem 'copyright-header', :group => :development
+gem 'copyright-header', '~> 1.0.7', :group => :development
