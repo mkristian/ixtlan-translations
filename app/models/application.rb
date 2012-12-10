@@ -91,9 +91,8 @@ class Application < Ixtlan::UserManagement::Application
   end
   private :update_state
 
+  # update_keys(set1) + update_keys(set2) = update_keys(set2)
   def update_keys( keys )
-    # update_keys(set1) + update_keys(set2) = update_keys(set2)
-
     old = create_keys_and_return_overview( keys )
 
     # delete the new entries which are gone now
@@ -102,18 +101,15 @@ class Application < Ixtlan::UserManagement::Application
 
     # hide the entries which shall be deleted on commit
     update_state( old[:ok] - keys, :hidden )
-#    translation_keys.all( :name => ( old[:ok] - keys ) ).update( :state => :hidden )
+
     # "delete" the restored entries which are not anymore
     update_state( old[:restored] - keys, :deleted )
-    #translation_keys.all( :name => ( old[:restored] - keys ) ).update( :state => :deleted )
 
     # unhide the entries which are back
     update_state( old[:hidden] & keys, :ok )
-    # translation_keys.all( :name => ( old[:hidden] & keys ) ).update( :state => :ok )
 
     # all the deleted which are back are restored
     update_state( old[:deleted] & keys, :restored )
-    #translation_keys.all( :name => ( old[:deleted] & keys ) ).update( :state => :restored )
 
     translation_keys.select { |tk| tk.state != :deleted }
   end
