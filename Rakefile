@@ -34,37 +34,17 @@ task :headers do
   require 'rubygems'
   require 'copyright_header'
 
-  args = { '--license' => 'AGPL3', 
-    '--copyright-software' => 'ixtlan_translations',
-    '--copyright-software-description' => 'webapp where you can manage translations of applications',
-    '--copyright-holder' => 'Christian Meier',
-    '--copyright-year' => '2012',
-    '--add-path' => 'lib',
-    '--output-dir' => '.' 
+  args = {
+    :license => 'AGPL3',
+    :copyright_software => 'ixtlan_translations',
+    :copyright_software_description => 'webapp where you can manage translations of applications',
+    :copyright_holders => ['Christian Meier'],
+    :copyright_years => [Time.now.year],
+    :add_path => ['lib', 'app', 'src', 'config', 'db/seeds.rb'].join( File::PATH_SEPARATOR ),
+    :output_dir => './'
   }
 
-  ARGV.replace( args.to_a.flatten )
-  command_line = CopyrightHeader::CommandLine.new
-  command_line.execute
-
-  args['--add-path'] = 'src'
-  ARGV.replace( args.to_a.flatten )
-  command_line = CopyrightHeader::CommandLine.new
-  command_line.execute
-
-  args['--add-path'] = 'app'
-  ARGV.replace( args.to_a.flatten )
-  command_line = CopyrightHeader::CommandLine.new
-  command_line.execute
-
-  args['--add-path'] = 'config'
-  ARGV.replace( args.to_a.flatten )
-  command_line = CopyrightHeader::CommandLine.new
-  command_line.execute
-
-  args['--add-path'] = 'db/seeds.rb'
-  ARGV.replace( args.to_a.flatten )
-  command_line = CopyrightHeader::CommandLine.new
+  command_line = CopyrightHeader::CommandLine.new( args )
   command_line.execute
 end
 

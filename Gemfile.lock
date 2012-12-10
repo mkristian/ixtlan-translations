@@ -219,7 +219,7 @@ DEPENDENCIES
   activeresource (~> 3.2.6)
   activesupport (~> 3.2.6)
   backports
-  copyright-header (~> 1.0.5)
+  copyright-header (~> 1.0.7)
   dm-aggregates (~> 1.2.0)
   dm-constraints (~> 1.2.0)
   dm-migrations (~> 1.2.0)
