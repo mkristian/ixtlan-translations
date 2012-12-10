@@ -25,8 +25,8 @@ describe User do
   end
 
   it 'must calculate the allowed application with locales' do
-    subject.allowed_translate_applications.size.must_equal 1
-    a = subject.allowed_translate_applications[0]
+    subject.allowed_applications.size.must_equal 1
+    a = subject.allowed_applications[0]
     a.locales.must_equal Locale.all(:limit => 2)
     a.must_equal Application.first
   end

@@ -40,7 +40,7 @@ describe TranslationKeysController do
     end
 
     it 'update' do
-      put :update, :keys => ['key1','extra1','extra2'], :format => :json
+      put :update, :translation_keys => ['key1','extra1','extra2'], :format => :json
     end
 
     it 'commit' do
@@ -54,13 +54,13 @@ describe TranslationKeysController do
     after do
       body = JSON.parse(response.body)
       body.empty?.must_equal false
-      #puts body.to_yaml
+     # puts body.to_yaml
       body.each do |item|
         translation = item["translation_key"]
         translation.size.must_equal 3
         translation['id'].wont_be_nil
         translation['name'].wont_be_nil
-        translation['state'].wont_be_nil
+        translation['updated_at'].wont_be_nil
       end
     end
   end

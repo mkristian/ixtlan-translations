@@ -20,7 +20,7 @@ describe Group do
     end
 
     it 'must calculate the application of translator with locales' do
-      a = subject.application_of_translator
+      a = subject.application
       a.locales.must_equal Locale.all(:limit => 1)
       a.must_equal Application.first
     end
@@ -41,7 +41,7 @@ describe Group do
     end
 
     it 'must calculate no application' do
-      subject.application_of_translator.must_be_nil
+      subject.application.must_be_nil
     end
   end
 
