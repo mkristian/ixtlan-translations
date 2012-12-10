@@ -38,20 +38,16 @@ class Translation
   def self.update_or_virtual(key, locale, domain, text, updated_at = nil)
     # get the translation unless stale
     t = if updated_at
-          optimistic_get!(updated_at, 
-                          key.id, 
-                          locale.id, 
-                          domain ? domain.id : nil)
+          optimistic_get!( updated_at, 
+                           key.id, 
+                           locale.id, 
+                           domain ? domain.id : nil )
         else
-          get(key.id, locale.id, domain ? domain.id : nil)
+          #  or a create new instance
+          new( :translation_key => key, 
+               :locale => locale, 
+               :domain => domain )
         end
-
-    #  or a create new instance
-    unless t
-      t = new(:translation_key => key, 
-              :locale => locale, 
-              :domain => domain)
-    end
 
     # check if the 'text' has a default value, if so delete the existing entry
     if domain
