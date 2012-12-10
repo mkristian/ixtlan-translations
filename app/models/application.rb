@@ -40,29 +40,25 @@ class Application < Ixtlan::UserManagement::Application
     a
   end
 
+  def update_state( from, to )
+    #TODO bulk updates
+    translation_keys.all(:state => from).each do |k|
+      k.update(:state => to)
+    end
+  end
+  private :update_state
+
   def rollback_keys
     translation_keys.all(:state => :new).destroy!
     translation_keys.reload # to reflect the deleted entries
-    #TODO bulk updates
-    translation_keys.all(:state => :hidden).each do |k|
-      k.update(:state => :ok)
-    end
-    #TODO bulk updates
-    translation_keys.all(:state => :restored).each do |k|
-      k.update(:state => :deleted)
-    end
+    update_state( :hidden, :ok )
+    update_state( :restored, :deleted )
     translation_keys.select { |tk| tk.state != :deleted }
   end
 
   def commit_keys
-    #TODO bulk updates
-    translation_keys.all(:state => [:new, :restored]).each do |k|
-      k.update(:state => :ok)
-    end
-    #TODO bulk updates
-    translation_keys.all(:state => :hidden).each do |k|
-      k.update(:state => :deleted)
-    end
+    update_state( [:new, :restored], :ok )
+    update_state( :hidden, :deleted )
     translation_keys.select { |tk| tk.state != :deleted }
   end
 
@@ -70,62 +66,52 @@ class Application < Ixtlan::UserManagement::Application
     # the update is idempotent:
     # update_keys(set1) + update_keys(set2) = update_keys(set2)
 
-    old = {:new => [], :ok => [], :hidden => [], :deleted => [], :restored => []}
+    old = { :new => [],
+      :ok => [],
+      :hidden => [],
+      :deleted => [],
+      :restored => [] }
+    all = []
+
     translation_keys.each do |k| 
       old[k.state] << k.name
+      all << k.name
     end
+    all.uniq!
 
     #create the ones which are missing
-    (keys - (old[:new] | old[:ok] | old[:hidden] | old[:deleted] | old[:restored])).each do |t|
+    (keys - all).each do |t|
       t = translation_keys.create(:name => t, :state => :new)
       warn t.errors.inspect unless t.valid?
     end
     
     # delete the new entries which are gone now
-    translation_keys.all(:name => (old[:new] - keys)).destroy!
+    translation_keys.all( :name => ( old[:new] - keys ) ).destroy!
     translation_keys.reload # to reflect the deleted entries
 
     # hide the entries which shall be deleted on commit
-    (old[:ok] - keys).each do |t|
-      tk = translation_keys.first(:name => t)
-      tk.state = :hidden
-      tk.save
-    end
-
+    translation_keys.all( :name => ( old[:ok] - keys ) ).update( :state => :hidden )
     # "delete" the restored entries which are not anymore
-    (old[:restored] - keys).each do |t|
-      tk = translation_keys.first(:name => t)
-      tk.state = :deleted
-      tk.save
-    end
+    translation_keys.all( :name => ( old[:restored] - keys ) ).update( :state => :deleted )
 
     # unhide the entries which are back
-    (old[:hidden] & keys).each do |t|
-      tk = translation_keys.first(:name => t)
-      tk.state = :ok
-      tk.save
-    end
+    translation_keys.all( :name => ( old[:hidden] & keys ) ).update( :state => :ok )
 
     # all the deleted which are back are restored
-    (old[:deleted] & keys).each do |t|
-      tk = translation_keys.first(:name => t)
-      tk.state = :restored
-      tk.save
-    end
+    translation_keys.all( :name => ( old[:deleted] & keys ) ).update( :state => :restored )
 
     translation_keys.select { |tk| tk.state != :deleted }
   end
 
   def translations_all(committed = true, from = nil)
     cond = {}
-    cond[Translation.translation_key.application.id] = id
     cond[:updated_at.gt] = from if from
     if committed
       cond[Translation.translation_key.state] = :ok
     else
-      cond[Translation.translation_key.state] != :deleted
+      cond[Translation.translation_key.state.not] = :deleted
     end
-    Translation.all(cond)
+    translations.all(cond)
   end
 
   def translations
@@ -139,26 +125,6 @@ class Application < Ixtlan::UserManagement::Application
     translation_keys.all(:state.not => :deleted, :fields => [:id,:name])
   end
 
-  def translation_new(params)
-    locale_id = params.delete(:locale)[:id]
-    key = TranslationKey.get!(params.delete(:translation_key)[:id])
-    if key.application != self
-      raise DataMapper::ObjectNotFoundError.new 
-    end
-    locale = Locale.get!(locale_id)
-    t = Translation.new(params)
-    t.locale = locale
-    t.translation_key = key
-    t
-  end
-
-  def translation_get!(key, locale, domain, updated_at)
-    if key.application != self
-      raise DataMapper::ObjectNotFoundError.new 
-    end
-    Translation.optimistic_get!(updated_at, key, locale, domain)
-  end
-
   def translation_update!(key, locale, domain, updated_at, text, current_user)
     if key.application != self
       # app is not matching
@@ -170,57 +136,6 @@ class Application < Ixtlan::UserManagement::Application
     t.save
     t
   end
-
-#     # get the translation unless stale or a new instance
-#     begin
-#       t = Translation.optimistic_get!(updated_at, key.id, locale.id, domain ? domain.id : nil) if updated_at
-# #TODO optimistic should raise stale and not-found errors respectively
-#     rescue DataMapper::ObjectNotFoundError
-#       #
-#       #raise e if Translation.get(key.id, locale.id, domain ? domain.id : nil)
-#     end
-
-#     unless t
-#       t = Translation.new(:translation_key => key, 
-#                           :locale => locale, 
-#                           :domain => domain)
-#     end
-
-#     if domain
-#       default = Translation.get(key.id, locale.id, nil)
-#       # delete it if text matches from default domain
-#       if default
-#         if default.text == text
-#           t.destroy!
-#           t = nil
-#         end
-#       else
-#         # delete it if text is the default text
-#         if t.translation_key.name == text
-#           t.destroy!
-#           t = nil
-#         end
-#       end
-#     else
-#       # delete it if text is the default text
-#       if t.translation_key.name == text
-#         t.destroy!
-#         t = nil
-#       end
-#     end
-#     if t.nil?
-#         t = Translation.new( :text => text,
-#                              :translation_key => key,
-#                              :locale => locale,
-#                              :domain => domain )
-#     else
-#       # save text
-#       t.text = text
-#       t.modified_by = current_user
-#       t.save
-#     end
-#     t
-#   end
 
   def remote_permission_new(params)
     t = RemotePermission.new(params)
