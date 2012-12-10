@@ -40,25 +40,25 @@ class Application < Ixtlan::UserManagement::Application
     a
   end
 
-  def update_state( from, to )
+  def transit_state( from, to )
     #TODO bulk updates
     translation_keys.all(:state => from).each do |k|
       k.update(:state => to)
     end
   end
-  private :update_state
+  private :transit_state
 
   def rollback_keys
     translation_keys.all(:state => :new).destroy!
     translation_keys.reload # to reflect the deleted entries
-    update_state( :hidden, :ok )
-    update_state( :restored, :deleted )
+    transit_state( :hidden, :ok )
+    transit_state( :restored, :deleted )
     translation_keys.select { |tk| tk.state != :deleted }
   end
 
   def commit_keys
-    update_state( [:new, :restored], :ok )
-    update_state( :hidden, :deleted )
+    transit_state( [:new, :restored], :ok )
+    transit_state( :hidden, :deleted )
     translation_keys.select { |tk| tk.state != :deleted }
   end
 
@@ -86,6 +86,11 @@ class Application < Ixtlan::UserManagement::Application
   end
   private :create_keys_and_return_overview
 
+  def update_state( names, new )
+    translation_keys.all( :name => names ).update( :state => new )
+  end
+  private :update_state
+
   def update_keys( keys )
     # update_keys(set1) + update_keys(set2) = update_keys(set2)
 
@@ -96,15 +101,19 @@ class Application < Ixtlan::UserManagement::Application
     translation_keys.reload # to reflect the deleted entries
 
     # hide the entries which shall be deleted on commit
-    translation_keys.all( :name => ( old[:ok] - keys ) ).update( :state => :hidden )
+    update_state( old[:ok] - keys, :hidden )
+#    translation_keys.all( :name => ( old[:ok] - keys ) ).update( :state => :hidden )
     # "delete" the restored entries which are not anymore
-    translation_keys.all( :name => ( old[:restored] - keys ) ).update( :state => :deleted )
+    update_state( old[:restored] - keys, :deleted )
+    #translation_keys.all( :name => ( old[:restored] - keys ) ).update( :state => :deleted )
 
     # unhide the entries which are back
-    translation_keys.all( :name => ( old[:hidden] & keys ) ).update( :state => :ok )
+    update_state( old[:hidden] & keys, :ok )
+    # translation_keys.all( :name => ( old[:hidden] & keys ) ).update( :state => :ok )
 
     # all the deleted which are back are restored
-    translation_keys.all( :name => ( old[:deleted] & keys ) ).update( :state => :restored )
+    update_state( old[:deleted] & keys, :restored )
+    #translation_keys.all( :name => ( old[:deleted] & keys ) ).update( :state => :restored )
 
     translation_keys.select { |tk| tk.state != :deleted }
   end
