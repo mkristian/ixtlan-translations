@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
-RAILS_VERSION = '~> 3.2.6'
+RAILS_VERSION = '~> 3.2.9'
 DM_VERSION    = '~> 1.2.0'
 
 gem 'activesupport',  RAILS_VERSION, :require => 'active_support'
 gem 'actionpack',     RAILS_VERSION, :require => 'action_pack'
 gem 'actionmailer',   RAILS_VERSION, :require => 'action_mailer'
-gem 'activeresource', RAILS_VERSION, :require => 'active_resource'
+#gem 'activeresource', RAILS_VERSION, :require => 'active_resource'
 gem 'railties',       RAILS_VERSION, :require => 'rails'
 gem 'tzinfo',         '~> 0.3.32'
 
@@ -65,7 +65,7 @@ gem "ixtlan-guard", :path => '../../ixtlan/ixtlan-guard'
 gem "jruby-openssl", "0.7.6.1", :platforms => :jruby
 
 gem 'virtus', '~> 0.5.0'
-gem 'backports', :platform => :ruby_18
+gem 'backports', :platforms => :ruby_18
 
 group :test, :development do
   gem 'minitest'
