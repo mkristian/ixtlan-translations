@@ -17,6 +17,10 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with ixtlan_translations.  If not, see <http://www.gnu.org/licenses/>.
 #
+ENV['TZ'] = 'UTC'
+if defined? JRUBY_VERSION
+  org.joda.time.DateTimeZone.setDefault(org.joda.time.DateTimeZone.forID('UTC'))
+end
 require File.expand_path('../boot', __FILE__)
 
 # Pick the frameworks you want:
