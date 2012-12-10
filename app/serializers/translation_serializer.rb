@@ -23,8 +23,9 @@ class TranslationSerializer < Ixtlan::Babel::Serializer
 
   model Translation
 
+  root 'translation'
+
   add_context(:single,
-              :root => 'translation',
               :except => [:modified_by_id],
               :include => {
                 :modified_by => {
@@ -35,7 +36,6 @@ class TranslationSerializer < Ixtlan::Babel::Serializer
              )
 
   add_context(:collection,
-              :root => 'translation',
               :except => [:created_at, :modified_by_id]
              )
 end

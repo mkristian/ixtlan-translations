@@ -23,8 +23,9 @@ class ApplicationSerializer < Ixtlan::Babel::Serializer
 
   model Application
 
+  root 'application'
+
   add_context(:single,
-              :root => 'application',
               :only => [:id, :name],
               :include => {
                 :locales => {
@@ -49,7 +50,6 @@ class ApplicationSerializer < Ixtlan::Babel::Serializer
              )
 
   add_context(:collection,
-              :root => 'application',
               :only => [:id, :name]
              )
 end
