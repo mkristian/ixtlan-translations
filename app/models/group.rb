@@ -26,20 +26,22 @@ class Group < Ixtlan::UserManagement::Group
 
   def initialize(attributes = {})
     updater = Updater.new
-    assos = attributes.delete('locales') || []
-    ids = assos.collect { |a| a['id'].to_i }
-    self.locales = Locale.all.select { |r| ids.include? r.id }
-    if self.locales.size != assos.size
-      updater.do_it Locale
-      self.locales = Locale.all.select { |r| ids.include? r.id }
-    end
-    assos = attributes.delete('domains') || []
-    ids = assos.collect { |a| a['id'].to_i }
-    self.domains = Domain.all.select { |r| ids.include? r.id }
-    if self.domains.size != assos.size
-      updater.do_it Domain
-      self.domains = Domain.all.select { |r| ids.include? r.id }
-    end
+    self.locales = setup( Locale, attributes.delete( 'locales' ) )
+    # assos = attributes.delete('locales') || []
+    # ids = assos.collect { |a| a['id'].to_i }
+    # self.locales = Locale.all.select { |r| ids.include? r.id }
+    # if self.locales.size != assos.size
+    #   updater.do_it Locale
+    #   self.locales = Locale.all.select { |r| ids.include? r.id }
+    # end
+    self.domains = setup( Domain, attributes.delete( 'domains' ) )
+    # assos = attributes.delete('domains') || []
+    # ids = assos.collect { |a| a['id'].to_i }
+    # self.domains = Domain.all.select { |r| ids.include? r.id }
+    # if self.domains.size != assos.size
+    #   updater.do_it Domain
+    #   self.domains = Domain.all.select { |r| ids.include? r.id }
+    # end
     app = attributes.delete('application')
     if app
       @application = Application.get( app['id'] )
@@ -50,6 +52,18 @@ class Group < Ixtlan::UserManagement::Group
     end
     super
   end
+
+  def setup( model, assos )
+    assos ||= []
+    ids = assos.collect { |a| a['id'].to_i }
+    result = model.all.select { |r| ids.include? r.id }
+    if result.size != assos.size
+      updater.do_it model
+      result = model.all.select { |r| ids.include? r.id }
+    end
+    result
+  end
+  private :setup
 
   def application
     if name == 'translator'

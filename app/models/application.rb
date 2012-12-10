@@ -62,10 +62,7 @@ class Application < Ixtlan::UserManagement::Application
     translation_keys.select { |tk| tk.state != :deleted }
   end
 
-  def update_keys(keys)
-    # the update is idempotent:
-    # update_keys(set1) + update_keys(set2) = update_keys(set2)
-
+  def create_keys_and_return_overview( keys )
     old = { :new => [],
       :ok => [],
       :hidden => [],
@@ -85,6 +82,15 @@ class Application < Ixtlan::UserManagement::Application
       warn t.errors.inspect unless t.valid?
     end
     
+    old
+  end
+  private :create_keys_and_return_overview
+
+  def update_keys( keys )
+    # update_keys(set1) + update_keys(set2) = update_keys(set2)
+
+    old = create_keys_and_return_overview( keys )
+
     # delete the new entries which are gone now
     translation_keys.all( :name => ( old[:new] - keys ) ).destroy!
     translation_keys.reload # to reflect the deleted entries
