@@ -98,7 +98,7 @@ these config file is used to setup the rest resource in [config/initializers/rem
 API Server
 ==========
 
-ths application is meant to be an API server for other application using gettext translations. see [wiki/API](API).
+ths application is meant to be an API server for other application using gettext translations. see [API on the wiki](wiki/API).
 
 Contributing
 ------------
