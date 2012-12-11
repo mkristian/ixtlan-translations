@@ -7,7 +7,7 @@ describe Application do
 
   let(:key1) { TranslationKey.first( :application => subject )  }
   let(:key2) { TranslationKey.first( :application => Application.last ) }
-  let(:key3) { TranslationKey.first_or_create( :name => 'key new', :application => subject, :updated_at => DateTime.now ) }
+  let(:key3) { TranslationKey.first_or_create( :name => 'key new', :application => subject ) }
 
   let(:translation1) { Translation.first( :translation_key => key1 ) }  
   let(:translation2) { Translation.first( :translation_key => key2 ) }
@@ -16,14 +16,13 @@ describe Application do
   let(:remote_permission2) { RemotePermission.first :offset => 1 }
 
   before do
-    key3.state = :new
-    key3.save
-    TranslationKey.all(:name.like => 'extra%').destroy!
-    Translation.all(:text.like => 'hello%').destroy!
-  end
-
-  after do
-    key3.destroy!
+    if key3.new?
+      key3.state = :new
+      key3.updated_at = DateTime.now
+      key3.save
+    end
+    TranslationKey.all(:name.not => [key1.name, key2.name, key3.name]).destroy!
+    Translation.all(:text => 'hello').destroy!
   end
 
   it 'must exist' do
@@ -71,19 +70,48 @@ describe Application do
   end
 
   it 'must retrieve all translations from application' do
-    key3.update( :state => :new )
-    translation1.translation_key.update( :state => :ok )
+    TranslationKey.all(:name.like => "key_").update(:state => :ok)
+    TranslationKey.all(:name => "key new").update(:state => :new)
+
     t = subject.translations_all(true)
+
     t.size.must_equal 1
     t.member?(translation1).must_equal true
     t.member?(translation2).must_equal false
+
     t = subject.translations_all(false)
+
     t.size.must_equal 1
-    key3.update( :state => :deleted )
+
+    TranslationKey.all(:name => "key new").update(:state => :deleted)
     t = subject.translations_all(false)
+
     t.size.must_equal 1
     t.member?(translation1).must_equal true
     t.member?(translation2).must_equal false
   end
 
+  it 'must retrieve all translation_keys from application' do
+    TranslationKey.all(:name.like => "key_").update(:state => :ok)
+    TranslationKey.all(:name => "key new").update(:state => :new)
+
+    t = subject.translation_keys_all(true)
+
+    t.size.must_equal 1
+    t.member?(key1).must_equal true
+    t.member?(key2).must_equal false
+    t.member?(key3).must_equal false
+
+    t = subject.translation_keys_all(false)
+
+    t.size.must_equal 2
+
+    TranslationKey.all(:name => "key new").update(:state => :deleted)
+
+    t = subject.translation_keys_all(false)
+    t.size.must_equal 1
+    t.member?(key1).must_equal true
+    t.member?(key2).must_equal false
+    t.member?(key3).must_equal false
+  end
 end

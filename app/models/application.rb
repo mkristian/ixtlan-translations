@@ -114,26 +114,44 @@ class Application < Ixtlan::UserManagement::Application
     translation_keys.select { |tk| tk.state != :deleted }
   end
 
-  def translations_all(committed = true, from = nil)
-    cond = {}
+  def translation_keys_all( committed = true, from = nil )
+    cond = { :fields => [ :id, :name, :updated_at ] }
     cond[:updated_at.gt] = from if from
     if committed
-      cond[Translation.translation_key.state] = :ok
+      cond[ :state ] = :ok
     else
-      cond[Translation.translation_key.state.not] = :deleted
+      cond[ :state.not ] = :deleted
     end
-    translations.all(cond)
+    translation_keys.all( cond )
+  end
+
+  def translations_all( committed = true, from = nil )
+    cond = { :fields => [ :text, 
+                          :translation_key_id, 
+                          :locale_id, 
+                          :domain_id, 
+                          :updated_at ] }
+    cond[:updated_at.gt] = from if from
+    if committed
+      cond[ Translation.translation_key.state ] = :ok
+    else
+      cond[ Translation.translation_key.state.not ] = :deleted
+    end
+    translations.all( cond )
   end
 
   def translations
-    cond = {}
-    cond[Translation.translation_key.application.id] = id
-    cond[Translation.translation_key.state.not] = :deleted
-    Translation.all(cond)
+    Translation.all( :fields => [ :translation_key_id, 
+                                  :locale_id, 
+                                  :domain_id, 
+                                  :text, 
+                                  :updated_at ],
+                     Translation.translation_key.application.id => self.id,
+                     Translation.translation_key.state.not => :deleted )
   end
 
   def keys
-    translation_keys.all(:state.not => :deleted, :fields => [:id,:name])
+    translation_keys.all( :state.not => :deleted, :fields => [ :id, :name ] )
   end
 
   def translation_update!(key, locale, domain, updated_at, text, current_user)

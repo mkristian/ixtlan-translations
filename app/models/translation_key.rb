@@ -23,11 +23,12 @@ class TranslationKey
 
   property :id, Serial
 
-  property :name, Text, :required => true, :length => 4066
+  property :name, Text, :required => true, :length => 4066, :unique_index => :app_name
 
   property :state, Enum[:ok, :new, :hidden, :deleted, :restored], :required => true
 
   timestamps :at
 
+  property :application_id, Integer, :unique_index => :app_name
   belongs_to :application
 end

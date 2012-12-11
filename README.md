@@ -16,7 +16,7 @@ get the development database in place
 
     rake db:automigrate db:seed
 	
-start gwtdevelopment console (starts also rails server on port 8888 along the way)
+start GWT development console (starts also rails server on port 8888 along the way)
 
 	gwt run
 
@@ -29,11 +29,11 @@ password for development
 
 all development users have an empty password. the username can look like this
 
-    root
-	translator[en]
-	translator[en,de]
-	translator[en,test]
-	translator[en,de,test]
+* root
+* translator[en]
+* translator[en,de]
+* translator[en,test]
+* translator[en,de,test]
 	
 or in general
 
@@ -52,6 +52,8 @@ now you can again run
   
     rails s
 
+with the GUI popping up on [http://localhost:3000](http://localhost:3000)
+
 updating quasi static external resources
 ========================================
 
@@ -67,13 +69,14 @@ to update them there is a rake tasks
 
 update these resources wth a cron job helps keeping the local data in sync and reducing the realtime dependency when running the application.
 
-for development this is not needed since the db/seed.rb provides all needed to start. but you always can update them from [http://github.com/mkristian/ixtlan-users](ixtlan-users) by:
+for development the db/seed.rb provides all needed data to start. but you always can update them from [http://github.com/mkristian/ixtlan-users](ixtlan-users) by:
 
     cd ../ixtlan-users
     rails s
 	
 in another terminal
 	
+	cd ../ixtlan-translations
 	rake update
 
 using authentication from ixtlan-users
@@ -83,22 +86,23 @@ using authentication from ixtlan-users
     rails s
 	
 in another terminal start you application with
-	
+
+	cd ../ixtlan-translatons
 	SSO=true gwt run
 
-for the password just follow the *password forgotten* and look out for the email text in the ixtlan-users console. there you will find a new password :)
+for the password just use **password forgotten** and look out for the email text in the ixtlan-users console. there you will find a new password :)
 
-Configuring remote service on production
-========================================
+Configuring remote service for production
+=========================================
 
-copy the [config/password.yml.example]([config/password.yml.example) to *config/password.yml* and feed the real values in it. the password.yml should *not* be part of a public git repo.
+copy the [config/password.yml.example](ixtlan-translations/config/password.yml.example) to **config/password.yml** and feed the real values in it. the password.yml should **not** be part of a public git repo.
 
-these config file is used to setup the rest resource in [config/initializers/remote_servers.rb](config/initializers/remote_servers.rb)
+this config file is used to setup the rest resource in [config/initializers/remote_servers.rb](ixtlan-translations/config/initializers/remote_servers.rb)
 
 API Server
 ==========
 
-ths application is meant to be an API server for other application using gettext translations. see [API on the wiki](wiki/API).
+ths application is meant to be an API server for other application using gettext translations. see [API on the wiki](ixtlan-translations/wiki/API).
 
 Contributing
 ------------

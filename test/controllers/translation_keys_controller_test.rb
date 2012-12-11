@@ -7,6 +7,19 @@ describe TranslationKeysController do
     @request = ActionController::TestRequest.new
     @response = ActionController::TestResponse.new
     @routes = Rails.application.routes
+
+    key = TranslationKey.first_or_create( :name => 'key new', :application => Application.first )
+
+    if key.new?
+      key.state = :new
+      key.updated_at = DateTime.now
+      key.save
+    end
+  end
+
+  after do
+    TranslationKey.all( :name.like => 'extra%').destroy!
+    TranslationKey.all( :name => 'key new').update( :state => :new )  
   end
 
   describe "access control" do
@@ -37,6 +50,8 @@ describe TranslationKeysController do
                                 :application => Application.first)
       end
       request.env['X-SERVICE-TOKEN'] = 'be happy'
+      
+      TranslationKey.all( :name.like => 'extra%').destroy!
     end
 
     it 'update' do
@@ -53,8 +68,7 @@ describe TranslationKeysController do
 
     after do
       body = JSON.parse(response.body)
-      body.empty?.must_equal false
-     # puts body.to_yaml
+      # puts body.to_yaml
       body.each do |item|
         translation = item["translation_key"]
         translation.size.must_equal 3
@@ -62,6 +76,38 @@ describe TranslationKeysController do
         translation['name'].wont_be_nil
         translation['updated_at'].wont_be_nil
       end
+    end
+
+    it 'should deliver all committed' do
+      TranslationKey.all(:name.like => "key_").update(:state => :ok)
+      TranslationKey.all(:name => "new key").update(:state => :new)
+
+      get :committed_last_changes, :format => :json, :updated_at => "2000-01-01 01:01:01.000000"
+      body = JSON.parse(response.body)
+      #puts body.to_yaml
+      body.size.must_equal 1
+    end
+
+    it 'should deliver all uncommitted' do
+      TranslationKey.all(:name.like => "key_").update(:state => :ok)
+      TranslationKey.all(:name => "new key").update(:state => :new)
+
+      get :uncommitted_last_changes, :format => :json, :updated_at => "2000-01-01 01:01:01.000000"
+      body = JSON.parse(response.body)
+      #puts body.to_yaml
+      body.size.must_equal 2
+    end
+
+    it "should deliver nothing committed" do
+      get :committed_last_changes, :format => :json, :updated_at => "3000-01-01 01:01:01.000000"
+      body = JSON.parse(response.body)
+      body.size.must_equal 0
+    end
+
+    it "should deliver nothing uncommitted" do
+      get :uncommitted_last_changes, :format => :json, :updated_at => "3000-01-01 01:01:01.000000"
+      body = JSON.parse(response.body)
+      body.size.must_equal 0
     end
   end
 end

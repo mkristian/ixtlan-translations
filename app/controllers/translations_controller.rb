@@ -19,8 +19,6 @@
 #
 class TranslationsController < RemoteController
 
-  public
-
   # GET /translations/committed/last_changes
   def committed_last_changes
     @translations = application.translations_all( true, 
