@@ -95,7 +95,7 @@ for the password just use **password forgotten** and look out for the email text
 Configuring remote service for production
 =========================================
 
-copy the [config/password.yml.example](ixtlan-translations/tree/master/config/password.yml.example) to **config/password.yml** and feed the real values in it. the password.yml should **not** be part of a public git repo.
+copy the [config/password.yml.example](ixtlan-translations/tree/master/config/password.example.yml) to **config/password.yml** and feed the real values in it. the password.yml should **not** be part of a public git repo.
 
 this config file is used to setup the rest resource in [config/initializers/remote_servers.rb](ixtlan-translations/tree/master/config/initializers/remote_servers.rb)
 
