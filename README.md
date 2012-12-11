@@ -95,6 +95,11 @@ copy the [config/password.yml.example]([config/password.yml.example) to *config/
 
 these config file is used to setup the rest resource in [config/initializers/remote_servers.rb](config/initializers/remote_servers.rb)
 
+API Server
+==========
+
+ths application is meant to be an API server for other application using gettext translations. see [wiki/API](API).
+
 Contributing
 ------------
 
