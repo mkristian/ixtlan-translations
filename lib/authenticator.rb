@@ -18,6 +18,7 @@
 # along with ixtlan_translations.  If not, see <http://www.gnu.org/licenses/>.
 #
 require 'ixtlan/user_management/authenticator'
+require 'ixtlan/user_management/dummy_authentication'
 class Authenticator < Ixtlan::UserManagement::Authenticator
 
   def initialize
@@ -35,37 +36,21 @@ class Authenticator < Ixtlan::UserManagement::Authenticator
 end
 
 # only dev mod without SSO needs a dummy authentication
-if Translations::Application.config.rest.to_server( 'users').url =~ /localhost/ && !(ENV['SSO'] == 'true' || ENV['SSO'] == '')
+if Ixtlan::UserManagement::DummyAuthentication.need_dummy?( Translations::Application.config.rest, 'users' )
 
-  module DummyAuthentication
+  class Authenticator 
 
-    def login(login, password)
-      if ! login.blank? && password.blank?
-        result = setup_user
-        result.login = login.sub( /\[.*/, '' )
-        result.name = result.login.humanize
-        result.groups = [ setup_group( login ) ]
-        result.applications = []
-        result
-      end
-    end
+    include Ixtlan::UserManagement::DummyAuthentication
 
-    private
-
-    def setup_user
-      if u = User.get!(1)
-        result = u
-      else
-        result.id = 1
-        result.updated_at = DateTime.now
-      end
+    def user_model
+      User
     end
 
     def setup_group( login )
-      g = Group.new('name' => login.sub( /\[.*/, '' ) )
+      g = group_for( Group, login )
       lids = []
       dids = []
-      login.sub(/.*\[/,'').sub(/\].*/,'').split(/,/).each do |id| 
+      split( login ).each do |id| 
         if id.length == 2
           lids << id
         else
@@ -78,7 +63,5 @@ if Translations::Application.config.rest.to_server( 'users').url =~ /localhost/ 
       g
     end
   end
-
-  require 'authenticator'
-  Authenticator.send(:include, DummyAuthentication)
+  
 end
