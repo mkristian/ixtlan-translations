@@ -115,11 +115,6 @@
     </dependency>
     <dependency>
       <groupId>rubygems</groupId>
-      <artifactId>activeresource</artifactId>
-      <type>gem</type>
-    </dependency>
-    <dependency>
-      <groupId>rubygems</groupId>
       <artifactId>railties</artifactId>
       <type>gem</type>
     </dependency>
@@ -413,7 +408,7 @@
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>fast_gettext</artifactId>
-        <version>0.6.8</version>
+        <version>0.6.11</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -443,13 +438,13 @@
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>virtus</artifactId>
-        <version>0.5.1</version>
+        <version>0.5.2</version>
         <type>gem</type>
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>backports</artifactId>
-        <version>2.6.2</version>
+        <version>2.6.5</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -461,43 +456,43 @@
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>actionmailer</artifactId>
-        <version>3.2.7</version>
+        <version>3.2.9</version>
         <type>gem</type>
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>actionpack</artifactId>
-        <version>3.2.7</version>
+        <version>3.2.9</version>
         <type>gem</type>
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>activemodel</artifactId>
-        <version>3.2.7</version>
+        <version>3.2.9</version>
         <type>gem</type>
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>activesupport</artifactId>
-        <version>3.2.7</version>
+        <version>3.2.9</version>
         <type>gem</type>
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>i18n</artifactId>
-        <version>0.6.0</version>
+        <version>0.6.1</version>
         <type>gem</type>
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>multi_json</artifactId>
-        <version>1.0.4</version>
+        <version>1.5.0</version>
         <type>gem</type>
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>builder</artifactId>
-        <version>3.0.0</version>
+        <version>3.0.4</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -527,13 +522,13 @@
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>rack-test</artifactId>
-        <version>0.6.1</version>
+        <version>0.6.2</version>
         <type>gem</type>
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>sprockets</artifactId>
-        <version>2.1.3</version>
+        <version>2.2.2</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -557,7 +552,7 @@
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>treetop</artifactId>
-        <version>1.4.10</version>
+        <version>1.4.12</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -569,7 +564,7 @@
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>activerecord</artifactId>
-        <version>3.2.7</version>
+        <version>3.2.9</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -581,13 +576,13 @@
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>tzinfo</artifactId>
-        <version>0.3.33</version>
+        <version>0.3.35</version>
         <type>gem</type>
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>activeresource</artifactId>
-        <version>3.2.7</version>
+        <version>3.2.9</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -623,7 +618,7 @@
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>data_objects</artifactId>
-        <version>0.10.8</version>
+        <version>0.10.10</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -677,13 +672,13 @@
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>do_postgres</artifactId>
-        <version>0.10.8</version>
+        <version>0.10.10</version>
         <type>gem</type>
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>do_jdbc</artifactId>
-        <version>0.10.8</version>
+        <version>0.10.10</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -701,7 +696,7 @@
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>railties</artifactId>
-        <version>3.2.7</version>
+        <version>3.2.9</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -725,7 +720,7 @@
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>json</artifactId>
-        <version>1.6.7</version>
+        <version>1.7.5</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -737,7 +732,7 @@
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>do_sqlite3</artifactId>
-        <version>0.10.8</version>
+        <version>0.10.10</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -761,7 +756,7 @@
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>dm-types</artifactId>
-        <version>1.2.1</version>
+        <version>1.2.2</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -773,7 +768,7 @@
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>stringex</artifactId>
-        <version>1.3.3</version>
+        <version>1.5.1</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -803,25 +798,25 @@
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>jruby-openssl</artifactId>
-        <version>0.7.6.1</version>
+        <version>0.8.1</version>
         <type>gem</type>
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>minitest</artifactId>
-        <version>3.3.0</version>
+        <version>4.3.3</version>
         <type>gem</type>
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>minitest-rails</artifactId>
-        <version>0.1.2</version>
+        <version>0.3</version>
         <type>gem</type>
       </dependency>
       <dependency>
         <groupId>rubygems</groupId>
         <artifactId>rails</artifactId>
-        <version>3.2.7</version>
+        <version>3.2.9</version>
         <type>gem</type>
       </dependency>
       <dependency>
@@ -877,31 +872,37 @@
           <dependency>
             <groupId>rubygems</groupId>
             <artifactId>minitest</artifactId>
-            <version>3.3.0</version>
+            <version>4.3.3</version>
             <type>gem</type>
           </dependency>
           <dependency>
             <groupId>rubygems</groupId>
             <artifactId>minitest-rails</artifactId>
-            <version>0.1.2</version>
+            <version>0.3</version>
             <type>gem</type>
           </dependency>
           <dependency>
             <groupId>rubygems</groupId>
             <artifactId>rails</artifactId>
-            <version>3.2.7</version>
+            <version>3.2.9</version>
             <type>gem</type>
           </dependency>
           <dependency>
             <groupId>rubygems</groupId>
             <artifactId>activerecord</artifactId>
-            <version>3.2.7</version>
+            <version>3.2.9</version>
             <type>gem</type>
           </dependency>
           <dependency>
             <groupId>rubygems</groupId>
             <artifactId>arel</artifactId>
             <version>3.0.2</version>
+            <type>gem</type>
+          </dependency>
+          <dependency>
+            <groupId>rubygems</groupId>
+            <artifactId>activeresource</artifactId>
+            <version>3.2.9</version>
             <type>gem</type>
           </dependency>
           <dependency>
@@ -919,7 +920,7 @@
           <dependency>
             <groupId>rubygems</groupId>
             <artifactId>do_postgres</artifactId>
-            <version>0.10.8</version>
+            <version>0.10.10</version>
             <type>gem</type>
           </dependency>
           <dependency>
@@ -1109,6 +1110,11 @@
         </dependency>
         <dependency>
           <groupId>rubygems</groupId>
+          <artifactId>activeresource</artifactId>
+          <type>gem</type>
+        </dependency>
+        <dependency>
+          <groupId>rubygems</groupId>
           <artifactId>factory_girl</artifactId>
           <type>gem</type>
         </dependency>
@@ -1143,6 +1149,11 @@
         <dependency>
           <groupId>rubygems</groupId>
           <artifactId>arel</artifactId>
+          <type>gem</type>
+        </dependency>
+        <dependency>
+          <groupId>rubygems</groupId>
+          <artifactId>activeresource</artifactId>
           <type>gem</type>
         </dependency>
         <dependency>
