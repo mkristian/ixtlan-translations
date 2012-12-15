@@ -55,7 +55,7 @@ class SessionsController < LocalController
   end
 
   def reset_password
-    if authenticator.reset_password( *login_and_password )
+    if @session = authenticator.reset_password( login_and_password[ 0 ] )
       head :ok
     else
       head :not_found

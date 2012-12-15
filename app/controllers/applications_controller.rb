@@ -24,7 +24,7 @@ class ApplicationsController < LocalController
   private
   
   def select_groups(groups)
-    groups.select { |g| g.application == application }
+    groups.select { |g| g.application == application || g.root? }
   end
 
   def application
@@ -35,8 +35,8 @@ class ApplicationsController < LocalController
 
   # GET /applications
   def index
-    @applications = serializer(current_user.allowed_applications)
-    respond_with @applications
+    @applications = current_user.allowed_applications
+    respond_with serializer( @applications )
   end
 
   # GET /applications/1

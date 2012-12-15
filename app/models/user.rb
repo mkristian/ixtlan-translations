@@ -36,6 +36,14 @@ class User < Ixtlan::UserManagement::User
   end
 
   def allowed_applications
-    @_apps ||= groups.collect { |g| g.application }.uniq
+    @_apps ||= if root?
+                 Application.all
+               else
+                 groups.collect { |g| g.application }.uniq
+               end
+  end
+
+  def root?
+    @is_root ||= !groups.detect { |g| g.root? }.nil?
   end
 end

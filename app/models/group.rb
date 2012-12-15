@@ -25,24 +25,32 @@ class Group < Ixtlan::UserManagement::Group
   attribute :domains, Array[Domain]
 
   def initialize(attributes = {})
-    updater = Updater.new
     self.locales = setup( Locale, attributes.delete( 'locales' ) )
-    # assos = attributes.delete('locales') || []
-    # ids = assos.collect { |a| a['id'].to_i }
-    # self.locales = Locale.all.select { |r| ids.include? r.id }
-    # if self.locales.size != assos.size
-    #   updater.do_it Locale
-    #   self.locales = Locale.all.select { |r| ids.include? r.id }
-    # end
     self.domains = setup( Domain, attributes.delete( 'domains' ) )
-    # assos = attributes.delete('domains') || []
-    # ids = assos.collect { |a| a['id'].to_i }
-    # self.domains = Domain.all.select { |r| ids.include? r.id }
-    # if self.domains.size != assos.size
-    #   updater.do_it Domain
-    #   self.domains = Domain.all.select { |r| ids.include? r.id }
-    # end
-    app = attributes.delete('application')
+    setup_application( attributes.delete( 'application' ) )
+    super
+  end
+
+  def application
+    if name == 'translator'
+      a = @application
+      a.locales = self.locales
+      a.domains = self.domains
+      a
+    end
+  end
+
+  def root?
+    @is_root ||= name == 'root'
+  end
+
+  private
+
+  def updater
+    @updater ||= Updater.new
+  end
+
+  def setup_application( app )
     if app
       @application = Application.get( app['id'] )
       if @application.nil?
@@ -50,7 +58,6 @@ class Group < Ixtlan::UserManagement::Group
         @application = Application.get( app['id'] )
       end
     end
-    super
   end
 
   def setup( model, assos )
@@ -63,14 +70,5 @@ class Group < Ixtlan::UserManagement::Group
     end
     result
   end
-  private :setup
 
-  def application
-    if name == 'translator'
-      a = @application
-      a.locales = self.locales
-      a.domains = self.domains
-      a
-    end
-  end
 end
