@@ -56,6 +56,8 @@ group :test do
 end
 
 gem "gwt-rails", :path => '../../gwt/gwt-rails'
+gem 'ruby-maven'
+gem 'maven-tools'
 gem "ixtlan-optimistic", :path => '../../ixtlan/ixtlan-optimistic'
 gem "ixtlan-babel", :path => '../../ixtlan/ixtlan-babel'
 

@@ -260,6 +260,16 @@
     </dependency>
     <dependency>
       <groupId>rubygems</groupId>
+      <artifactId>ruby-maven</artifactId>
+      <type>gem</type>
+    </dependency>
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>maven-tools</artifactId>
+      <type>gem</type>
+    </dependency>
+    <dependency>
+      <groupId>rubygems</groupId>
       <artifactId>ixtlan-session-timeout</artifactId>
       <type>gem</type>
     </dependency>
