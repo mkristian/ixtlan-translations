@@ -54,7 +54,7 @@ public class TranslationsGinModule extends ManagedGinModule {
         bind(PlaceHistoryMapper.class).to(TranslationsPlaceHistoryMapper.class).in(Singleton.class);
         bind(ActivityMapper.class).to(SessionActivityPlaceActivityMapper.class).in(Singleton.class);
         bind(Delegate.class).to(TranslationsConfirmation.class);
-        bind(TranslationsConfirmation.class);
         bind(LoginView.class).to(LoginViewImpl.class);
+        bind(TranslationsConfirmation.class);
     }
 }

@@ -29,7 +29,8 @@ import org.fusesource.restygwt.client.Method;
 
 import com.google.gwt.event.shared.EventBus;
 
-import de.mkristian.gwt.rails.caches.RemoteModelAdapter;
+import de.mkristian.gwt.rails.RemoteNotifier;
+import de.mkristian.gwt.rails.caches.RemoteAdapter;
 import de.mkristian.gwt.rails.events.ModelEvent;
 import de.mkristian.gwt.rails.events.ModelEvent.Action;
 import de.mkristian.ixtlan.translations.client.events.ApplicationEvent;
@@ -37,13 +38,15 @@ import de.mkristian.ixtlan.translations.client.models.Application;
 import de.mkristian.ixtlan.translations.client.restservices.ApplicationsRestService;
 
 @Singleton
-public class ApplicationRemoteModel extends RemoteModelAdapter<Application> {
+public class ApplicationRemoteModel extends RemoteAdapter<Application> {
 
     private final ApplicationsRestService restService;
-
+    private final RemoteNotifier notifier;
+    
     @Inject
-    protected ApplicationRemoteModel(EventBus eventBus, ApplicationsRestService restService) {
+    protected ApplicationRemoteModel(RemoteNotifier notifier, EventBus eventBus, ApplicationsRestService restService) {
         super(eventBus);
+        this.notifier = notifier;
         this.restService = restService;
     }
 
@@ -69,12 +72,32 @@ public class ApplicationRemoteModel extends RemoteModelAdapter<Application> {
 
     @Override
     public void retrieveAll() {
+        notifier.loading();
         restService.index(newRetrieveAllCallback());
     }
 
     @Override
     public void retrieve(int id) {
+        notifier.loading();
         restService.show(id, newRetrieveCallback());
+    }
+
+    @Override
+    public void fireRetrieve( Method method, List<Application> models ){
+        notifier.finish();
+        super.fireRetrieve( method, models );
+    }
+
+    @Override
+    public void fireRetrieve( Method method, Application model ){
+        notifier.finish();
+        super.fireRetrieve( method, model );
+    }
+
+    @Override
+    public void fireError(Method method, Throwable e) {
+        notifier.finish();
+        super.fireError(method, e);
     }
     
 }

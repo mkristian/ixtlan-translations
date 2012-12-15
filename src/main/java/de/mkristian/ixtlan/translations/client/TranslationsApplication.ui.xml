@@ -24,7 +24,12 @@
 
   <g:DockLayoutPanel unit='EM'>
     <g:north size='4'>
-      <g:Panel ui:field="header" />
+     <g:FlowPanel>
+       <g:HTML>
+         <div id="header-text">Translations</div>
+       </g:HTML>
+       <g:Panel ui:field="header" />
+     </g:FlowPanel>
     </g:north>
     <g:south size='1'>
       <g:Panel ui:field="footer" />

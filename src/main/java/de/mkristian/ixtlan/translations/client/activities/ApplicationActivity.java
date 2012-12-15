@@ -41,7 +41,8 @@ public class ApplicationActivity extends AbstractActivity {
     private final ApplicationPresenter presenter;
     
     @Inject
-    public ApplicationActivity(@Assisted ApplicationPlace place, ApplicationPresenter presenter) {
+    public ApplicationActivity(@Assisted ApplicationPlace place, 
+                ApplicationPresenter presenter) {
         this.place = place;
         this.presenter = presenter;
     }

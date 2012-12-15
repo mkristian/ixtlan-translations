@@ -30,8 +30,10 @@ import org.fusesource.restygwt.client.MethodCallback;
 
 import com.google.gwt.user.client.History;
 
+import de.mkristian.gwt.rails.RemoteNotifier;
 import de.mkristian.gwt.rails.caches.Cache;
 import de.mkristian.gwt.rails.places.RestfulAction;
+import de.mkristian.gwt.rails.presenters.AbstractPresenter;
 import de.mkristian.ixtlan.translations.client.TranslationsErrorHandler;
 import de.mkristian.ixtlan.translations.client.caches.ApplicationCache;
 import de.mkristian.ixtlan.translations.client.models.Application;
@@ -49,16 +51,18 @@ public class ApplicationPresenter extends AbstractPresenter {
     private final ApplicationListView listView;
     private final Cache<Application> cache;
     private final ApplicationsRestService service;
-
+    private final RemoteNotifier notifier;
     private final TranslationFilter filter = new TranslationFilter();
 
     @Inject
-    public ApplicationPresenter(TranslationsErrorHandler errors, 
-            ApplicationView view, 
-            ApplicationListView listView, 
-            ApplicationCache cache, 
+    public ApplicationPresenter(RemoteNotifier notifier,
+            TranslationsErrorHandler errors,
+            ApplicationView view,
+            ApplicationListView listView,
+            ApplicationCache cache,
             ApplicationsRestService service){
         super(errors);
+        this.notifier = notifier;
         this.view = view;
         this.view.setPresenter(this);
         this.listView = listView;
@@ -67,12 +71,12 @@ public class ApplicationPresenter extends AbstractPresenter {
     }
 
     public void showAll(){
-        setWidget(listView);
-        reset(cache.getOrLoadModels());
+        setWidget( listView );
+        reset( cache.getOrLoadModels() );
     }
     
-    public void edit(Translation translation){
-        view.edit(translation);
+    public void edit( Translation translation ){
+        view.edit( translation );
     }
     
     public void show(int id, String query){
@@ -89,10 +93,12 @@ public class ApplicationPresenter extends AbstractPresenter {
     }
 
     public void save(final Translation translation) {
+        notifier.saving();
         service.save(translation, new MethodCallback<Translation>() {
             
             @Override
             public void onSuccess(Method method, Translation response) {
+                notifier.finish();
                 Application application = cache.getModel(response.getAppId());
                 Translation t = application.updateTranslation(response);
                 // take the original key and add the new or updated translation
@@ -107,6 +113,7 @@ public class ApplicationPresenter extends AbstractPresenter {
             
             @Override
             public void onFailure(Method method, Throwable exception) {
+                notifier.finish();
                 onError(method, exception);
             }
         });

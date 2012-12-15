@@ -39,9 +39,9 @@ import de.mkristian.ixtlan.translations.client.models.Application;
 @Singleton
 public class ApplicationCache extends AbstractPreemptiveCache<Application>{
 
-    static interface Coder extends JsonEncoderDecoder<Application>{
+    static interface ApplicationCoder extends JsonEncoderDecoder<Application>{
     }
-    static Coder coder = GWT.create(Coder.class);
+    static ApplicationCoder coder = GWT.create( ApplicationCoder.class );
 
     private static Store<Application> store(){
         return new BrowserOrMemoryStore<Application>( coder, "applications" );

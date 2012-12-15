@@ -36,14 +36,14 @@ public class LoginActivity extends AbstractActivity {
     private final LoginView view;
 
     @Inject
-    public LoginActivity(@Assisted LoginPlace place,
+    public LoginActivity( @Assisted LoginPlace place,
             LoginView view,
-            LoginView.Presenter presenter) {
-        view.setPresenter(presenter);
+            LoginView.Presenter presenter ) {
+        view.setPresenter( presenter );
         this.view = view;
     }
 
-    public void start(AcceptsOneWidget display, EventBus eventBus) {
-        display.setWidget(view.asWidget());
+    public void start( AcceptsOneWidget display, EventBus eventBus ) {
+        display.setWidget( view.asWidget());
     }
 }

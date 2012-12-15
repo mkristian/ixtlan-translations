@@ -29,18 +29,25 @@ import de.mkristian.gwt.rails.Notice;
 import de.mkristian.gwt.rails.places.RestfulPlace;
 import de.mkristian.gwt.rails.session.Guard;
 import de.mkristian.gwt.rails.session.NeedsAuthorization;
+import de.mkristian.gwt.rails.session.NilMethodCallback;
 import de.mkristian.gwt.rails.session.NoAuthorization;
 import de.mkristian.ixtlan.translations.client.managed.ActivityFactory;
 import de.mkristian.ixtlan.translations.client.places.LoginPlace;
+import de.mkristian.ixtlan.translations.client.restservices.SessionRestService;
 
 public class SessionActivityPlaceActivityMapper extends ActivityPlaceActivityMapper {
 
     private final Guard guard;
-
+    private final SessionRestService service;
+    
+    private final static NilMethodCallback NIL = new NilMethodCallback();
+    
     @Inject
-    public SessionActivityPlaceActivityMapper(ActivityFactory factory, Guard guard, Notice notice) {
+    public SessionActivityPlaceActivityMapper(ActivityFactory factory,
+            Guard guard, Notice notice, SessionRestService service) {
         super(factory, notice);
         this.guard = guard;
+        this.service = service;
     }
 
     public Activity getActivity(Place place) {
@@ -60,6 +67,7 @@ public class SessionActivityPlaceActivityMapper extends ActivityPlaceActivityMap
                 }
                 //TODO move into a dispatch filter or callback filter
                 guard.resetCountDown();
+                service.ping(NIL);
             }
             else {
                 return LoginPlace.LOGIN.create(factory);
@@ -81,6 +89,7 @@ public class SessionActivityPlaceActivityMapper extends ActivityPlaceActivityMap
                 }
                 //TODO move into a dispatch filter or callback filter
                 guard.resetCountDown();
+                service.ping(NIL);
             }
             else {
                 return LoginPlace.LOGIN.create(factory);

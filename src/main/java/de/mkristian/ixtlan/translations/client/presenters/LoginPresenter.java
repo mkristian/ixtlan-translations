@@ -23,7 +23,6 @@ package de.mkristian.ixtlan.translations.client.presenters;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
@@ -49,13 +48,11 @@ public class LoginPresenter implements LoginView.Presenter{
     @Inject
     public LoginPresenter(final SessionRestService service,
             final SessionManager<User> sessionManager,
-            final Notice notice) {
+            final Notice notice, 
+            final TranslationsApplication app) {
         this.service = service;
         this.sessionManager = sessionManager;
         this.notice = notice;
-    }
-
-    public void init(final TranslationsApplication app){
         sessionManager.addSessionHandler(new SessionHandler<User>() {
             
             @Override

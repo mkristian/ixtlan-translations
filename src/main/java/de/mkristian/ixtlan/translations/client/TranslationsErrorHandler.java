@@ -25,24 +25,17 @@ import javax.inject.Singleton;
 
 import org.fusesource.restygwt.client.Method;
 
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Label;
 
-import de.mkristian.gwt.rails.ErrorHandler;
+import de.mkristian.gwt.rails.ErrorHandlerWithDisplay;
 import de.mkristian.gwt.rails.Notice;
 
 @Singleton
-public class TranslationsErrorHandler extends ErrorHandler {
-
-    private AcceptsOneWidget display;
+public class TranslationsErrorHandler extends ErrorHandlerWithDisplay {
 
     @Inject
     public TranslationsErrorHandler(Notice notice) {
         super(notice);
-    }
-
-    public void setDisplay(AcceptsOneWidget display){
-        this.display = display;
     }
 
     // @Override
@@ -77,6 +70,6 @@ public class TranslationsErrorHandler extends ErrorHandler {
 
     @Override
     protected void notFound(Method method) {
-    	display.setWidget(new Label("Resource Not Found."));
+    	getDisplay().setWidget(new Label("Resource Not Found."));
     }
 }

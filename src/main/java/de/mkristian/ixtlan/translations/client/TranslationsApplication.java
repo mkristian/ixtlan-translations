@@ -21,8 +21,12 @@
 package de.mkristian.ixtlan.translations.client;
 
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -32,41 +36,46 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.inject.Inject;
 
+import de.mkristian.gwt.rails.RemoteNotifierLabel;
 import de.mkristian.gwt.rails.SessionApplication;
 import de.mkristian.ixtlan.translations.client.managed.TranslationsMenu;
 import de.mkristian.ixtlan.translations.client.models.User;
-import de.mkristian.ixtlan.translations.client.presenters.LoginPresenter;
 
+@Singleton
 public class TranslationsApplication extends Composite implements SessionApplication<User> {
 
     interface Binder extends UiBinder<Widget, TranslationsApplication> {}
 
     private static Binder BINDER = GWT.create(Binder.class);
 
-    @UiField(provided=true) final SimplePanel display = new ScrollPanel();
-    @UiField(provided=true) Panel header;
-    @UiField(provided=true) Panel navigation;
-    @UiField(provided=true) Panel footer;
+    private final RemoteNotifierLabel notifierLabel;
+    
+    @UiField(provided=true) final SimplePanel display;
+    @UiField(provided=true) final Panel header;
+    @UiField(provided=true) final Panel navigation;
+    @UiField(provided=true) final Panel footer;
 
     @Inject
-    TranslationsApplication(final ActivityManager activityManager, 
+    TranslationsApplication( final RemoteNotifierLabel notifierLabel,
+            final ActivityManager activityManager, 
             final TranslationsMenu menu, 
             final BreadCrumbsPanel breadCrumbs,
-            final ApplicationLinksPanel links,
-            final LoginPresenter presenter){
-        presenter.init(this);
-        activityManager.setDisplay(display);
+            final ApplicationLinksPanel links ){
+        this.display = new ScrollPanel();
+        this.notifierLabel = notifierLabel;
         this.navigation = menu;
         this.footer = links;
         this.header = breadCrumbs;
-        initWidget(BINDER.createAndBindUi(this));
+        activityManager.setDisplay( display );
+        initWidget( BINDER.createAndBindUi( this ) );
     }
 
     @Override
     public void run() {
         LayoutPanel root = RootLayoutPanel.get();
+        root.add(notifierLabel);
+        root.setWidgetLeftWidth(notifierLabel, 25, Unit.PCT, 50, Unit.PCT);
         root.add(this.asWidget());
     }
 

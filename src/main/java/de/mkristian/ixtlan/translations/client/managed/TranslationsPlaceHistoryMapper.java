@@ -29,7 +29,6 @@ import de.mkristian.gwt.rails.session.HasSession;
 @Singleton
 public class TranslationsPlaceHistoryMapper extends SessionRestfulPlaceHistoryMapper {
 
-    HasSession session;
     @Inject
     public TranslationsPlaceHistoryMapper(HasSession session){
         super(session);
