@@ -20,7 +20,7 @@
 require 'ixtlan/babel/serializer'
 class UserSerializer < Ixtlan::Babel::Serializer
 
-  add_context(:single,
+  add_context(:session,
               :only => [:id],
               :include=> { 
                 :groups => {

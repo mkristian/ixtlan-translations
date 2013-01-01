@@ -50,7 +50,7 @@ class LocalController < ApplicationController
 
   def current_user(user = nil)  
     if user
-      session['user'] = serializer(user).to_hash
+      session['user'] = serializer(user).use(:session).to_hash
       @_current_user = user
     else
       @_current_user ||= begin

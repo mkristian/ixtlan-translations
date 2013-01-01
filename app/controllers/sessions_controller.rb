@@ -23,6 +23,8 @@ class SessionsController < LocalController
 
   skip_before_filter :check_session, :only => :destroy
 
+  skip_after_filter :audit, :only => :ping
+
   prepend_after_filter :reset_session, :only => :destroy
 
   private
@@ -43,15 +45,19 @@ class SessionsController < LocalController
     user = authenticator.login( *login_and_password )
     if user      
       current_user( user )
-      @session = serializer( Session.new( 'user' => user,
-                                          'idle_session_timeout' => Translations::Application.config.idle_session_timeout,
-                                          'permissions' => Permissions.for( user.groups ) ) )
+      @session = Session.new( 'user' => user,
+                              'idle_session_timeout' => Translations::Application.config.idle_session_timeout,
+                              'permissions' => Permissions.for( user.groups ) )
 
-      respond_with(@session)
+      respond_with serializer( @session )
     else
       @session = "access denied #{@session}"
       head :unauthorized
     end
+  end
+
+  def ping
+    head :ok
   end
 
   def reset_password
