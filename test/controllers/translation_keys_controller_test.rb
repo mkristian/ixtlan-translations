@@ -43,9 +43,9 @@ describe TranslationKeysController do
   describe 'success' do
 
     before do
-      unless RemotePermission.first(:ip => '0.0.0.0')
-        RemotePermission.create(:ip => '0.0.0.0', 
-                                :token => 'be happy',
+      unless RemotePermission.first(:allowed_ip => '0.0.0.0')
+        RemotePermission.create(:allowed_ip => '0.0.0.0', 
+                                :authentication_token => 'be happy',
                                 :modified_by => User.first,
                                 :application => Application.first)
       end

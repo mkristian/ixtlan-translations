@@ -12,8 +12,8 @@ FactoryGirl.define do
 
   factory :remote_permission do |f|
     i = RemotePermission.max(:id).to_i
-    f.ip "#{i}.#{i}.#{i}.#{i}"
-    f.token 'be happy'
+    f.allowed_ip "#{i}.#{i}.#{i}.#{i}"
+    f.authentication_token 'be happy'
     f.application { FactoryGirl.create(:application) }
     f.modified_by { User.first }
   end

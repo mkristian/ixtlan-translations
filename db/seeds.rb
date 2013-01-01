@@ -31,7 +31,7 @@ unless a = Application.get(1)
   a = Application.create(:name => 'users', :url => 'http://localhost.localnet', :updated_at => DateTime.now)
   if a.valid?
     p a
-    r = RemotePermission.create(:modified_by => u, :token => 'behappy', :ip => '127.0.0.1', :application => a)
+    r = RemotePermission.create(:modified_by => u, :authentication_token => 'behappy', :allowed_ip => '127.0.0.1', :application => a)
     p r if r.valid?
   end
 end
@@ -40,7 +40,7 @@ unless a = Application.get(2)
   a = Application.create(:name => 'development', :url => 'http://localhost.localnet', :updated_at => DateTime.now)
   if a.valid?
     p a 
-    r = RemotePermission.create(:modified_by => u, :token => 'be happy', :ip => '127.0.0.1', :application => a)
+    r = RemotePermission.create(:modified_by => u, :authentication_token => 'be happy', :allowed_ip => '127.0.0.1', :application => a)
     if r.valid?
       p r
     else

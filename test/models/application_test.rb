@@ -41,8 +41,8 @@ describe Application do
   end
 
   it 'must create new remote_permission for key of same application' do
-    t = subject.remote_permission_new( { :ip => '0.0.0.0', 
-                                         :token => 'be happy',
+    t = subject.remote_permission_new( { :allowed_ip => '0.0.0.0', 
+                                         :authentication_token => 'be happy',
                                          :modified_by => User.first } )
     t.save.must_equal true
     t.application.must_equal subject
