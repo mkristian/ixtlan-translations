@@ -25,6 +25,5 @@ class LocaleSerializer < Ixtlan::Babel::Serializer
 
   root 'locale'
 
-  add_context(:collection,
-             )
+  add_context( :collection )
 end
