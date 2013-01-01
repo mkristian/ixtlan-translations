@@ -107,7 +107,7 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    maven-tools (0.30.0)
+    maven-tools (0.29.3)
     mime-types (1.19)
     minitest (4.3.3)
     minitest-rails (0.3)
