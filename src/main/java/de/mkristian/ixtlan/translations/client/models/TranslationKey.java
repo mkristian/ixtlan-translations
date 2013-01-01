@@ -30,10 +30,10 @@ import org.fusesource.restygwt.client.Json;
 import org.fusesource.restygwt.client.Json.Style;
 
 import de.mkristian.gwt.rails.models.HasToDisplay;
-import de.mkristian.gwt.rails.models.Identifyable;
+import de.mkristian.gwt.rails.models.Identifiable;
 
 @Json(style = Style.RAILS, name = "translation_key")
-public class TranslationKey implements HasToDisplay, Identifyable {
+public class TranslationKey implements HasToDisplay, Identifiable {
 
   public final int id;
 

@@ -53,7 +53,7 @@ public class ApplicationCache extends AbstractPreemptiveCache<Application>{
     }
 
     @Override
-    protected Type<ModelEventHandler<Application>> modelEventHandlerType() {
+    protected Type<ModelEventHandler<Application>> eventType() {
         return ApplicationEvent.TYPE;
     }
 }

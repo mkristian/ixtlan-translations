@@ -41,12 +41,12 @@ import de.mkristian.ixtlan.translations.client.restservices.ApplicationsRestServ
 public class ApplicationRemoteModel extends RemoteAdapter<Application> {
 
     private final ApplicationsRestService restService;
-    private final RemoteNotifier notifier;
     
     @Inject
-    protected ApplicationRemoteModel(RemoteNotifier notifier, EventBus eventBus, ApplicationsRestService restService) {
-        super(eventBus);
-        this.notifier = notifier;
+    protected ApplicationRemoteModel( RemoteNotifier notifier, 
+                    EventBus eventBus, 
+                    ApplicationsRestService restService) {
+        super( eventBus, notifier );
         this.restService = restService;
     }
 
@@ -81,23 +81,4 @@ public class ApplicationRemoteModel extends RemoteAdapter<Application> {
         notifier.loading();
         restService.show(id, newRetrieveCallback());
     }
-
-    @Override
-    public void fireRetrieve( Method method, List<Application> models ){
-        notifier.finish();
-        super.fireRetrieve( method, models );
-    }
-
-    @Override
-    public void fireRetrieve( Method method, Application model ){
-        notifier.finish();
-        super.fireRetrieve( method, model );
-    }
-
-    @Override
-    public void fireError(Method method, Throwable e) {
-        notifier.finish();
-        super.fireError(method, e);
-    }
-    
 }

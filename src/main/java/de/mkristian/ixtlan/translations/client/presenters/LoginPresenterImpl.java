@@ -30,7 +30,7 @@ import com.google.gwt.core.client.GWT;
 
 import de.mkristian.gwt.rails.Notice;
 import de.mkristian.gwt.rails.session.Authentication;
-import de.mkristian.gwt.rails.session.LoginView;
+import de.mkristian.gwt.rails.session.LoginPresenter;
 import de.mkristian.gwt.rails.session.Session;
 import de.mkristian.gwt.rails.session.SessionHandler;
 import de.mkristian.gwt.rails.session.SessionManager;
@@ -39,14 +39,14 @@ import de.mkristian.ixtlan.translations.client.models.User;
 import de.mkristian.ixtlan.translations.client.restservices.SessionRestService;
 
 @Singleton
-public class LoginPresenter implements LoginView.Presenter{
+public class LoginPresenterImpl implements LoginPresenter{
 
     private final SessionRestService service;
     private final SessionManager<User> sessionManager;
     private final Notice notice;
 
     @Inject
-    public LoginPresenter(final SessionRestService service,
+    public LoginPresenterImpl(final SessionRestService service,
             final SessionManager<User> sessionManager,
             final Notice notice, 
             final TranslationsApplication app) {

@@ -32,8 +32,8 @@ import com.google.gwt.user.client.History;
 
 import de.mkristian.gwt.rails.RemoteNotifier;
 import de.mkristian.gwt.rails.caches.Cache;
-import de.mkristian.gwt.rails.places.RestfulAction;
 import de.mkristian.gwt.rails.presenters.AbstractPresenter;
+import de.mkristian.gwt.rails.presenters.ReadOnlyPresenter;
 import de.mkristian.ixtlan.translations.client.TranslationsErrorHandler;
 import de.mkristian.ixtlan.translations.client.caches.ApplicationCache;
 import de.mkristian.ixtlan.translations.client.models.Application;
@@ -45,7 +45,8 @@ import de.mkristian.ixtlan.translations.client.views.ApplicationView;
 import de.mkristian.ixtlan.translations.client.views.TranslationFilter;
 
 @Singleton
-public class ApplicationPresenter extends AbstractPresenter {
+public class ApplicationPresenter extends AbstractPresenter 
+            implements ReadOnlyPresenter<Application> {
 
     private final ApplicationView view;
     private final ApplicationListView listView;
@@ -70,6 +71,7 @@ public class ApplicationPresenter extends AbstractPresenter {
         this.service = service;
     }
 
+    @Override
     public void showAll(){
         setWidget( listView );
         reset( cache.getOrLoadModels() );
@@ -82,14 +84,6 @@ public class ApplicationPresenter extends AbstractPresenter {
     public void show(int id, String query){
         setWidget(view);
         reset( cache.getOrLoadModel(id), query );
-    }
-
-    public void unknownAction(RestfulAction action){
-        errors.show("unknown action: " + action);
-    }
-
-    public void onError(Method method, Throwable e) {
-        errors.onError(method, e);
     }
 
     public void save(final Translation translation) {
@@ -145,5 +139,10 @@ public class ApplicationPresenter extends AbstractPresenter {
     }
     public void reset(List<Application> apps) {
         listView.reset( apps );
+    }
+
+    @Override
+    public void show(int id) {
+        show( id, null );
     }
 }
