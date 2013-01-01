@@ -45,7 +45,7 @@ end
 
 #gem "gwt-rails", :group => :developement
 gem 'ruby-maven', :group => :developement
-gem 'maven-tools', :group => :developement
+#gem 'maven-tools', :group => :developement
 gem "ixtlan-optimistic"#, :path => '../../ixtlan/ixtlan-optimistic'
 gem "ixtlan-babel"#, :path => '../../ixtlan/ixtlan-babel'
 

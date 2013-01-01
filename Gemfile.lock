@@ -190,7 +190,6 @@ DEPENDENCIES
   ixtlan-optimistic
   ixtlan-remote
   ixtlan-session-timeout
-  maven-tools
   minitest
   minitest-rails
   railties (~> 3.2.9)
