@@ -52,7 +52,6 @@ gem "ixtlan-babel"#, :path => '../../ixtlan/ixtlan-babel'
 #gem "ixtlan-core", :path => '../../ixtlan/ixtlan-core'
 gem "ixtlan-session-timeout"
 gem "ixtlan-guard"#, :path => '../../ixtlan/ixtlan-guard'
-gem "jruby-openssl", "0.8.1", :platforms => :jruby
 
 gem 'virtus', '~> 0.5.0'
 #gem 'backports', :platforms => :ruby_18
