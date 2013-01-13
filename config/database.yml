@@ -27,7 +27,7 @@ defaults: &defaults
   adapter: sqlite
 
 development:
-  database: db/translations_development.db
+  database: db/development.sqlite3
   <<: *defaults
 
   # Add more repositories
@@ -42,8 +42,7 @@ development:
   #     ...
 
 test:
-  database: db/translations_test.db
+  database: db/test.sqlite3
   <<: *defaults
 production:
-  database: db/translations_production.db
-  <<: *defaults
+  uri: DataMapper.setup( :default, ENV[ 'DATABASE_URL' ] )
