@@ -21,7 +21,7 @@
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
 unless u = User.get(1)
-  u = User.new(:name => "System", :login => "system", :updated_at => DateTime.new(0))
+  u = User.new(:name => "System", :login => "system", :updated_at => DateTime.new(1))
   u.id = 1
   u.save
   p u if u.valid?
