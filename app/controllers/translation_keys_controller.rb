@@ -21,16 +21,16 @@ class TranslationKeysController < RemoteController
 
   # GET /translation_keys/committed/last_changes
   def committed_last_changes
-    @translations = application.translation_keys_all( true, 
-                                                      params[:updated_at] )
-    respond_with serializer( @translations ).use(:remote)
+    @translation_keys = application.translation_keys_all( true, 
+                                                          params[:updated_at] )
+    respond_with serializer( @translation_keys ).use(:remote)
   end
 
   # GET /translation_keys/uncommitted/last_changes
   def uncommitted_last_changes
-    @translations = application.translation_keys_all( false, 
-                                                      params[:updated_at] )
-    respond_with serializer( @translations ).use(:remote)
+    @translation_keys = application.translation_keys_all( false, 
+                                                          params[:updated_at] )
+    respond_with serializer( @translation_keys ).use(:remote)
   end
 
   # PUT /translation_keys/commit

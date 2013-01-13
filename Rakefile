@@ -18,14 +18,19 @@ task :rideboard => [:environment] do
   en = Locale.first( :code => 'en' )
   d = Domain.last
   u = User.first
+  TranslationKey.all.each { |k| p k.name }
   yml.each do |k,v|
     key = TranslationKey.first( :name => k )
-    t = Translation.update_or_virtual(key, en, d, v)
-    t.modified_by = u
-    if t.save
-      p t
+    if key
+      t = Translation.update_or_virtual(key, en, d, v)
+      t.modified_by = u
+      if t.save
+        p t
+      else
+        p t.errors
+      end
     else
-      p t.errors
+      p k
     end
   end
 end
