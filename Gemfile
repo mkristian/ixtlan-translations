@@ -14,6 +14,7 @@ gem 'dm-validations',       DM_VERSION
 gem 'dm-constraints',       DM_VERSION
 gem 'dm-transactions',      DM_VERSION
 gem 'dm-timestamps',        DM_VERSION
+gem 'dm-aggregates',        DM_VERSION
 
 gem 'ixtlan-audit',         '~> 0.3'
 gem 'ixtlan-babel',         '~> 0.2'#, :path => '../../ixtlan/ixtlan-babel'

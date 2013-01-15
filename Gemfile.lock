@@ -47,6 +47,8 @@ GEM
     dm-active_model (1.2.1)
       activemodel (~> 3.0)
       dm-core (~> 1.2.0)
+    dm-aggregates (1.2.0)
+      dm-core (~> 1.2.0)
     dm-constraints (1.2.0)
       dm-core (~> 1.2.0)
     dm-core (1.2.0)
@@ -193,6 +195,7 @@ PLATFORMS
 DEPENDENCIES
   copyright-header (~> 1.0.7)
   cuba-api (~> 0.1)
+  dm-aggregates (~> 1.2.0)
   dm-constraints (~> 1.2.0)
   dm-migrations (~> 1.2.0)
   dm-postgres-adapter (~> 1.2.0)
