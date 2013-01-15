@@ -20,9 +20,9 @@
 require 'ixtlan/user_management/authentication_model'
 
 Translations::Application.config.rest.server( :users ) do |server|
-  u = ( CONFIG[:rest] || {} )[:users] || {}
-  server.url = u[:url] || "http://localhost:3000"
-  server.options[:headers] = {'X-Service-Token' => u[:token] || 'behappy'}
+  config = Ixtlan::Passwords.get( :rest ).get( :users )
+  server.url = config[:url] || "http://localhost:3000"
+  server.options[:headers] = {'X-Service-Token' => config[:token] || 'behappy'}
   server.add_model( User )
   server.add_model( Application )
   server.add_model( Domain )
