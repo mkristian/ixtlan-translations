@@ -49,7 +49,7 @@ class TranslationKeysController < RemoteController
 
   # PUT /translation_keys
   def update
-    @transaction_keys = application.update_keys( params[ :translation_keys ] ) )
+    @transaction_keys = application.update_keys( params[ :translation_keys ] )
     respond_with serializer( @transaction_keys ).use( :remote )
   end
 end
