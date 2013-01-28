@@ -21,33 +21,35 @@ class TranslationKeysController < RemoteController
 
   # GET /translation_keys/committed/last_changes
   def committed_last_changes
-    @translation_keys = application.translation_keys_all( true, 
-                                                          params[:updated_at] )
-    respond_with serializer( @translation_keys ).use(:remote)
+    @translation_keys = 
+      application.translation_keys_all( true, 
+                                        params[ :updated_at ] )
+    respond_with serializer( @translation_keys ).use( :remote )
   end
 
-  # GET /translation_keys/uncommitted/last_changes
+  # GET /translation_keys/last_changes
   def uncommitted_last_changes
-    @translation_keys = application.translation_keys_all( false, 
-                                                          params[:updated_at] )
-    respond_with serializer( @translation_keys ).use(:remote)
+    @translation_keys =
+      application.translation_keys_all( false, 
+                                        params[ :updated_at ] )
+    respond_with serializer( @translation_keys ).use( :remote )
   end
 
   # PUT /translation_keys/commit
   def commit
-    @transaction_keys = serializer(application.commit_keys).use(:remote)
-    respond_with @transaction_keys
+    @transaction_keys = application.commit_keys
+    respond_with serializer( @transaction_keys ).use( :remote )
   end
 
   # PUT /translation_keys/rollback
   def rollback
-    @transaction_keys = serializer(application.rollback_keys).use(:remote)
-    respond_with @transaction_keys
+    @transaction_keys = application.rollback_keys
+    respond_with serializer( @transaction_keys ).use( :remote )
   end
 
   # PUT /translation_keys
   def update
-    @transaction_keys = serializer(application.update_keys(params[:translation_keys])).use(:remote)
-    respond_with @transaction_keys
+    @transaction_keys = application.update_keys( params[ :translation_keys ] ) )
+    respond_with serializer( @transaction_keys ).use( :remote )
   end
 end
