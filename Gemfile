@@ -44,3 +44,5 @@ group :test do
   gem 'minitest-rails'
   gem 'factory_girl',       '< 3.0.0'# to allow ruby 1.8
 end
+
+gem 'thin', :group => :production
