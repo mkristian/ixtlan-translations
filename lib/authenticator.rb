@@ -36,7 +36,7 @@ class Authenticator < Ixtlan::UserManagement::Authenticator
 end
 
 # only dev mod without SSO needs a dummy authentication
-if Ixtlan::UserManagement::DummyAuthentication.need_dummy?( Translations::Application.config.rest, 'users' )
+if Ixtlan::UserManagement::DummyAuthentication.need_dummy?( Translations::Application.config.rest, :users )
 
   class Authenticator 
 
