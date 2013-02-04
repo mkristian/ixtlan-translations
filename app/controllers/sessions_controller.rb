@@ -45,11 +45,12 @@ class SessionsController < LocalController
     user = authenticator.login( *login_and_password )
     if user      
       current_user( user )
-      @session = Session.new( 'user' => user,
-                              'idle_session_timeout' => Translations::Application.config.idle_session_timeout,
-                              'permissions' => Permissions.for( user.groups ) )
+      session = Session.new( 'user' => user,
+                             'idle_session_timeout' => Translations::Application.config.idle_session_timeout,
+                             'permissions' => Permissions.for( user.groups ) )
 
-      respond_with serializer( @session )
+      @session = session.to_s # for the user_logger
+      respond_with serializer( session )
     else
       @session = "access denied #{@session}"
       head :unauthorized
