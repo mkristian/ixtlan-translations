@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
   def serializer(resource)
     if resource
       @_factory ||= Ixtlan::Babel::Factory.new
-      @_factory.new(resource)
+      @_factory.new_serializer(resource)
     end
   end
 end
