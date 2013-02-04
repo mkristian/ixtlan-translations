@@ -39,6 +39,7 @@ Translations::Application.routes.draw do
   resource :session do
     member do
       post :reset_password
+      get :ping
     end
   end
 end
