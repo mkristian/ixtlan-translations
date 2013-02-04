@@ -28,7 +28,7 @@ class Authenticator < Ixtlan::UserManagement::Authenticator
   def user_new( params = {} )
     groups = params.delete( 'groups' ) || []
     apps = params.delete( 'applications' ) || []
-    u = User.new( params )
+    u = User.new( params[ 'user' ] || params )
     u.groups = groups.collect { |g| Group.new( g ) }
     u.applications = apps.collect { |a| Application.get_or_create( a ) }
     u
