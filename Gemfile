@@ -28,8 +28,8 @@ gem 'ixtlan-session-timeout'
 gem 'slf4r',                '~> 0.4.2'
 gem 'pony',                 '~> 1.4'
 # it allows jetty-run to obey ssl during development:
-gem 'enforce-ssl',          '~> 0.2' 
-gem 'cuba-api',             '~> 0.1'
+gem 'enforce-ssl',          '~> 0.2', :group => :production
+gem 'cuba-api',             '~> 0.2'
 
 group :development do
   #gem 'gwt-rails'
@@ -46,3 +46,4 @@ group :test do
 end
 
 gem 'thin', :group => :production, :platform => :ruby
+gem 'jruby-openssl', :platform => :jruby
