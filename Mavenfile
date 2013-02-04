@@ -60,4 +60,9 @@ profile :production do |p|
                :optimizationLevel => 9})
   end
 end
+
+# lock down versions
+properties['jruby.version'] = '1.7.2'
+properties['jruby.plugins.version'] = '0.29.3'
+
 # vim: syntax=Ruby
