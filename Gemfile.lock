@@ -88,6 +88,8 @@ GEM
       dm-core (~> 1.2.0)
     do_jdbc (0.10.12-java)
       data_objects (= 0.10.12)
+    do_postgres (0.10.12)
+      data_objects (= 0.10.12)
     do_postgres (0.10.12-java)
       data_objects (= 0.10.12)
       do_jdbc (= 0.10.12)
