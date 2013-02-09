@@ -49,14 +49,21 @@ public class TranslationFilter implements Iterator<Translation>, Iterable<Transl
         if (app != null ){
             if( this.app == null || this.app.getId() != app.getId() ){
                 this.app = app;
-                doReset(null, 0, 0);
+                doReset(null, 0, Domain.DEFAULT_ID);
             }
             else {
-                doReset(filter, locale == null ? 0 : locale.id, domain.id);
+                doReset(filter, locale == null ? 0 : locale.id, domain == null ? Domain.DEFAULT_ID : domain.id);
             }
             this.keys = app.getTranslationKeys();
-            // return the iterator
-            return reset();
+            if( this.keys.isEmpty() )
+            {
+                return null;
+            }
+            else
+            {
+                // return the iterator
+                return reset();
+            }
         }
         return null;
     }
@@ -87,14 +94,14 @@ public class TranslationFilter implements Iterator<Translation>, Iterable<Transl
             localeId = Integer.parseInt(parts[1]);
         }
         catch( NumberFormatException e ){
-            localeId = app.getDefaultLocale().id;
+            localeId = app.getDefaultLocale().getId();
         }
         int domainId;
         try {
             domainId = Integer.parseInt(parts[2]);
         }
         catch( NumberFormatException e ){
-            domainId = Domain.NONE.id;
+            domainId = Domain.DEFAULT_ID;
         }
         doReset(parts[0], localeId, domainId);
         return reset();

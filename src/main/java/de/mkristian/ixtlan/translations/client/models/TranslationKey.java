@@ -78,7 +78,7 @@ public class TranslationKey implements HasToDisplay, Identifiable {
   transient private Application application;
 
   private String key( Locale local, Domain domain ) {
-      return key( local == null ? 0 : local.id, domain.id );
+      return key( local == null ? 0 : local.id, domain == null ? Domain.DEFAULT_ID : domain.id );
     }
 
   private String key( int localId, int domainId ) {
@@ -103,7 +103,7 @@ public class TranslationKey implements HasToDisplay, Identifiable {
   /**
    * retrieve the translation, cascade:
    * <li>look for locale + domain</li>
-   * <li>look for locale + Domain.NONE</li>
+   * <li>look for locale + Domain.DEFAULT</li>
    * <li>look for app.defaultLocale + domain</li>
    * <li>take the translation key as 'translation' (as gettext does)</li>
    * @param locale
@@ -112,8 +112,8 @@ public class TranslationKey implements HasToDisplay, Identifiable {
    */
   public Translation findTranslation( Locale locale, Domain domain ){
       Translation result = doFindTranslation(locale, domain);
-      if( domain != Domain.NONE ){
-          result.setDefaultText( doFindTranslation( locale, Domain.NONE ) );
+      if( domain != Domain.DEFAULT ){
+          result.setDefaultText( doFindTranslation( locale, Domain.DEFAULT ) );
       }
       if( ! locale.equals( application.getDefaultLocale() ) ){
           result.setOriginalText( doFindTranslation( application.getDefaultLocale(), domain ) );
@@ -125,8 +125,8 @@ public class TranslationKey implements HasToDisplay, Identifiable {
       Translation result = translations.get( key( locale, domain ) );
       if ( result == null ){
           String text = null;
-          if ( domain != Domain.NONE ){
-              result = translations.get(key( locale, Domain.NONE));
+          if ( domain != Domain.DEFAULT ){
+              result = translations.get(key( locale, Domain.DEFAULT));
               if ( result != null ){
                   text = result.getText();
               }

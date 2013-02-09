@@ -140,7 +140,7 @@ public class ApplicationViewImpl extends Composite implements ApplicationView {
           locales.addItem(locale.getCode(), locale.getId() + "");
       }
       domains.clear();
-      domains.addItem("DEFAULT", Domain.NONE.getId() + "");
+      domains.addItem("DEFAULT", Domain.DEFAULT.getId() + "");
       for(Domain domain: model.getDomains()){
           domains.addItem(domain.getName(), domain.getId() + "");
       }

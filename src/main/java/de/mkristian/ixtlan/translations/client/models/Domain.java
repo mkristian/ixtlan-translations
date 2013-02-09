@@ -32,7 +32,9 @@ import de.mkristian.gwt.rails.models.Identifiable;
 @Json(style = Style.RAILS)
 public class Domain implements HasToDisplay, Identifiable {
 
-  public final static Domain NONE = new Domain(0, "default");
+  public static final int DEFAULT_ID = 2;
+
+  public final static Domain DEFAULT = new Domain( DEFAULT_ID, "default" );
 
   public final int id;
 

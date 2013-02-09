@@ -144,20 +144,17 @@ public class Application implements HasToDisplay, Identifiable, ExternalApplicat
   }
 
   public Domain detectDomain(int id) {
-      if( id == 0 ){
-          return Domain.NONE;
-      }
       for(Domain d: domains){
           if (d.getId() == id){
               return d;
           }
       }
-      return null;
+      return Domain.DEFAULT;
   }
 
   public Locale detectLocale(int id) {
       if(id == 0){
-          // can be null when list of locales was not set
+          // can be null when list of locales was not set yet
           return defaultLocale;
       }
       for(Locale l: locales){
