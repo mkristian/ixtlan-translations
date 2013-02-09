@@ -13,10 +13,10 @@ task :update => [:environment] do
     puts "#{Time.now.strftime('%Y-%m-%d %H:%M:%S')}\n\t#{sync}"
 end
 
-task :rideboard => [:environment] do
+task :rideboards => [:environment] do
   yml = YAML.load_file('rideboard.yml')['en']
   en = Locale.first( :code => 'en' )
-  d = Domain.last
+  d = Domain.DEFAULT
   u = User.first
   TranslationKey.all.each { |k| p k.name }
   yml.each do |k,v|
@@ -30,7 +30,7 @@ task :rideboard => [:environment] do
         p t.errors
       end
     else
-      p k
+      #p k
     end
   end
 end
