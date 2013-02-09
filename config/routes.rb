@@ -27,6 +27,7 @@ Translations::Application.routes.draw do
 
   get 'locales/last_changes' => 'locales#last_changes'
   get 'translations/committed/last_changes' => 'translations#committed_last_changes'
+  get 'translations/uncommitted/last_changes' => 'translations#uncommitted_last_changes'
   get 'translations/last_changes' => 'translations#uncommitted_last_changes'
 
   get 'translation_keys/committed/last_changes' => 'translation_keys#committed_last_changes'
