@@ -38,6 +38,8 @@ end
 # only dev mod without SSO needs a dummy authentication
 if Ixtlan::UserManagement::DummyAuthentication.need_dummy?( Translations::Application.config.rest, :users )
 
+  warn '[Authentication] Using dummy Authentication'
+
   class Authenticator 
 
     include Ixtlan::UserManagement::DummyAuthentication
@@ -63,5 +65,8 @@ if Ixtlan::UserManagement::DummyAuthentication.need_dummy?( Translations::Applic
       g
     end
   end
+else
+
+  warn "[Authentication] Using Authentication at #{Translations::Application.config.rest.to_server('ixtlan/user_management/authentication').url}"
   
 end
