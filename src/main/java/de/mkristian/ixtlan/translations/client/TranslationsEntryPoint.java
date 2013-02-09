@@ -20,6 +20,8 @@
 
 package de.mkristian.ixtlan.translations.client;
 
+import org.fusesource.restygwt.client.Defaults;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.inject.client.GinModules;
@@ -29,8 +31,6 @@ import com.google.gwt.user.client.History;
 
 import de.mkristian.gwt.rails.Application;
 import de.mkristian.gwt.rails.dispatchers.DefaultDispatcherSingleton;
-
-import org.fusesource.restygwt.client.Defaults;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -42,7 +42,7 @@ public class TranslationsEntryPoint implements EntryPoint {
         PlaceHistoryHandler getPlaceHistoryHandler();
         Application getApplication();
     }
-
+    
     /**
      * This is the entry point method.
      */
@@ -50,7 +50,7 @@ public class TranslationsEntryPoint implements EntryPoint {
         Defaults.setServiceRoot(GWT.getModuleBaseURL().replaceFirst("[a-zA-Z0-9_]+/$", ""));
         Defaults.setDispatcher(DefaultDispatcherSingleton.INSTANCE);
         GWT.log("base url for restservices: " + Defaults.getServiceRoot());
-
+        
         final TranslationsGinjector injector = GWT.create(TranslationsGinjector.class);
 
         // setup display
