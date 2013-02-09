@@ -41,17 +41,16 @@ class Translation
           optimistic_get!( updated_at, 
                            key.id, 
                            locale.id, 
-                           domain ? domain.id : nil )
+                           domain ? domain.id : Domain.DEFAULT )
         else
           #  or a create new instance
           new( :translation_key => key, 
                :locale => locale, 
                :domain => domain )
         end
-
     # check if the 'text' has a default value, if so delete the existing entry
-    if domain
-      default = get(key.id, locale.id, nil)
+    if domain && !domain.default?
+      default = get(key.id, locale.id, Domain.DEFAULT.id)
       # delete it if text matches from default domain
       if default
         if default.text == text
@@ -78,7 +77,7 @@ class Translation
       t = new( :translation_key => key,
                :locale => locale,
                :domain => domain )
-      # should not be save
+      # do not saved
       def t.save
         true
       end

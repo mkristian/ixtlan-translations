@@ -58,7 +58,10 @@ unless en = Locale.get(1)
   p de if de.valid?
 end
 
-unless test = Domain.get(1)
+# load predefined
+Domain.ALL
+Domain.DEFAULT
+unless test = Domain.get(3)
   test = Domain.create(:name => 'test', :updated_at => DateTime.now)
   p test if test.valid?
 end
