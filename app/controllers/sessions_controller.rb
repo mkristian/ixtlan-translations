@@ -28,6 +28,8 @@ class SessionsController < LocalController
   prepend_after_filter :reset_session, :only => :destroy
 
   private
+  def authorize
+  end
 
   def authenticator
     @_auth ||= Authenticator.new
