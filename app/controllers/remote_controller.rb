@@ -24,8 +24,6 @@ class RemoteController < ApplicationController
   before_filter :remote_permission
 
   private
-  def authorize
-  end
 
   include Ixtlan::Remote::AccessController
 
