@@ -24,6 +24,7 @@ gem 'ixtlan-gettext',       '~> 0.1'#, :path => '../../ixtlan/ixtlan-gettext'
 gem 'ixtlan-optimistic',    '~> 0.2.1'#, :path => '../../ixtlan/ixtlan-optimistic'
 gem 'ixtlan-remote',        '~> 0.1'#, :path => '../../ixtlan/ixtlan-remote'
 gem 'ixtlan-session-timeout'
+gem 'ixtlan-user-management'
 
 gem 'slf4r',                '~> 0.4.2'
 gem 'pony',                 '~> 1.4'
