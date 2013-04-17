@@ -41,6 +41,7 @@ Translations::Application.routes.draw do
     member do
       post :reset_password
       get :ping
+      put :ping
     end
   end
 end
