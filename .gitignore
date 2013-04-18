@@ -15,5 +15,5 @@
 /tmp
 
 target/
-.pom.xml
+.*pom.xml
 gwt-unitCache/

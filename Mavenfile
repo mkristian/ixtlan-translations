@@ -21,7 +21,8 @@ plugin('org.codehaus.mojo:gwt-maven-plugin', GWT_VERSION) do |gwt|
              :gen => "${project.build.directory}/generated",
              :runTarget => "Translations.html"
            })
-  gwt.executions.goals << ["clean", "compile", "test"]
+  gwt.executions.goals << ["clean", "test"]
+  gwt.in_phase( :compile ).execute_goal( 'compile' )
 end
 plugin(:rails3).in_phase("initialize").execute_goal(:pom).with :force => true
 
