@@ -29,9 +29,14 @@ class Authenticator < Ixtlan::UserManagement::Authenticator
     params = params[ 'user' ] || params
     groups = params.delete( 'groups' ) || []
     apps = params.delete( 'applications' ) || []
-    u = User.new( params )
+    u = User.get( params[ 'id' ] )
+    unless u
+      u = User.new( params )
+      u.updated_at = DateTime.new( 1 )
+    end
     u.groups = groups.collect { |g| Group.new( g ) }
     u.applications = apps.collect { |a| Application.get_or_create( a ) }
+    u.save if u.new?
     u
   end
 end
